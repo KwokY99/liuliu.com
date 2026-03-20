@@ -153,21 +153,43 @@
             opacity: 0.9;
         }
         
-        .recognize-example {
+        .help-btn {
+            background: #ffa500;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin: 10px 0;
+            transition: all 0.2s;
+        }
+        
+        .help-btn:hover {
+            background: #ff8c00;
+            transform: scale(1.02);
+        }
+        
+        .format-hint {
             background: #f8f9fa;
             padding: 15px;
             border-radius: 12px;
-            margin: 20px 0;
+            margin: 10px 0;
             font-size: 0.85rem;
             color: #2c3e50;
             border-left: 4px solid #ff6b6b;
+            display: none;
         }
         
-        .recognize-example p {
+        .format-hint.show {
+            display: block;
+        }
+        
+        .format-hint p {
             margin: 5px 0;
         }
         
-        .recognize-example code {
+        .format-hint code {
             background: #ecf0f1;
             padding: 2px 6px;
             border-radius: 4px;
@@ -347,7 +369,7 @@
         }
 
         /* 弹窗样式 */
-        .modal-overlay {
+        .modal-overlay, .reference-modal, .wave-modal, .history-modal, .detail-modal, .confirm-modal, .save-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -359,19 +381,18 @@
             justify-content: center;
             z-index: 1000;
         }
-        .modal-content {
+        .modal-content, .reference-content, .wave-content, .history-content, .detail-content, .confirm-content, .save-content {
             background: white;
-            width: 1100px;
             max-width: 95%;
-            max-height: 90vh;
-            border-radius: 20px;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+            max-height: 85vh;
+            border-radius: 24px;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.4);
             display: flex;
             flex-direction: column;
             padding: 30px;
             overflow-y: auto;
         }
-        .modal-header {
+        .modal-header, .reference-header, .wave-header, .history-header, .detail-header, .confirm-header, .save-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -379,19 +400,19 @@
             padding-bottom: 15px;
             margin-bottom: 25px;
         }
-        .modal-header h3 {
+        .modal-header h3, .reference-header h3, .wave-header h3, .history-header h3, .detail-header h4, .confirm-header h4, .save-header h3 {
             margin: 0;
             font-size: 2rem;
             color: #2c3e50;
             font-weight: 700;
         }
-        .close-btn {
+        .close-btn, .reference-close, .wave-close, .history-close, .detail-close, .confirm-close, .save-close {
             font-size: 40px;
             cursor: pointer;
-            color: #7f8c8d;
+            color: #95a5a6;
             line-height: 1;
         }
-        .close-btn:hover {
+        .close-btn:hover, .reference-close:hover, .wave-close:hover, .history-close:hover, .detail-close:hover, .confirm-close:hover, .save-close:hover {
             color: #e74c3c;
         }
         
@@ -415,12 +436,7 @@
             background: #3498db;
             color: white;
         }
-        .view-btn:hover {
-            background: #2980b9;
-            color: white;
-        }
-        
-        .numbers-grid {
+        .numbers-grid, .animals-grid {
             background: #f8fafc;
             border-radius: 16px;
             padding: 20px;
@@ -434,7 +450,7 @@
             grid-template-columns: repeat(7, 1fr);
             gap: 12px;
         }
-        .number-card {
+        .number-card, .animal-card {
             background: white;
             border-radius: 14px;
             padding: 12px 8px;
@@ -443,316 +459,6 @@
             border: 1px solid #e2e8f0;
             transition: transform 0.2s;
         }
-        .number-card:hover {
-            transform: translateY(-3px);
-            border-color: #3498db;
-        }
-        .number-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            margin-bottom: 10px;
-        }
-        .number-badge {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            line-height: 40px;
-            text-align: center;
-            background: #34495e;
-            color: white;
-            border-radius: 50%;
-            font-weight: bold;
-        }
-        .animal-tag {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #16a085;
-            background: #e8f8f5;
-            padding: 4px 10px;
-            border-radius: 30px;
-        }
-        .amount-display {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #2980b9;
-            background: #ebf5ff;
-            padding: 8px 5px;
-            border-radius: 10px;
-        }
-        
-        .animals-grid {
-            background: #f5f0fa;
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 25px;
-            border: 1px solid #d0b7e6;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-        .animal-card {
-            background: white;
-            border-radius: 20px;
-            padding: 20px 15px;
-            text-align: center;
-            box-shadow: 0 8px 20px rgba(142,68,173,0.15);
-            border: 1px solid #e0d0f0;
-            transition: transform 0.2s;
-        }
-        .animal-card:hover {
-            transform: translateY(-5px);
-            border-color: #9b59b6;
-        }
-        .animal-icon {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #8e44ad;
-            background: #f4e9ff;
-            width: 80px;
-            height: 80px;
-            line-height: 80px;
-            border-radius: 50%;
-            margin: 0 auto 15px;
-        }
-        .animal-name {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-        .animal-amount {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #27ae60;
-            background: #e8f8f5;
-            padding: 12px 5px;
-            border-radius: 50px;
-            margin-top: 10px;
-        }
-        .animal-numbers {
-            font-size: 0.9rem;
-            color: #7f8c8d;
-            margin-top: 8px;
-            background: #ecf0f1;
-            padding: 5px;
-            border-radius: 30px;
-        }
-        
-        .reference-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            align-items: center;
-            justify-content: center;
-            z-index: 1001;
-        }
-        .reference-content {
-            background: white;
-            width: 900px;
-            max-width: 95%;
-            max-height: 85vh;
-            border-radius: 24px;
-            box-shadow: 0 30px 70px rgba(0,0,0,0.4);
-            display: flex;
-            flex-direction: column;
-            padding: 30px;
-            overflow-y: auto;
-        }
-        .reference-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 3px solid #8e44ad;
-            padding-bottom: 15px;
-            margin-bottom: 25px;
-        }
-        .reference-header h3 {
-            margin: 0;
-            font-size: 2rem;
-            color: #8e44ad;
-            font-weight: 700;
-        }
-        .reference-close {
-            font-size: 40px;
-            cursor: pointer;
-            color: #95a5a6;
-        }
-        .reference-close:hover {
-            color: #e74c3c;
-        }
-        .reference-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            overflow-y: auto;
-            max-height: 500px;
-            padding: 10px;
-        }
-        .ref-item {
-            background: #f8f9fa;
-            border-radius: 16px;
-            padding: 20px;
-            border-left: 8px solid;
-            transition: transform 0.2s;
-        }
-        .ref-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        .ref-item.鼠 { border-color: #7f8c8d; }
-        .ref-item.牛 { border-color: #8e44ad; }
-        .ref-item.虎 { border-color: #e67e22; }
-        .ref-item.兔 { border-color: #e74c3c; }
-        .ref-item.龙 { border-color: #f1c40f; }
-        .ref-item.蛇 { border-color: #2ecc71; }
-        .ref-item.马 { border-color: #3498db; }
-        .ref-item.羊 { border-color: #1abc9c; }
-        .ref-item.猴 { border-color: #9b59b6; }
-        .ref-item.鸡 { border-color: #e67e22; }
-        .ref-item.狗 { border-color: #e74c3c; }
-        .ref-item.猪 { border-color: #95a5a6; }
-        
-        .ref-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #2c3e50;
-        }
-        .ref-numbers {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .ref-number-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.2rem;
-            padding: 5px 0;
-            border-bottom: 1px dashed #eee;
-        }
-        .ref-number-value {
-            font-weight: 700;
-            min-width: 40px;
-        }
-        
-        .wave-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            align-items: center;
-            justify-content: center;
-            z-index: 1002;
-        }
-        .wave-content {
-            background: white;
-            width: 800px;
-            max-width: 95%;
-            max-height: 80vh;
-            border-radius: 24px;
-            box-shadow: 0 30px 70px rgba(0,0,0,0.4);
-            display: flex;
-            flex-direction: column;
-            padding: 30px;
-            overflow-y: auto;
-        }
-        .wave-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 3px solid #e67e22;
-            padding-bottom: 15px;
-            margin-bottom: 25px;
-        }
-        .wave-header h3 {
-            margin: 0;
-            font-size: 2rem;
-            color: #e67e22;
-            font-weight: 700;
-        }
-        .wave-close {
-            font-size: 40px;
-            cursor: pointer;
-            color: #95a5a6;
-        }
-        .wave-close:hover {
-            color: #e74c3c;
-        }
-        .wave-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-            overflow-y: auto;
-            max-height: 500px;
-            padding: 15px;
-        }
-        .wave-section {
-            background: #f8f9fa;
-            border-radius: 20px;
-            padding: 25px 15px;
-            text-align: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-        }
-        .wave-section.red-section {
-            border-top: 8px solid #e74c3c;
-        }
-        .wave-section.blue-section {
-            border-top: 8px solid #3498db;
-        }
-        .wave-section.green-section {
-            border-top: 8px solid #27ae60;
-        }
-        .wave-section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-        .wave-section-title.red { color: #e74c3c; }
-        .wave-section-title.blue { color: #3498db; }
-        .wave-section-title.green { color: #27ae60; }
-        
-        .wave-numbers-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
-        .wave-number-item {
-            font-size: 1.3rem;
-            font-weight: 700;
-            padding: 10px;
-            border-radius: 12px;
-        }
-        .wave-number-item.red {
-            background: #fadbd8;
-            color: #c0392b;
-        }
-        .wave-number-item.blue {
-            background: #d4e6f1;
-            color: #2980b9;
-        }
-        .wave-number-item.green {
-            background: #d5f5e3;
-            color: #27ae60;
-        }
-        
-        .highlight-max {
-            border: 3px solid #f39c12 !important;
-            background: #fff9e6 !important;
-        }
-        .highlight-min {
-            border: 3px solid #3498db !important;
-            background: #e8f0fe !important;
-        }
-        
         .filter-bar {
             display: flex;
             gap: 30px;
@@ -762,36 +468,6 @@
             background: #ecf0f1;
             padding: 18px 25px;
             border-radius: 60px;
-        }
-        .filter-bar label {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-weight: 600;
-            font-size: 1.2rem;
-            color: #2c3e50;
-        }
-        .filter-bar select {
-            padding: 12px 25px;
-            border: 2px solid #3498db;
-            border-radius: 40px;
-            font-size: 1.1rem;
-            background: white;
-            min-width: 220px;
-            cursor: pointer;
-        }
-        .filter-bar button {
-            padding: 12px 35px;
-            background: #2980b9;
-            color: white;
-            border: none;
-            border-radius: 40px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-        .filter-bar button:hover {
-            background: #1f618d;
         }
         .total-accum-bar {
             font-size: 1.6rem;
@@ -803,117 +479,24 @@
             text-align: right;
             border: 2px solid #2980b9;
         }
-        .total-accum-bar span {
-            color: #c0392b;
-            font-size: 2.3rem;
-            margin-left: 25px;
-            background: #fadbd8;
-            padding: 8px 30px;
-            border-radius: 60px;
-        }
-
-        /* 保存记录列表弹窗 */
-        .history-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            align-items: center;
-            justify-content: center;
-            z-index: 1003;
-        }
-        
-        .history-content {
-            background: white;
-            width: 1100px;
-            max-width: 95%;
-            max-height: 85vh;
-            border-radius: 24px;
-            box-shadow: 0 30px 70px rgba(0,0,0,0.4);
-            display: flex;
-            flex-direction: column;
-            padding: 30px;
-            overflow-y: auto;
-        }
-        
-        .history-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 15px;
-            margin-bottom: 25px;
-        }
-        
-        .history-header h3 {
-            margin: 0;
-            font-size: 2rem;
-            color: #667eea;
-            font-weight: 700;
-        }
-        
-        .history-close {
-            font-size: 40px;
-            cursor: pointer;
-            color: #95a5a6;
-        }
-        
-        .history-close:hover {
-            color: #e74c3c;
-        }
-        
-        .history-stats {
+        .history-stats, .detail-stats {
             background: #f8f9fa;
             border-radius: 20px;
             padding: 25px;
             margin-bottom: 20px;
             border: 1px solid #e0e0e0;
         }
-        
         .total-stats {
             display: flex;
             justify-content: space-around;
             text-align: center;
         }
-        
-        .stat-item {
-            flex: 1;
-        }
-        
-        .stat-label {
-            font-size: 1.2rem;
-            color: #7f8c8d;
-            margin-bottom: 10px;
-        }
-        
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        
-        .stat-value.total {
-            color: #e74c3c;
-        }
-        
-        .stat-value.avg {
-            color: #3498db;
-        }
-        
-        .stat-value.count {
-            color: #27ae60;
-        }
-        
         .history-list {
             background: white;
             border-radius: 16px;
             border: 1px solid #e0e0e0;
             overflow: hidden;
         }
-        
         .history-list-header {
             display: grid;
             grid-template-columns: 2fr 1fr 1.5fr 1.5fr 1fr;
@@ -923,12 +506,6 @@
             font-weight: bold;
             font-size: 1.1rem;
         }
-        
-        .history-list-body {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        
         .history-item {
             display: grid;
             grid-template-columns: 2fr 1fr 1.5fr 1.5fr 1fr;
@@ -937,285 +514,17 @@
             align-items: center;
             cursor: pointer;
         }
-        
-        .history-item:hover {
-            background: #f8f9fa;
-        }
-        
-        .history-item .date {
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        
-        .history-item .amount {
-            font-weight: bold;
-            color: #27ae60;
-        }
-        
-        .history-item .numbers-count {
-            color: #3498db;
-        }
-        
-        .history-item .remark {
-            color: #e67e22;
-            font-style: italic;
-        }
-        
-        .history-item .delete {
-            color: #e74c3c;
-            cursor: pointer;
-            text-align: right;
-        }
-        
-        .history-item .delete:hover {
-            font-weight: bold;
-        }
-        
-        .history-actions {
-            margin-top: 20px;
-            display: flex;
-            gap: 15px;
-            justify-content: flex-end;
-        }
-        
-        .history-actions button {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 40px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-        
-        .btn-clear-history {
-            background: #e74c3c;
-            color: white;
-        }
-        
-        .btn-clear-history:hover {
-            background: #c0392b;
-        }
-        
-        .btn-export {
-            background: #3498db;
-            color: white;
-        }
-        
-        .btn-export:hover {
-            background: #2980b9;
-        }
-        
-        .btn-refresh {
-            background: #95a5a6;
-            color: white;
-        }
-        
-        .btn-refresh:hover {
-            background: #7f8c8d;
-        }
-        
-        /* 记录详情弹窗 */
-        .detail-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            align-items: center;
-            justify-content: center;
-            z-index: 1100;
-        }
-        
-        .detail-content {
-            background: white;
-            width: 800px;
-            max-width: 95%;
-            max-height: 80vh;
-            border-radius: 20px;
-            padding: 30px;
-            overflow-y: auto;
-        }
-        
-        .detail-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #667eea;
-        }
-        
-        .detail-header h4 {
-            font-size: 1.5rem;
-            color: #2c3e50;
-            margin: 0;
-        }
-        
-        .detail-close {
-            font-size: 30px;
-            cursor: pointer;
-            color: #95a5a6;
-        }
-        
-        .detail-close:hover {
-            color: #e74c3c;
-        }
-        
-        .detail-info {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-        
         .detail-numbers-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 10px;
             margin-top: 20px;
         }
-        
         .detail-number-item {
             background: #f0f3f8;
             padding: 10px;
             border-radius: 8px;
             text-align: center;
-        }
-        
-        .detail-number-item .num {
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-        }
-        
-        .detail-number-item .animal {
-            font-size: 0.9rem;
-            color: #7f8c8d;
-            margin-bottom: 5px;
-        }
-        
-        .detail-number-item .val {
-            color: #27ae60;
-            font-weight: bold;
-        }
-        
-        .detail-number-item.red .num { color: red; }
-        .detail-number-item.blue .num { color: blue; }
-        .detail-number-item.green .num { color: green; }
-        
-        .confirm-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            align-items: center;
-            justify-content: center;
-            z-index: 1200;
-        }
-        
-        .confirm-content {
-            background: white;
-            width: 400px;
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-        }
-        
-        .confirm-content h4 {
-            font-size: 1.5rem;
-            color: #e74c3c;
-            margin-bottom: 20px;
-        }
-        
-        .confirm-content p {
-            font-size: 1.1rem;
-            color: #2c3e50;
-            margin-bottom: 30px;
-        }
-        
-        .confirm-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-        }
-        
-        .confirm-buttons button {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 40px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-        }
-        
-        .btn-confirm-yes {
-            background: #e74c3c;
-            color: white;
-        }
-        
-        .btn-confirm-yes:hover {
-            background: #c0392b;
-        }
-        
-        .btn-confirm-no {
-            background: #ecf0f1;
-            color: #2c3e50;
-        }
-        
-        .btn-confirm-no:hover {
-            background: #bdc3c7;
-        }
-        
-        /* 保存记录弹窗 */
-        .save-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            align-items: center;
-            justify-content: center;
-            z-index: 2001;
-        }
-        .save-content {
-            background: white;
-            width: 500px;
-            max-width: 95%;
-            border-radius: 24px;
-            box-shadow: 0 30px 70px rgba(0,0,0,0.4);
-            display: flex;
-            flex-direction: column;
-            padding: 30px;
-        }
-        .save-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 3px solid #27ae60;
-            padding-bottom: 15px;
-            margin-bottom: 25px;
-        }
-        .save-header h3 {
-            margin: 0;
-            font-size: 2rem;
-            color: #27ae60;
-            font-weight: 700;
-        }
-        .save-close {
-            font-size: 40px;
-            cursor: pointer;
-            color: #95a5a6;
-        }
-        .save-close:hover {
-            color: #e74c3c;
         }
         .save-info {
             background: #f8f9fa;
@@ -1228,13 +537,6 @@
             justify-content: space-between;
             margin-bottom: 10px;
             font-size: 1.2rem;
-        }
-        .save-info-item .label {
-            color: #7f8c8d;
-        }
-        .save-info-item .value {
-            font-weight: bold;
-            color: #27ae60;
         }
         .save-input-area {
             margin-bottom: 20px;
@@ -1253,38 +555,82 @@
             font-size: 1rem;
             box-sizing: border-box;
         }
-        .save-input-area input:focus {
-            border-color: #27ae60;
-            outline: none;
-        }
-        .save-actions {
+        .save-actions, .history-actions, .confirm-buttons {
             display: flex;
             gap: 15px;
             justify-content: flex-end;
+            margin-top: 20px;
         }
-        .save-actions button {
+        .btn-save, .btn-parse, .btn-clear-panel, .btn-clear-history, .btn-export, .btn-refresh, .btn-confirm-yes, .btn-confirm-no {
             padding: 12px 30px;
             border: none;
             border-radius: 40px;
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             transition: all 0.2s;
         }
-        .btn-save {
+        .btn-save, .btn-confirm-yes {
             background: #27ae60;
             color: white;
         }
-        .btn-save:hover {
-            background: #219a52;
+        .btn-clear-history, .btn-confirm-no {
+            background: #e74c3c;
+            color: white;
         }
-        .btn-cancel-save {
-            background: #ecf0f1;
-            color: #2c3e50;
+        .btn-export {
+            background: #3498db;
+            color: white;
         }
-        .btn-cancel-save:hover {
-            background: #bdc3c7;
+        .btn-refresh {
+            background: #95a5a6;
+            color: white;
         }
+        .reference-grid, .wave-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            overflow-y: auto;
+            max-height: 500px;
+            padding: 10px;
+        }
+        .ref-item {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 20px;
+            border-left: 8px solid;
+            transition: transform 0.2s;
+        }
+        .wave-section {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 25px 15px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+        .wave-section.red-section { border-top: 8px solid #e74c3c; }
+        .wave-section.blue-section { border-top: 8px solid #3498db; }
+        .wave-section.green-section { border-top: 8px solid #27ae60; }
+        .wave-numbers-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .wave-number-item {
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding: 10px;
+            border-radius: 12px;
+        }
+        .wave-number-item.red { background: #fadbd8; color: #c0392b; }
+        .wave-number-item.blue { background: #d4e6f1; color: #2980b9; }
+        .wave-number-item.green { background: #d5f5e3; color: #27ae60; }
+        .highlight-max { border: 3px solid #f39c12 !important; background: #fff9e6 !important; }
+        .highlight-min { border: 3px solid #3498db !important; background: #e8f0fe !important; }
+        .animal-card .animal-numbers { font-size: 0.9rem; color: #7f8c8d; margin-top: 8px; background: #ecf0f1; padding: 5px; border-radius: 30px; }
+        .ref-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 15px; color: #2c3e50; }
+        .ref-numbers { display: flex; flex-direction: column; gap: 8px; }
+        .ref-number-row { display: flex; align-items: center; gap: 10px; font-size: 1.2rem; padding: 5px 0; border-bottom: 1px dashed #eee; }
     </style>
 </head>
 <body>
@@ -1322,7 +668,7 @@
                     <button>操作详单</button>
                     <button id="summaryBtn">汇总</button>
                     <button id="clearAllBtn" style="color:red;">清空累计数据</button>
-                    <button id="saveBtn" class="save-btn" style="background: #27ae60; color: white;">💾 保存投注</button>
+                    <button id="saveBtn" class="save-btn">💾 保存投注</button>
                     <button id="historyBtn" style="background: #667eea; color: white;">📊 投注记录</button>
                     <button id="reportBtn" style="color:red;">一键上报</button>
                 </div>
@@ -1354,7 +700,6 @@
                         <div class="row"><span class="green">11猴</span><input type="text" class="amount-input" data-number="11" data-animal="猴"></div>
                         <div class="row"><span class="red">12羊</span><input type="text" class="amount-input" data-number="12" data-animal="羊"></div>
                     </div>
-                    <!-- 第二列 13~24 -->
                     <div class="col">
                         <div class="row"><span class="red">13马</span><input type="text" class="amount-input" data-number="13" data-animal="马"></div>
                         <div class="row"><span class="blue">14蛇</span><input type="text" class="amount-input" data-number="14" data-animal="蛇"></div>
@@ -1369,7 +714,6 @@
                         <div class="row"><span class="red">23猴</span><input type="text" class="amount-input" data-number="23" data-animal="猴"></div>
                         <div class="row"><span class="red">24羊</span><input type="text" class="amount-input" data-number="24" data-animal="羊"></div>
                     </div>
-                    <!-- 第三列 25~36 -->
                     <div class="col">
                         <div class="row"><span class="blue">25马</span><input type="text" class="amount-input" data-number="25" data-animal="马"></div>
                         <div class="row"><span class="blue">26蛇</span><input type="text" class="amount-input" data-number="26" data-animal="蛇"></div>
@@ -1384,7 +728,6 @@
                         <div class="row"><span class="red">35猴</span><input type="text" class="amount-input" data-number="35" data-animal="猴"></div>
                         <div class="row"><span class="blue">36羊</span><input type="text" class="amount-input" data-number="36" data-animal="羊"></div>
                     </div>
-                    <!-- 第四列 37~49 -->
                     <div class="col">
                         <div class="row"><span class="blue">37马</span><input type="text" class="amount-input" data-number="37" data-animal="马"></div>
                         <div class="row"><span class="green">38蛇</span><input type="text" class="amount-input" data-number="38" data-animal="蛇"></div>
@@ -1427,18 +770,23 @@
                 <p>快速填充金额到对应号码</p>
             </div>
             
-            <div class="recognize-example">
+            <button class="help-btn" id="helpBtn">📖 格式说明</button>
+            
+            <div class="format-hint" id="formatHint">
                 <p><strong>📝 支持的格式：</strong></p>
                 <p>• 生肖格式：<code>虎马鼠羊兔牛各50</code> → 每个生肖的所有号码各50元</p>
-                <p>• 号码列表：<code>05 13 34 23 45 36各50</code> 或 <code>05-13-34-23-45-36个50</code></p>
-                <p>• 支持分隔符：点号(.)、减号(-)、句号(。)、斜杠(/)、空格</p>
+                <p>• 生肖平均分配：<code>虎马肖各40</code> → 虎的4个号码平均分配40元（每个10元），马的5个号码平均分配40元（每个8元）</p>
+                <p>• 波色格式：<code>红波个20</code>、<code>蓝波各30</code>、<code>绿波个30</code> → 对应波色所有号码各20/30元</p>
+                <p>• 单双格式：<code>单号个50</code>、<code>双号各30</code> → 单数或双数号码各50/30元</p>
+                <p>• 号码列表：<code>05 13 34 23 45 36各50</code> 或 <code>05、13、34、23、45、36各50</code></p>
+                <p>• 支持分隔符：点号(.)、减号(-)、句号(。)、斜杠(/)、顿号(、)、空格</p>
                 <p>• 金额关键词：<code>个</code> 或 <code>各</code></p>
                 <p>• 中文金额：<code>二十</code>、<code>三十</code>等</p>
-                <p><strong>💡 示例：</strong>虎马鼠羊兔牛各50<br>05 13 34 23 45 36各30</p>
+                <p><strong>💡 示例：</strong>虎马鼠羊兔牛各50<br>虎马肖各40<br>红波个20 蓝波各30 绿波各30<br>单号个50 双号各30<br>05、13、34、23、45、36各50</p>
             </div>
             
             <div class="recognize-input-area">
-                <textarea id="recognizeText" placeholder="请输入要识别的文本，支持多种分隔符和中文金额..."></textarea>
+                <textarea id="recognizeText" placeholder="请输入要识别的文本，支持多种格式..."></textarea>
             </div>
             
             <div class="recognize-actions">
@@ -1452,7 +800,7 @@
         </div>
     </div>
 
-    <!-- 各种弹窗 -->
+    <!-- 汇总弹窗 -->
     <div id="summaryModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -1487,6 +835,7 @@
         </div>
     </div>
 
+    <!-- 生肖参照弹窗 -->
     <div id="referenceModal" class="reference-modal">
         <div class="reference-content">
             <div class="reference-header">
@@ -1497,6 +846,7 @@
         </div>
     </div>
 
+    <!-- 波色参照弹窗 -->
     <div id="waveModal" class="wave-modal">
         <div class="wave-content">
             <div class="wave-header">
@@ -1507,6 +857,7 @@
         </div>
     </div>
 
+    <!-- 保存投注弹窗 -->
     <div id="saveModal" class="save-modal">
         <div class="save-content">
             <div class="save-header">
@@ -1538,6 +889,7 @@
         </div>
     </div>
 
+    <!-- 投注记录弹窗 -->
     <div id="historyModal" class="history-modal">
         <div class="history-content">
             <div class="history-header">
@@ -1578,17 +930,19 @@
         </div>
     </div>
 
+    <!-- 投注详情弹窗 -->
     <div id="detailModal" class="detail-modal">
         <div class="detail-content">
             <div class="detail-header">
                 <h4 id="detailTitle">投注详情</h4>
                 <span class="detail-close" id="closeDetailBtn">&times;</span>
             </div>
-            <div class="detail-info" id="detailInfo"></div>
+            <div class="detail-stats" id="detailInfo"></div>
             <div class="detail-numbers-grid" id="detailNumbers"></div>
         </div>
     </div>
 
+    <!-- 确认清空弹窗 -->
     <div id="confirmModal" class="confirm-modal">
         <div class="confirm-content">
             <h4>⚠️ 确认清空</h4>
@@ -1601,7 +955,7 @@
     </div>
 
     <script>
-        // 登录验证 - 账号修改为421763841
+        // 登录验证
         function login() {
             const username = document.getElementById('loginUsername').value;
             const password = document.getElementById('loginPassword').value;
@@ -1648,13 +1002,15 @@
             const closeWaveBtn = document.getElementById('closeWaveBtn');
             const referenceGrid = document.getElementById('referenceGrid');
             const waveGrid = document.getElementById('waveGrid');
-
+            
             // 识别面板相关元素
             const parseBtn = document.getElementById('parseBtn');
             const clearPanelBtn = document.getElementById('clearPanelBtn');
             const recognizeText = document.getElementById('recognizeText');
             const parseResult = document.getElementById('parseResult');
-
+            const helpBtn = document.getElementById('helpBtn');
+            const formatHint = document.getElementById('formatHint');
+            
             // 保存记录相关元素
             const saveBtn = document.getElementById('saveBtn');
             const saveModal = document.getElementById('saveModal');
@@ -1665,7 +1021,7 @@
             const saveNumbersCount = document.getElementById('saveNumbersCount');
             const saveTime = document.getElementById('saveTime');
             const saveRemark = document.getElementById('saveRemark');
-
+            
             // 历史记录相关元素
             const historyBtn = document.getElementById('historyBtn');
             const historyModal = document.getElementById('historyModal');
@@ -1677,20 +1033,20 @@
             const clearHistoryBtn = document.getElementById('clearHistoryBtn');
             const refreshHistoryBtn = document.getElementById('refreshHistoryBtn');
             const exportHistoryBtn = document.getElementById('exportHistoryBtn');
-
+            
             // 详情弹窗
             const detailModal = document.getElementById('detailModal');
             const closeDetailBtn = document.getElementById('closeDetailBtn');
             const detailTitle = document.getElementById('detailTitle');
             const detailInfo = document.getElementById('detailInfo');
             const detailNumbers = document.getElementById('detailNumbers');
-
+            
             // 确认弹窗
             const confirmModal = document.getElementById('confirmModal');
             const confirmYesBtn = document.getElementById('confirmYesBtn');
             const confirmNoBtn = document.getElementById('confirmNoBtn');
             const confirmMessage = document.getElementById('confirmMessage');
-
+            
             // 汇总弹窗元素
             const summaryBtn = document.getElementById('summaryBtn');
             const modal = document.getElementById('summaryModal');
@@ -1704,14 +1060,14 @@
             const numbersGrid = document.getElementById('numbersGrid');
             const animalsGrid = document.getElementById('animalsGrid');
             const modalAccumTotal = document.getElementById('modalAccumTotal');
-
+            
             // 累计存储对象
             let numberAccum = {};
             let accumulateAmount = 0;
             let savedRecords = [];
             let currentDeleteId = null;
             let currentView = 'numbers';
-
+            
             // 号码对应的生肖映射
             const numberToAnimal = {};
             amountInputs.forEach(input => {
@@ -1719,7 +1075,7 @@
                 const animal = input.dataset.animal;
                 numberToAnimal[num] = animal;
             });
-
+            
             // 波色映射
             const waveColors = {
                 '01': 'red', '02': 'red', '07': 'red', '08': 'red', '12': 'red', '13': 'red', '18': 'red', '19': 'red',
@@ -1729,7 +1085,7 @@
                 '05': 'green', '06': 'green', '11': 'green', '16': 'green', '17': 'green', '21': 'green', '22': 'green',
                 '27': 'green', '28': 'green', '32': 'green', '33': 'green', '38': 'green', '39': 'green', '43': 'green', '44': 'green', '49': 'green'
             };
-
+            
             // 生肖号码映射
             const animalNumbers = {
                 '鼠': ['07', '19', '31', '43'], '牛': ['06', '18', '30', '42'], '虎': ['05', '17', '29', '41'],
@@ -1737,7 +1093,25 @@
                 '马': ['01', '13', '25', '37', '49'], '羊': ['12', '24', '36', '48'], '猴': ['11', '23', '35', '47'],
                 '鸡': ['10', '22', '34', '46'], '狗': ['09', '21', '33', '45'], '猪': ['08', '20', '32', '44']
             };
-
+            
+            // 波色号码映射
+            const waveNumbers = {
+                '红波': ['01', '02', '07', '08', '12', '13', '18', '19', '23', '24', '29', '30', '34', '35', '40', '45', '46'],
+                '蓝波': ['03', '04', '09', '10', '14', '15', '20', '25', '26', '31', '36', '37', '41', '42', '47', '48'],
+                '绿波': ['05', '06', '11', '16', '17', '21', '22', '27', '28', '32', '33', '38', '39', '43', '44', '49']
+            };
+            
+            // 单双号码映射
+            const oddEvenNumbers = {
+                '单号': [],
+                '双号': []
+            };
+            for (let i = 1; i <= 49; i++) {
+                const numStr = i < 10 ? '0' + i : i.toString();
+                if (i % 2 === 1) oddEvenNumbers['单号'].push(numStr);
+                else oddEvenNumbers['双号'].push(numStr);
+            }
+            
             const animalData = {};
             Object.entries(animalNumbers).forEach(([animal, numbers]) => {
                 animalData[animal] = {
@@ -1746,7 +1120,7 @@
                 };
             });
             const animalOrder = ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'];
-
+            
             // 构建所有号码数据
             const allNumbers = [];
             const numberSet = new Set();
@@ -1758,12 +1132,12 @@
                 }
             });
             allNumbers.sort((a, b) => parseInt(a.number) - parseInt(b.number));
-
+            
             function getCurrentDateTime() {
                 const now = new Date();
                 return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
             }
-
+            
             function calculateOrderTotal() {
                 let total = 0;
                 amountInputs.forEach(input => {
@@ -1772,9 +1146,9 @@
                 orderTotal.textContent = total.toFixed(2);
                 scatterTotal.textContent = total.toFixed(2);
             }
-
+            
             amountInputs.forEach(input => input.addEventListener('input', calculateOrderTotal));
-
+            
             function getCurrentAccumDetails() {
                 const details = {};
                 let totalAmount = 0, numbersCount = 0;
@@ -1787,23 +1161,23 @@
                 });
                 return { details, totalAmount, numbersCount };
             }
-
+            
             function clearAccumulatedData() {
                 numberAccum = {};
                 accumulateAmount = 0;
                 reportTotal.textContent = '0.00';
                 accumulateTotal.textContent = '0.00';
             }
-
+            
             function loadSavedRecords() {
                 const saved = localStorage.getItem('savedRecords');
                 savedRecords = saved ? JSON.parse(saved) : [];
             }
-
+            
             function saveRecords() {
                 localStorage.setItem('savedRecords', JSON.stringify(savedRecords));
             }
-
+            
             function renderHistoryList() {
                 const sortedRecords = [...savedRecords].sort((a, b) => new Date(b.time) - new Date(a.time));
                 let html = '', totalAmount = 0;
@@ -1823,7 +1197,7 @@
                 if (historyCount) historyCount.textContent = savedRecords.length;
                 if (historyAvgAmount) historyAvgAmount.textContent = savedRecords.length > 0 ? (totalAmount / savedRecords.length).toFixed(2) : '0.00';
             }
-
+            
             window.showRecordDetail = function(id) {
                 const record = savedRecords.find(r => r.id === id);
                 if (!record) return;
@@ -1842,27 +1216,27 @@
                 if (detailNumbers) detailNumbers.innerHTML = numbersHtml;
                 if (detailModal) detailModal.style.display = 'flex';
             };
-
+            
             window.confirmDeleteRecord = function(id) {
                 currentDeleteId = id;
                 if (confirmMessage) confirmMessage.textContent = '确定要删除这条投注记录吗？此操作不可恢复！';
                 if (confirmModal) confirmModal.style.display = 'flex';
             };
-
+            
             function deleteRecord(id) {
                 savedRecords = savedRecords.filter(r => r.id !== id);
                 saveRecords();
                 renderHistoryList();
                 if (confirmModal) confirmModal.style.display = 'none';
             }
-
+            
             function clearAllRecords() {
                 savedRecords = [];
                 saveRecords();
                 renderHistoryList();
                 if (confirmModal) confirmModal.style.display = 'none';
             }
-
+            
             // 生肖参照
             function renderReference() {
                 let html = '';
@@ -1877,7 +1251,7 @@
                 });
                 if (referenceGrid) referenceGrid.innerHTML = html;
             }
-
+            
             // 波色参照
             function renderWave() {
                 const groups = { red: [], blue: [], green: [] };
@@ -1888,7 +1262,7 @@
                 html += `<div class="wave-section green-section"><div class="wave-section-title green">🟢 绿波</div><div class="wave-numbers-grid">${groups.green.map(n=>`<div class="wave-number-item green">${n}</div>`).join('')}</div></div>`;
                 if (waveGrid) waveGrid.innerHTML = html;
             }
-
+            
             // 汇总弹窗渲染函数
             function calculateAnimalTotals() {
                 const totals = {};
@@ -1900,7 +1274,7 @@
                 });
                 return totals;
             }
-
+            
             function renderNumbersView() {
                 const order = sortSelect?.value || 'number';
                 let items = allNumbers.map(item => ({ ...item, amount: numberAccum[item.number] || 0 }));
@@ -1922,7 +1296,7 @@
                 if (numbersGrid) numbersGrid.innerHTML = html;
                 if (modalAccumTotal) modalAccumTotal.textContent = items.reduce((s,i) => s + i.amount, 0).toFixed(2);
             }
-
+            
             function renderAnimalsView() {
                 const order = sortSelect?.value || 'number';
                 let animals = Object.entries(calculateAnimalTotals()).map(([animal, amount]) => ({ animal, amount, numbers: animalData[animal].numbers }));
@@ -1942,12 +1316,12 @@
                 if (animalsGrid) animalsGrid.innerHTML = html;
                 if (modalAccumTotal) modalAccumTotal.textContent = animals.reduce((s,i) => s + i.amount, 0).toFixed(2);
             }
-
+            
             function renderCurrentView() {
                 if (currentView === 'numbers') renderNumbersView();
                 else renderAnimalsView();
             }
-
+            
             // 保存投注
             if (saveBtn) saveBtn.addEventListener('click', () => {
                 const { details, totalAmount, numbersCount } = getCurrentAccumDetails();
@@ -1958,7 +1332,7 @@
                 if (saveRemark) saveRemark.value = '';
                 if (saveModal) saveModal.style.display = 'flex';
             });
-
+            
             if (closeSaveBtn) closeSaveBtn.addEventListener('click', () => { if (saveModal) saveModal.style.display = 'none'; });
             if (cancelSaveBtn) cancelSaveBtn.addEventListener('click', () => { if (saveModal) saveModal.style.display = 'none'; });
             if (confirmSaveBtn) confirmSaveBtn.addEventListener('click', () => {
@@ -1970,7 +1344,7 @@
                 if (saveModal) saveModal.style.display = 'none';
                 alert(`✅ 保存成功！总金额 ¥${totalAmount.toFixed(2)}，共 ${numbersCount} 个号码已保存。`);
             });
-
+            
             // 历史记录
             if (historyBtn) historyBtn.addEventListener('click', () => { renderHistoryList(); if (historyModal) historyModal.style.display = 'flex'; });
             if (closeHistoryBtn) closeHistoryBtn.addEventListener('click', () => { if (historyModal) historyModal.style.display = 'none'; });
@@ -1991,7 +1365,7 @@
                 currentDeleteId = 'ALL';
                 if (confirmModal) confirmModal.style.display = 'flex';
             });
-
+            
             // 确认弹窗
             if (confirmYesBtn) confirmYesBtn.addEventListener('click', () => {
                 if (currentDeleteId === 'ALL') clearAllRecords();
@@ -1999,7 +1373,7 @@
             });
             if (confirmNoBtn) confirmNoBtn.addEventListener('click', () => { if (confirmModal) confirmModal.style.display = 'none'; currentDeleteId = null; });
             if (closeDetailBtn) closeDetailBtn.addEventListener('click', () => { if (detailModal) detailModal.style.display = 'none'; });
-
+            
             // 一键上报
             if (reportBtn) reportBtn.addEventListener('click', function() {
                 calculateOrderTotal();
@@ -2011,38 +1385,38 @@
                     if (val > 0) numberAccum[num] = (numberAccum[num] || 0) + val;
                 });
                 accumulateAmount = Object.values(numberAccum).reduce((sum, v) => sum + v, 0);
-                reportTotal.textContent = currentAmount.toFixed(2);
-                accumulateTotal.textContent = accumulateAmount.toFixed(2);
+                if (reportTotal) reportTotal.textContent = currentAmount.toFixed(2);
+                if (accumulateTotal) accumulateTotal.textContent = accumulateAmount.toFixed(2);
                 amountInputs.forEach(input => input.value = '');
                 calculateOrderTotal();
                 alert(`✅ 一键上报成功！本次上报 ¥${currentAmount.toFixed(2)} 已累计。`);
             });
-
+            
             if (clearOrderBtn) clearOrderBtn.addEventListener('click', () => {
                 if (confirm('确定要清空本单所有输入的金额吗？')) {
                     amountInputs.forEach(input => input.value = '');
                     calculateOrderTotal();
                 }
             });
-
+            
             if (clearAllBtn) clearAllBtn.addEventListener('click', () => {
                 if (confirm('确定要清空所有累计上报数据吗？')) {
                     numberAccum = {};
                     accumulateAmount = 0;
-                    reportTotal.textContent = '0.00';
-                    accumulateTotal.textContent = '0.00';
+                    if (reportTotal) reportTotal.textContent = '0.00';
+                    if (accumulateTotal) accumulateTotal.textContent = '0.00';
                     alert('累计上报数据已清空！');
                 }
             });
-
+            
             // 生肖参照按钮
             if (referenceBtn) referenceBtn.addEventListener('click', () => { renderReference(); if (referenceModal) referenceModal.style.display = 'flex'; });
             if (closeReferenceBtn) closeReferenceBtn.addEventListener('click', () => { if (referenceModal) referenceModal.style.display = 'none'; });
-
+            
             // 波色参照按钮
             if (waveBtn) waveBtn.addEventListener('click', () => { renderWave(); if (waveModal) waveModal.style.display = 'flex'; });
             if (closeWaveBtn) closeWaveBtn.addEventListener('click', () => { if (waveModal) waveModal.style.display = 'none'; });
-
+            
             // 汇总弹窗
             if (summaryBtn) summaryBtn.addEventListener('click', () => { renderCurrentView(); if (modal) modal.style.display = 'flex'; });
             if (closeModalBtn) closeModalBtn.addEventListener('click', () => { if (modal) modal.style.display = 'none'; });
@@ -2065,57 +1439,112 @@
                 currentView = 'animals';
                 renderCurrentView();
             });
-
+            
+            // 提示按钮功能
+            if (helpBtn) helpBtn.addEventListener('click', () => {
+                if (formatHint) formatHint.classList.toggle('show');
+            });
+            
             // 识别功能
             function chineseToNumber(chinese) {
                 if (!isNaN(parseFloat(chinese))) return parseFloat(chinese);
-                const cn = { '一':1,'二':2,'三':3,'四':4,'五':5,'六':6,'七':7,'八':8,'九':9,'十':10,'十一':11,'十二':12,'十三':13,'十四':14,'十五':15,'十六':16,'十七':17,'十八':18,'十九':19,'二十':20,'二十一':21,'二十二':22,'二十三':23,'二十四':24,'二十五':25,'二十六':26,'二十七':27,'二十八':28,'二十九':29,'三十':30,'四十':40,'五十':50,'六十':60,'七十':70,'八十':80,'九十':90,'一百':100 };
+                const cn = { '一':1,'二':2,'三':3,'四':4,'五':5,'六':6,'七':7,'八':8,'九':9,'十':10,
+                    '十一':11,'十二':12,'十三':13,'十四':14,'十五':15,'十六':16,'十七':17,'十八':18,'十九':19,
+                    '二十':20,'二十一':21,'二十二':22,'二十三':23,'二十四':24,'二十五':25,'二十六':26,'二十七':27,'二十八':28,'二十九':29,
+                    '三十':30,'四十':40,'五十':50,'六十':60,'七十':70,'八十':80,'九十':90,'一百':100 };
                 return cn[chinese] || NaN;
             }
-
+            
             function isValidNumber(num) { return /^\d{1,2}$/.test(num) && parseInt(num) >= 1 && parseInt(num) <= 49; }
             function formatNumber(num) { return parseInt(num) < 10 ? '0' + parseInt(num) : num.toString(); }
-
-            function parseLine(line) {
+            
+            // 解析规则行
+            function parseRule(rule) {
                 const results = {};
-                const match = line.match(/(.+?)(?:个|各)(.+)/);
+                const match = rule.match(/(.+?)(?:个|各)(.+)/);
                 if (!match) return results;
+                
                 const leftPart = match[1].trim();
                 let amount = parseFloat(match[2].trim());
                 if (isNaN(amount)) amount = chineseToNumber(match[2].trim());
                 if (isNaN(amount) || amount <= 0) return results;
                 
+                // 检查是否是"肖"字平均分配格式
+                if (leftPart.includes('肖')) {
+                    let animalStr = leftPart.replace('肖', '').trim();
+                    const animalPattern = /[鼠牛虎兔龙蛇马羊猴鸡狗猪]/g;
+                    const animals = animalStr.match(animalPattern);
+                    if (animals && animals.length > 0) {
+                        animals.forEach(animal => {
+                            const numbers = animalNumbers[animal];
+                            if (numbers && numbers.length > 0) {
+                                const perAmount = amount / numbers.length;
+                                numbers.forEach(num => {
+                                    results[num] = (results[num] || 0) + perAmount;
+                                });
+                            }
+                        });
+                        return results;
+                    }
+                }
+                
+                // 检查波色
+                if (leftPart === '红波' || leftPart === '蓝波' || leftPart === '绿波') {
+                    const numbers = waveNumbers[leftPart];
+                    if (numbers) {
+                        numbers.forEach(num => results[num] = (results[num] || 0) + amount);
+                    }
+                    return results;
+                }
+                
+                // 检查单双
+                if (leftPart === '单号' || leftPart === '双号') {
+                    const numbers = oddEvenNumbers[leftPart];
+                    if (numbers) {
+                        numbers.forEach(num => results[num] = (results[num] || 0) + amount);
+                    }
+                    return results;
+                }
+                
+                // 检查生肖组合
                 const animalPattern = /^[鼠牛虎兔龙蛇马羊猴鸡狗猪]+$/;
                 if (animalPattern.test(leftPart)) {
                     leftPart.split('').forEach(animal => {
                         (animalNumbers[animal] || []).forEach(num => results[num] = (results[num] || 0) + amount);
                     });
-                } else {
-                    const numbers = leftPart.replace(/[.\-。\/\s]+/g, ' ').trim().split(/\s+/);
-                    numbers.forEach(num => {
-                        if (isValidNumber(num)) {
-                            const formatted = formatNumber(num);
-                            results[formatted] = (results[formatted] || 0) + amount;
-                        }
-                    });
+                    return results;
                 }
+                
+                // 号码列表格式（支持顿号等分隔符）
+                const numbers = leftPart.replace(/[.\-。\/\s、]+/g, ' ').trim().split(/\s+/);
+                numbers.forEach(num => {
+                    if (isValidNumber(num)) {
+                        const formatted = formatNumber(num);
+                        results[formatted] = (results[formatted] || 0) + amount;
+                    }
+                });
                 return results;
             }
-
+            
             function parseText(text) {
                 const results = {};
-                text.split('\n').forEach(line => {
+                const lines = text.split('\n');
+                lines.forEach(line => {
                     line = line.trim();
                     if (!line) return;
-                    line.split(/\s+/).forEach(part => {
-                        if (part.includes('个') || part.includes('各')) {
-                            Object.entries(parseLine(part)).forEach(([num, val]) => results[num] = (results[num] || 0) + val);
+                    const rules = line.split(/\s+/);
+                    rules.forEach(rule => {
+                        if (rule.includes('个') || rule.includes('各')) {
+                            const ruleResults = parseRule(rule);
+                            Object.entries(ruleResults).forEach(([num, val]) => {
+                                results[num] = (results[num] || 0) + val;
+                            });
                         }
                     });
                 });
                 return results;
             }
-
+            
             function fillAmounts(results) {
                 let filledCount = 0, totalAmount = 0;
                 amountInputs.forEach(input => {
@@ -2130,34 +1559,37 @@
                 calculateOrderTotal();
                 return { filledCount, totalAmount };
             }
-
+            
             if (parseBtn) parseBtn.addEventListener('click', () => {
-                const text = recognizeText.value.trim();
+                const text = recognizeText?.value.trim();
                 if (!text) { alert('请输入要识别的文本'); return; }
                 const results = parseText(text);
                 if (Object.keys(results).length === 0) { alert('未能识别出任何有效数据'); return; }
                 const { filledCount, totalAmount } = fillAmounts(results);
-                parseResult.textContent = `✅ 识别成功！共填充 ${filledCount} 个号码，总金额 ¥${totalAmount.toFixed(2)}`;
-                parseResult.classList.add('show');
-                setTimeout(() => parseResult.classList.remove('show'), 3000);
+                if (parseResult) parseResult.textContent = `✅ 识别成功！共填充 ${filledCount} 个号码，总金额 ¥${totalAmount.toFixed(2)}`;
+                if (parseResult) parseResult.classList.add('show');
+                setTimeout(() => { if (parseResult) parseResult.classList.remove('show'); }, 3000);
             });
-
+            
             if (clearPanelBtn) clearPanelBtn.addEventListener('click', () => {
-                recognizeText.value = '';
-                parseResult.classList.remove('show');
+                if (recognizeText) recognizeText.value = '';
+                if (parseResult) parseResult.classList.remove('show');
             });
-
-            // 点击外部关闭弹窗
+            
+            // 点击外部关闭弹窗和提示框
             window.addEventListener('click', (e) => {
-                if (e.target === referenceModal) { if (referenceModal) referenceModal.style.display = 'none'; }
-                if (e.target === waveModal) { if (waveModal) waveModal.style.display = 'none'; }
-                if (e.target === historyModal) { if (historyModal) historyModal.style.display = 'none'; }
-                if (e.target === detailModal) { if (detailModal) detailModal.style.display = 'none'; }
-                if (e.target === confirmModal) { if (confirmModal) confirmModal.style.display = 'none'; }
-                if (e.target === saveModal) { if (saveModal) saveModal.style.display = 'none'; }
-                if (e.target === modal) { if (modal) modal.style.display = 'none'; }
+                if (e.target === referenceModal) referenceModal.style.display = 'none';
+                if (e.target === waveModal) waveModal.style.display = 'none';
+                if (e.target === historyModal) historyModal.style.display = 'none';
+                if (e.target === detailModal) detailModal.style.display = 'none';
+                if (e.target === confirmModal) confirmModal.style.display = 'none';
+                if (e.target === saveModal) saveModal.style.display = 'none';
+                if (e.target === modal) modal.style.display = 'none';
+                if (formatHint && helpBtn && e.target !== helpBtn && !formatHint.contains(e.target)) {
+                    formatHint.classList.remove('show');
+                }
             });
-
+            
             calculateOrderTotal();
             loadSavedRecords();
         }
