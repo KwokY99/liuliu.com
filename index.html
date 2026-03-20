@@ -106,12 +106,146 @@
             display: block;
         }
         
-        /* 主内容初始隐藏 */
-        .main-content {
-            display: none;
+        /* 主内容布局 */
+        .main-layout {
+            display: flex;
+            gap: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
         }
         
-        /* 保持原有所有样式 */
+        .main-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        /* 右侧识别面板样式 */
+        .recognize-panel {
+            width: 380px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 20px;
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+        
+        .recognize-panel-header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+            margin: -20px -20px 0 -20px;
+            padding: 20px;
+            border-radius: 16px 16px 0 0;
+            color: white;
+        }
+        
+        .recognize-panel-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .recognize-panel-header p {
+            margin: 8px 0 0 0;
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        
+        .recognize-example {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 20px 0;
+            font-size: 0.85rem;
+            color: #2c3e50;
+            border-left: 4px solid #ff6b6b;
+        }
+        
+        .recognize-example p {
+            margin: 5px 0;
+        }
+        
+        .recognize-example code {
+            background: #ecf0f1;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #e74c3c;
+            font-size: 0.8rem;
+        }
+        
+        .recognize-input-area {
+            margin-bottom: 20px;
+        }
+        
+        .recognize-input-area textarea {
+            width: 100%;
+            height: 200px;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-family: monospace;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+        
+        .recognize-input-area textarea:focus {
+            border-color: #ff6b6b;
+            outline: none;
+        }
+        
+        .recognize-actions {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .recognize-actions button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .btn-parse {
+            background: #ff6b6b;
+            color: white;
+        }
+        
+        .btn-parse:hover {
+            background: #ff5252;
+        }
+        
+        .btn-clear-panel {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+        
+        .btn-clear-panel:hover {
+            background: #bdc3c7;
+        }
+        
+        .parse-result {
+            padding: 12px;
+            border-radius: 8px;
+            background: #f0f9f0;
+            color: #27ae60;
+            display: none;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        .parse-result.show {
+            display: block;
+        }
+        
+        /* 原有样式 */
         body {
             font-family: "Microsoft Yahei", sans-serif;
             background: #f0f0f0;
@@ -121,34 +255,29 @@
             background: #fff;
             border: 1px solid #ccc;
             padding: 10px;
-            max-width: 1200px;
+            width: 100%;
+            box-sizing: border-box;
         }
         .top-bar {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             margin-bottom: 15px;
             padding-bottom: 10px;
             border-bottom: 1px solid #ccc;
             flex-wrap: wrap;
+            justify-content: flex-start;
         }
         .top-bar button {
-            padding: 8px 16px;
-            font-size: 16px;
+            padding: 6px 12px;
+            font-size: 14px;
             cursor: pointer;
             border: none;
             background: #f5f5f5;
             border-radius: 4px;
+            white-space: nowrap;
         }
         .top-bar button:hover {
             background: #e0e0e0;
-        }
-        .top-bar button.recognize-btn {
-            background: #ff6b6b;
-            color: white;
-            font-weight: bold;
-        }
-        .top-bar button.recognize-btn:hover {
-            background: #ff5252;
         }
         .top-bar button.save-btn {
             background: #27ae60;
@@ -217,239 +346,14 @@
             color: #666;
         }
 
-        /* 识别弹窗 */
-        .recognize-modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-        }
-        .recognize-content {
-            background: white;
-            width: 700px;
-            max-width: 95%;
-            max-height: 80vh;
-            border-radius: 24px;
-            box-shadow: 0 30px 70px rgba(0,0,0,0.4);
-            display: flex;
-            flex-direction: column;
-            padding: 30px;
-        }
-        .recognize-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 3px solid #ff6b6b;
-            padding-bottom: 15px;
-            margin-bottom: 25px;
-        }
-        .recognize-header h3 {
-            margin: 0;
-            font-size: 2rem;
-            color: #ff6b6b;
-            font-weight: 700;
-        }
-        .recognize-close {
-            font-size: 40px;
-            cursor: pointer;
-            color: #95a5a6;
-        }
-        .recognize-close:hover {
-            color: #e74c3c;
-        }
-        .recognize-input-area {
-            margin-bottom: 20px;
-        }
-        .recognize-input-area textarea {
-            width: 100%;
-            height: 200px;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-family: monospace;
-            resize: vertical;
-        }
-        .recognize-input-area textarea:focus {
-            border-color: #ff6b6b;
-            outline: none;
-        }
-        .recognize-example {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-            color: #2c3e50;
-            border-left: 4px solid #ff6b6b;
-        }
-        .recognize-example p {
-            margin: 5px 0;
-        }
-        .recognize-example code {
-            background: #ecf0f1;
-            padding: 2px 6px;
-            border-radius: 4px;
-            color: #e74c3c;
-        }
-        .recognize-actions {
-            display: flex;
-            gap: 15px;
-            justify-content: flex-end;
-        }
-        .recognize-actions button {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 40px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-        .btn-parse {
-            background: #ff6b6b;
-            color: white;
-        }
-        .btn-parse:hover {
-            background: #ff5252;
-        }
-        .btn-cancel {
-            background: #ecf0f1;
-            color: #2c3e50;
-        }
-        .btn-cancel:hover {
-            background: #bdc3c7;
-        }
-        .parse-result {
-            margin-top: 15px;
-            padding: 15px;
-            border-radius: 12px;
-            background: #f0f9f0;
-            color: #27ae60;
-            display: none;
-        }
-        .parse-result.show {
-            display: block;
-        }
-
-        /* 保存记录弹窗 */
-        .save-modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            align-items: center;
-            justify-content: center;
-            z-index: 2001;
-        }
-        .save-content {
-            background: white;
-            width: 500px;
-            max-width: 95%;
-            border-radius: 24px;
-            box-shadow: 0 30px 70px rgba(0,0,0,0.4);
-            display: flex;
-            flex-direction: column;
-            padding: 30px;
-        }
-        .save-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 3px solid #27ae60;
-            padding-bottom: 15px;
-            margin-bottom: 25px;
-        }
-        .save-header h3 {
-            margin: 0;
-            font-size: 2rem;
-            color: #27ae60;
-            font-weight: 700;
-        }
-        .save-close {
-            font-size: 40px;
-            cursor: pointer;
-            color: #95a5a6;
-        }
-        .save-close:hover {
-            color: #e74c3c;
-        }
-        .save-info {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-        .save-info-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-        .save-info-item .label {
-            color: #7f8c8d;
-        }
-        .save-info-item .value {
-            font-weight: bold;
-            color: #27ae60;
-        }
-        .save-input-area {
-            margin-bottom: 20px;
-        }
-        .save-input-area label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-        .save-input-area input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 1rem;
-        }
-        .save-input-area input:focus {
-            border-color: #27ae60;
-            outline: none;
-        }
-        .save-actions {
-            display: flex;
-            gap: 15px;
-            justify-content: flex-end;
-        }
-        .save-actions button {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 40px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-        .btn-save {
-            background: #27ae60;
-            color: white;
-        }
-        .btn-save:hover {
-            background: #219a52;
-        }
-        .btn-cancel-save {
-            background: #ecf0f1;
-            color: #2c3e50;
-        }
-        .btn-cancel-save:hover {
-            background: #bdc3c7;
-        }
-
-        /* 其他弹窗样式 */
+        /* 弹窗样式 */
         .modal-overlay {
             display: none;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0,0,0,0.5);
             align-items: center;
             justify-content: center;
@@ -465,6 +369,7 @@
             display: flex;
             flex-direction: column;
             padding: 30px;
+            overflow-y: auto;
         }
         .modal-header {
             display: flex;
@@ -634,38 +539,13 @@
             border-radius: 30px;
         }
         
-        .wave-red {
-            color: #c0392b;
-            background: #fadbd8;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-        .wave-blue {
-            color: #2980b9;
-            background: #d4e6f1;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-        .wave-green {
-            color: #27ae60;
-            background: #d5f5e3;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-        
         .reference-modal {
             display: none;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0,0,0,0.5);
             align-items: center;
             justify-content: center;
@@ -681,6 +561,7 @@
             display: flex;
             flex-direction: column;
             padding: 30px;
+            overflow-y: auto;
         }
         .reference-header {
             display: flex;
@@ -763,7 +644,10 @@
         .wave-modal {
             display: none;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0,0,0,0.5);
             align-items: center;
             justify-content: center;
@@ -779,6 +663,7 @@
             display: flex;
             flex-direction: column;
             padding: 30px;
+            overflow-y: auto;
         }
         .wave-header {
             display: flex;
@@ -931,7 +816,10 @@
         .history-modal {
             display: none;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0,0,0,0.5);
             align-items: center;
             justify-content: center;
@@ -948,6 +836,7 @@
             display: flex;
             flex-direction: column;
             padding: 30px;
+            overflow-y: auto;
         }
         
         .history-header {
@@ -1130,7 +1019,10 @@
         .detail-modal {
             display: none;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0,0,0,0.5);
             align-items: center;
             justify-content: center;
@@ -1177,8 +1069,6 @@
             padding: 15px;
             border-radius: 12px;
             margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
         }
         
         .detail-numbers-grid {
@@ -1219,7 +1109,10 @@
         .confirm-modal {
             display: none;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0,0,0,0.5);
             align-items: center;
             justify-content: center;
@@ -1278,6 +1171,120 @@
         .btn-confirm-no:hover {
             background: #bdc3c7;
         }
+        
+        /* 保存记录弹窗 */
+        .save-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 2001;
+        }
+        .save-content {
+            background: white;
+            width: 500px;
+            max-width: 95%;
+            border-radius: 24px;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+        }
+        .save-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #27ae60;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        .save-header h3 {
+            margin: 0;
+            font-size: 2rem;
+            color: #27ae60;
+            font-weight: 700;
+        }
+        .save-close {
+            font-size: 40px;
+            cursor: pointer;
+            color: #95a5a6;
+        }
+        .save-close:hover {
+            color: #e74c3c;
+        }
+        .save-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .save-info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        .save-info-item .label {
+            color: #7f8c8d;
+        }
+        .save-info-item .value {
+            font-weight: bold;
+            color: #27ae60;
+        }
+        .save-input-area {
+            margin-bottom: 20px;
+        }
+        .save-input-area label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .save-input-area input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .save-input-area input:focus {
+            border-color: #27ae60;
+            outline: none;
+        }
+        .save-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+        .save-actions button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn-save {
+            background: #27ae60;
+            color: white;
+        }
+        .btn-save:hover {
+            background: #219a52;
+        }
+        .btn-cancel-save {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+        .btn-cancel-save:hover {
+            background: #bdc3c7;
+        }
     </style>
 </head>
 <body>
@@ -1303,160 +1310,317 @@
         </div>
     </div>
 
-    <!-- 主内容区域 -->
-    <div class="main-content" id="mainContent">
-        <div class="container">
-            <div class="top-bar">
-                <button>接单</button>
-                <button id="referenceBtn">生肖参照</button>
-                <button id="waveBtn">波色参照</button>
-                <button>操作详单</button>
-                <button id="summaryBtn">汇总</button>
-                <button id="clearAllBtn" style="color:red;">清空累计数据</button>
-                <button id="saveBtn" class="save-btn" style="background: #27ae60; color: white;">💾 保存投注</button>
-                <button id="historyBtn" style="background: #667eea; color: white;">📊 投注记录</button>
-                <button id="reportBtn" style="color:red;">一键上报</button>
-                <button id="recognizeBtn" class="recognize-btn" style="background: #ff6b6b; color: white;">🔍 识别金额</button>
-            </div>
-
-            <div class="customer-info">
-                客户: <input type="text" value="2222" style="width: 60px;">
-                <label><input type="checkbox"> 包特</label>
-                <label><input type="checkbox"> 平连码</label>
-                <label><input type="checkbox"> 特平</label>
-                <label><input type="checkbox"> 软键盘</label>
-                <label><input type="checkbox"> 小数/整数</label>
-                <span style="margin-left: 20px;">本单汇总: <span id="orderTotal">0</span></span>
-                <button id="clearOrderBtn" style="margin-left: 20px; color: #ff0000;">清空本单汇总</button>
-            </div>
-
-            <div class="table-area">
-                <!-- 第一列 01~12 -->
-                <div class="col">
-                    <div class="row"><span class="red">01马</span><input type="text" class="amount-input" data-number="01" data-animal="马"></div>
-                    <div class="row"><span class="red">02蛇</span><input type="text" class="amount-input" data-number="02" data-animal="蛇"></div>
-                    <div class="row"><span class="blue">03龙</span><input type="text" class="amount-input" data-number="03" data-animal="龙"></div>
-                    <div class="row"><span class="blue">04兔</span><input type="text" class="amount-input" data-number="04" data-animal="兔"></div>
-                    <div class="row"><span class="green">05虎</span><input type="text" class="amount-input" data-number="05" data-animal="虎"></div>
-                    <div class="row"><span class="green">06牛</span><input type="text" class="amount-input" data-number="06" data-animal="牛"></div>
-                    <div class="row"><span class="red">07鼠</span><input type="text" class="amount-input" data-number="07" data-animal="鼠"></div>
-                    <div class="row"><span class="red">08猪</span><input type="text" class="amount-input" data-number="08" data-animal="猪"></div>
-                    <div class="row"><span class="blue">09狗</span><input type="text" class="amount-input" data-number="09" data-animal="狗"></div>
-                    <div class="row"><span class="blue">10鸡</span><input type="text" class="amount-input" data-number="10" data-animal="鸡"></div>
-                    <div class="row"><span class="green">11猴</span><input type="text" class="amount-input" data-number="11" data-animal="猴"></div>
-                    <div class="row"><span class="red">12羊</span><input type="text" class="amount-input" data-number="12" data-animal="羊"></div>
+    <!-- 主内容布局 -->
+    <div class="main-layout" id="mainLayout" style="display: none;">
+        <!-- 左侧主界面 -->
+        <div class="main-content">
+            <div class="container">
+                <div class="top-bar">
+                    <button>接单</button>
+                    <button id="referenceBtn">生肖参照</button>
+                    <button id="waveBtn">波色参照</button>
+                    <button>操作详单</button>
+                    <button id="summaryBtn">汇总</button>
+                    <button id="clearAllBtn" style="color:red;">清空累计数据</button>
+                    <button id="saveBtn" class="save-btn" style="background: #27ae60; color: white;">💾 保存投注</button>
+                    <button id="historyBtn" style="background: #667eea; color: white;">📊 投注记录</button>
+                    <button id="reportBtn" style="color:red;">一键上报</button>
                 </div>
-                <!-- 第二列 13~24 -->
-                <div class="col">
-                    <div class="row"><span class="red">13马</span><input type="text" class="amount-input" data-number="13" data-animal="马"></div>
-                    <div class="row"><span class="blue">14蛇</span><input type="text" class="amount-input" data-number="14" data-animal="蛇"></div>
-                    <div class="row"><span class="blue">15龙</span><input type="text" class="amount-input" data-number="15" data-animal="龙"></div>
-                    <div class="row"><span class="green">16兔</span><input type="text" class="amount-input" data-number="16" data-animal="兔"></div>
-                    <div class="row"><span class="green">17虎</span><input type="text" class="amount-input" data-number="17" data-animal="虎"></div>
-                    <div class="row"><span class="red">18牛</span><input type="text" class="amount-input" data-number="18" data-animal="牛"></div>
-                    <div class="row"><span class="red">19鼠</span><input type="text" class="amount-input" data-number="19" data-animal="鼠"></div>
-                    <div class="row"><span class="blue">20猪</span><input type="text" class="amount-input" data-number="20" data-animal="猪"></div>
-                    <div class="row"><span class="green">21狗</span><input type="text" class="amount-input" data-number="21" data-animal="狗"></div>
-                    <div class="row"><span class="green">22鸡</span><input type="text" class="amount-input" data-number="22" data-animal="鸡"></div>
-                    <div class="row"><span class="red">23猴</span><input type="text" class="amount-input" data-number="23" data-animal="猴"></div>
-                    <div class="row"><span class="red">24羊</span><input type="text" class="amount-input" data-number="24" data-animal="羊"></div>
+
+                <div class="customer-info">
+                    客户: <input type="text" value="2222" style="width: 60px;">
+                    <label><input type="checkbox"> 包特</label>
+                    <label><input type="checkbox"> 平连码</label>
+                    <label><input type="checkbox"> 特平</label>
+                    <label><input type="checkbox"> 软键盘</label>
+                    <label><input type="checkbox"> 小数/整数</label>
+                    <span style="margin-left: 20px;">本单汇总: <span id="orderTotal">0</span></span>
+                    <button id="clearOrderBtn" style="margin-left: 20px; color: #ff0000;">清空本单汇总</button>
                 </div>
-                <!-- 第三列 25~36 -->
-                <div class="col">
-                    <div class="row"><span class="blue">25马</span><input type="text" class="amount-input" data-number="25" data-animal="马"></div>
-                    <div class="row"><span class="blue">26蛇</span><input type="text" class="amount-input" data-number="26" data-animal="蛇"></div>
-                    <div class="row"><span class="green">27龙</span><input type="text" class="amount-input" data-number="27" data-animal="龙"></div>
-                    <div class="row"><span class="green">28兔</span><input type="text" class="amount-input" data-number="28" data-animal="兔"></div>
-                    <div class="row"><span class="red">29虎</span><input type="text" class="amount-input" data-number="29" data-animal="虎"></div>
-                    <div class="row"><span class="red">30牛</span><input type="text" class="amount-input" data-number="30" data-animal="牛"></div>
-                    <div class="row"><span class="blue">31鼠</span><input type="text" class="amount-input" data-number="31" data-animal="鼠"></div>
-                    <div class="row"><span class="green">32猪</span><input type="text" class="amount-input" data-number="32" data-animal="猪"></div>
-                    <div class="row"><span class="green">33狗</span><input type="text" class="amount-input" data-number="33" data-animal="狗"></div>
-                    <div class="row"><span class="red">34鸡</span><input type="text" class="amount-input" data-number="34" data-animal="鸡"></div>
-                    <div class="row"><span class="red">35猴</span><input type="text" class="amount-input" data-number="35" data-animal="猴"></div>
-                    <div class="row"><span class="blue">36羊</span><input type="text" class="amount-input" data-number="36" data-animal="羊"></div>
+
+                <div class="table-area">
+                    <!-- 第一列 01~12 -->
+                    <div class="col">
+                        <div class="row"><span class="red">01马</span><input type="text" class="amount-input" data-number="01" data-animal="马"></div>
+                        <div class="row"><span class="red">02蛇</span><input type="text" class="amount-input" data-number="02" data-animal="蛇"></div>
+                        <div class="row"><span class="blue">03龙</span><input type="text" class="amount-input" data-number="03" data-animal="龙"></div>
+                        <div class="row"><span class="blue">04兔</span><input type="text" class="amount-input" data-number="04" data-animal="兔"></div>
+                        <div class="row"><span class="green">05虎</span><input type="text" class="amount-input" data-number="05" data-animal="虎"></div>
+                        <div class="row"><span class="green">06牛</span><input type="text" class="amount-input" data-number="06" data-animal="牛"></div>
+                        <div class="row"><span class="red">07鼠</span><input type="text" class="amount-input" data-number="07" data-animal="鼠"></div>
+                        <div class="row"><span class="red">08猪</span><input type="text" class="amount-input" data-number="08" data-animal="猪"></div>
+                        <div class="row"><span class="blue">09狗</span><input type="text" class="amount-input" data-number="09" data-animal="狗"></div>
+                        <div class="row"><span class="blue">10鸡</span><input type="text" class="amount-input" data-number="10" data-animal="鸡"></div>
+                        <div class="row"><span class="green">11猴</span><input type="text" class="amount-input" data-number="11" data-animal="猴"></div>
+                        <div class="row"><span class="red">12羊</span><input type="text" class="amount-input" data-number="12" data-animal="羊"></div>
+                    </div>
+                    <!-- 第二列 13~24 -->
+                    <div class="col">
+                        <div class="row"><span class="red">13马</span><input type="text" class="amount-input" data-number="13" data-animal="马"></div>
+                        <div class="row"><span class="blue">14蛇</span><input type="text" class="amount-input" data-number="14" data-animal="蛇"></div>
+                        <div class="row"><span class="blue">15龙</span><input type="text" class="amount-input" data-number="15" data-animal="龙"></div>
+                        <div class="row"><span class="green">16兔</span><input type="text" class="amount-input" data-number="16" data-animal="兔"></div>
+                        <div class="row"><span class="green">17虎</span><input type="text" class="amount-input" data-number="17" data-animal="虎"></div>
+                        <div class="row"><span class="red">18牛</span><input type="text" class="amount-input" data-number="18" data-animal="牛"></div>
+                        <div class="row"><span class="red">19鼠</span><input type="text" class="amount-input" data-number="19" data-animal="鼠"></div>
+                        <div class="row"><span class="blue">20猪</span><input type="text" class="amount-input" data-number="20" data-animal="猪"></div>
+                        <div class="row"><span class="green">21狗</span><input type="text" class="amount-input" data-number="21" data-animal="狗"></div>
+                        <div class="row"><span class="green">22鸡</span><input type="text" class="amount-input" data-number="22" data-animal="鸡"></div>
+                        <div class="row"><span class="red">23猴</span><input type="text" class="amount-input" data-number="23" data-animal="猴"></div>
+                        <div class="row"><span class="red">24羊</span><input type="text" class="amount-input" data-number="24" data-animal="羊"></div>
+                    </div>
+                    <!-- 第三列 25~36 -->
+                    <div class="col">
+                        <div class="row"><span class="blue">25马</span><input type="text" class="amount-input" data-number="25" data-animal="马"></div>
+                        <div class="row"><span class="blue">26蛇</span><input type="text" class="amount-input" data-number="26" data-animal="蛇"></div>
+                        <div class="row"><span class="green">27龙</span><input type="text" class="amount-input" data-number="27" data-animal="龙"></div>
+                        <div class="row"><span class="green">28兔</span><input type="text" class="amount-input" data-number="28" data-animal="兔"></div>
+                        <div class="row"><span class="red">29虎</span><input type="text" class="amount-input" data-number="29" data-animal="虎"></div>
+                        <div class="row"><span class="red">30牛</span><input type="text" class="amount-input" data-number="30" data-animal="牛"></div>
+                        <div class="row"><span class="blue">31鼠</span><input type="text" class="amount-input" data-number="31" data-animal="鼠"></div>
+                        <div class="row"><span class="green">32猪</span><input type="text" class="amount-input" data-number="32" data-animal="猪"></div>
+                        <div class="row"><span class="green">33狗</span><input type="text" class="amount-input" data-number="33" data-animal="狗"></div>
+                        <div class="row"><span class="red">34鸡</span><input type="text" class="amount-input" data-number="34" data-animal="鸡"></div>
+                        <div class="row"><span class="red">35猴</span><input type="text" class="amount-input" data-number="35" data-animal="猴"></div>
+                        <div class="row"><span class="blue">36羊</span><input type="text" class="amount-input" data-number="36" data-animal="羊"></div>
+                    </div>
+                    <!-- 第四列 37~49 -->
+                    <div class="col">
+                        <div class="row"><span class="blue">37马</span><input type="text" class="amount-input" data-number="37" data-animal="马"></div>
+                        <div class="row"><span class="green">38蛇</span><input type="text" class="amount-input" data-number="38" data-animal="蛇"></div>
+                        <div class="row"><span class="green">39龙</span><input type="text" class="amount-input" data-number="39" data-animal="龙"></div>
+                        <div class="row"><span class="red">40兔</span><input type="text" class="amount-input" data-number="40" data-animal="兔"></div>
+                        <div class="row"><span class="blue">41虎</span><input type="text" class="amount-input" data-number="41" data-animal="虎"></div>
+                        <div class="row"><span class="blue">42牛</span><input type="text" class="amount-input" data-number="42" data-animal="牛"></div>
+                        <div class="row"><span class="green">43鼠</span><input type="text" class="amount-input" data-number="43" data-animal="鼠"></div>
+                        <div class="row"><span class="green">44猪</span><input type="text" class="amount-input" data-number="44" data-animal="猪"></div>
+                        <div class="row"><span class="red">45狗</span><input type="text" class="amount-input" data-number="45" data-animal="狗"></div>
+                        <div class="row"><span class="red">46鸡</span><input type="text" class="amount-input" data-number="46" data-animal="鸡"></div>
+                        <div class="row"><span class="blue">47猴</span><input type="text" class="amount-input" data-number="47" data-animal="猴"></div>
+                        <div class="row"><span class="blue">48羊</span><input type="text" class="amount-input" data-number="48" data-animal="羊"></div>
+                        <div class="row"><span class="green">49马</span><input type="text" class="amount-input" data-number="49" data-animal="马"></div>
+                    </div>
                 </div>
-                <!-- 第四列 37~49 -->
-                <div class="col">
-                    <div class="row"><span class="blue">37马</span><input type="text" class="amount-input" data-number="37" data-animal="马"></div>
-                    <div class="row"><span class="green">38蛇</span><input type="text" class="amount-input" data-number="38" data-animal="蛇"></div>
-                    <div class="row"><span class="green">39龙</span><input type="text" class="amount-input" data-number="39" data-animal="龙"></div>
-                    <div class="row"><span class="red">40兔</span><input type="text" class="amount-input" data-number="40" data-animal="兔"></div>
-                    <div class="row"><span class="blue">41虎</span><input type="text" class="amount-input" data-number="41" data-animal="虎"></div>
-                    <div class="row"><span class="blue">42牛</span><input type="text" class="amount-input" data-number="42" data-animal="牛"></div>
-                    <div class="row"><span class="green">43鼠</span><input type="text" class="amount-input" data-number="43" data-animal="鼠"></div>
-                    <div class="row"><span class="green">44猪</span><input type="text" class="amount-input" data-number="44" data-animal="猪"></div>
-                    <div class="row"><span class="red">45狗</span><input type="text" class="amount-input" data-number="45" data-animal="狗"></div>
-                    <div class="row"><span class="red">46鸡</span><input type="text" class="amount-input" data-number="46" data-animal="鸡"></div>
-                    <div class="row"><span class="blue">47猴</span><input type="text" class="amount-input" data-number="47" data-animal="猴"></div>
-                    <div class="row"><span class="blue">48羊</span><input type="text" class="amount-input" data-number="48" data-animal="羊"></div>
-                    <div class="row"><span class="green">49马</span><input type="text" class="amount-input" data-number="49" data-animal="马"></div>
+
+                <!-- 汇总区域 -->
+                <div class="summary">
+                    <div>散码总数: <span id="scatterTotal">0</span></div>
+                    <div class="amount-item current-amount">本次上报金额：¥<span id="reportTotal">0</span></div>
+                    <div class="amount-item accumulate-amount">累计上报金额：¥<span id="accumulateTotal">0</span></div>
+                    <div class="data-code">2222新澳数据[A2BEF]</div>
+                </div>
+
+                <div style="margin-top:15px; padding-top:10px; border-top:1px solid #ccc;">
+                    <button>散码汇总</button>
+                    <button>包特汇总</button>
+                    <button>平连码汇总</button>
+                    <button>特平汇总</button>
+                    <button>导出数据</button>
                 </div>
             </div>
+        </div>
 
-            <!-- 汇总区域 -->
-            <div class="summary">
-                <div>散码总数: <span id="scatterTotal">0</span></div>
-                <div class="amount-item current-amount">本次上报金额：¥<span id="reportTotal">0</span></div>
-                <div class="amount-item accumulate-amount">累计上报金额：¥<span id="accumulateTotal">0</span></div>
-                <div class="data-code">2222新澳数据[A2BEF]</div>
+        <!-- 右侧识别面板 -->
+        <div class="recognize-panel">
+            <div class="recognize-panel-header">
+                <h3>🔍 识别金额</h3>
+                <p>快速填充金额到对应号码</p>
             </div>
-
-            <div style="margin-top:15px; padding-top:10px; border-top:1px solid #ccc;">
-                <button>散码汇总</button>
-                <button>包特汇总</button>
-                <button>平连码汇总</button>
-                <button>特平汇总</button>
-                <button>导出数据</button>
+            
+            <div class="recognize-example">
+                <p><strong>📝 支持的格式：</strong></p>
+                <p>• 生肖格式：<code>虎马鼠羊兔牛各50</code> → 每个生肖的所有号码各50元</p>
+                <p>• 号码列表：<code>05 13 34 23 45 36各50</code> 或 <code>05-13-34-23-45-36个50</code></p>
+                <p>• 支持分隔符：点号(.)、减号(-)、句号(。)、斜杠(/)、空格</p>
+                <p>• 金额关键词：<code>个</code> 或 <code>各</code></p>
+                <p>• 中文金额：<code>二十</code>、<code>三十</code>等</p>
+                <p><strong>💡 示例：</strong>虎马鼠羊兔牛各50<br>05 13 34 23 45 36各30</p>
+            </div>
+            
+            <div class="recognize-input-area">
+                <textarea id="recognizeText" placeholder="请输入要识别的文本，支持多种分隔符和中文金额..."></textarea>
+            </div>
+            
+            <div class="recognize-actions">
+                <button class="btn-parse" id="parseBtn">开始识别</button>
+                <button class="btn-clear-panel" id="clearPanelBtn">清空文本</button>
+            </div>
+            
+            <div class="parse-result" id="parseResult">
+                解析成功！已填充到对应输入框。
             </div>
         </div>
     </div>
 
-    <!-- 以下为各种弹窗（内容与之前相同，为了代码完整性保留）-->
-    <!-- 汇总弹窗 -->
-    <div id="summaryModal" class="modal-overlay">...</div>
-    <!-- 生肖参照弹窗 -->
-    <div id="referenceModal" class="reference-modal">...</div>
-    <!-- 波色参照弹窗 -->
-    <div id="waveModal" class="wave-modal">...</div>
-    <!-- 保存投注弹窗 -->
-    <div id="saveModal" class="save-modal">...</div>
-    <!-- 投注记录列表弹窗 -->
-    <div id="historyModal" class="history-modal">...</div>
-    <!-- 投注详情弹窗 -->
-    <div id="detailModal" class="detail-modal">...</div>
-    <!-- 确认清空弹窗 -->
-    <div id="confirmModal" class="confirm-modal">...</div>
-    <!-- 识别弹窗 -->
-    <div id="recognizeModal" class="recognize-modal">...</div>
+    <!-- 各种弹窗 -->
+    <div id="summaryModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📊 累计金额总览</h3>
+                <span class="close-btn" id="closeModalBtn">&times;</span>
+            </div>
+            <div class="view-toggle">
+                <button id="viewNumbersBtn" class="view-btn active">📱 按号码查看</button>
+                <button id="viewAnimalsBtn" class="view-btn">🐾 按生肖查看</button>
+            </div>
+            <div class="filter-bar">
+                <label>🔍 排序方式：
+                    <select id="sortSelect">
+                        <option value="number">按号码顺序 (1-49)</option>
+                        <option value="animalOrder">按生肖顺序</option>
+                        <option value="desc">金额从高到低</option>
+                        <option value="asc">金额从低到高</option>
+                    </select>
+                </label>
+                <button id="applyFilterBtn">应用排序</button>
+                <span style="margin-left:auto; font-size:1.2rem;">🏆 最高亮金 / 💎 最低亮蓝</span>
+            </div>
+            <div id="numbersView" class="numbers-grid" style="display: block;">
+                <div class="grid-container" id="numbersGrid"></div>
+            </div>
+            <div id="animalsView" class="animals-grid" style="display: none;">
+                <div class="grid-container" id="animalsGrid"></div>
+            </div>
+            <div class="total-accum-bar">
+                累计总金额 <span id="modalAccumTotal">0.00</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="referenceModal" class="reference-modal">
+        <div class="reference-content">
+            <div class="reference-header">
+                <h3>📋 生肖参照表</h3>
+                <span class="reference-close" id="closeReferenceBtn">&times;</span>
+            </div>
+            <div class="reference-grid" id="referenceGrid"></div>
+        </div>
+    </div>
+
+    <div id="waveModal" class="wave-modal">
+        <div class="wave-content">
+            <div class="wave-header">
+                <h3>🎨 波色参照表</h3>
+                <span class="wave-close" id="closeWaveBtn">&times;</span>
+            </div>
+            <div class="wave-grid" id="waveGrid"></div>
+        </div>
+    </div>
+
+    <div id="saveModal" class="save-modal">
+        <div class="save-content">
+            <div class="save-header">
+                <h3>💾 保存投注记录</h3>
+                <span class="save-close" id="closeSaveBtn">&times;</span>
+            </div>
+            <div class="save-info">
+                <div class="save-info-item">
+                    <span class="label">累计总金额：</span>
+                    <span class="value" id="saveAmount">¥0.00</span>
+                </div>
+                <div class="save-info-item">
+                    <span class="label">投注号码数：</span>
+                    <span class="value" id="saveNumbersCount">0</span>
+                </div>
+                <div class="save-info-item">
+                    <span class="label">保存时间：</span>
+                    <span class="value" id="saveTime"></span>
+                </div>
+            </div>
+            <div class="save-input-area">
+                <label for="saveRemark">备注信息：</label>
+                <input type="text" id="saveRemark" placeholder="请输入备注（例如：张三的单子）">
+            </div>
+            <div class="save-actions">
+                <button class="btn-cancel-save" id="cancelSaveBtn">取消</button>
+                <button class="btn-save" id="confirmSaveBtn">确认保存</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="historyModal" class="history-modal">
+        <div class="history-content">
+            <div class="history-header">
+                <h3>📋 投注记录列表</h3>
+                <span class="history-close" id="closeHistoryBtn">&times;</span>
+            </div>
+            <div class="history-stats">
+                <div class="total-stats">
+                    <div class="stat-item">
+                        <div class="stat-label">总投注金额</div>
+                        <div class="stat-value total" id="historyTotalAmount">0.00</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">投注次数</div>
+                        <div class="stat-value count" id="historyCount">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">平均金额</div>
+                        <div class="stat-value avg" id="historyAvgAmount">0.00</div>
+                    </div>
+                </div>
+            </div>
+            <div class="history-list">
+                <div class="history-list-header">
+                    <div>保存时间</div>
+                    <div>总金额</div>
+                    <div>号码数量</div>
+                    <div>备注</div>
+                    <div>操作</div>
+                </div>
+                <div class="history-list-body" id="historyListBody"></div>
+            </div>
+            <div class="history-actions">
+                <button class="btn-refresh" id="refreshHistoryBtn">🔄 刷新</button>
+                <button class="btn-export" id="exportHistoryBtn">📥 导出数据</button>
+                <button class="btn-clear-history" id="clearHistoryBtn">🗑️ 清除所有记录</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="detailModal" class="detail-modal">
+        <div class="detail-content">
+            <div class="detail-header">
+                <h4 id="detailTitle">投注详情</h4>
+                <span class="detail-close" id="closeDetailBtn">&times;</span>
+            </div>
+            <div class="detail-info" id="detailInfo"></div>
+            <div class="detail-numbers-grid" id="detailNumbers"></div>
+        </div>
+    </div>
+
+    <div id="confirmModal" class="confirm-modal">
+        <div class="confirm-content">
+            <h4>⚠️ 确认清空</h4>
+            <p id="confirmMessage">确定要清除所有投注记录吗？此操作不可恢复！</p>
+            <div class="confirm-buttons">
+                <button class="btn-confirm-yes" id="confirmYesBtn">确认清除</button>
+                <button class="btn-confirm-no" id="confirmNoBtn">取消</button>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // 登录验证
+        // 登录验证 - 账号修改为421763841
         function login() {
             const username = document.getElementById('loginUsername').value;
             const password = document.getElementById('loginPassword').value;
             const errorDiv = document.getElementById('loginError');
             
-            // 设置正确的账号密码
             const correctUsername = '421763841';
             const correctPassword = 'zz123456';
             
             if (username === correctUsername && password === correctPassword) {
-                // 登录成功
                 errorDiv.classList.remove('show');
                 document.getElementById('loginOverlay').style.display = 'none';
-                document.getElementById('mainContent').style.display = 'block';
-                
-                // 初始化系统
+                document.getElementById('mainLayout').style.display = 'flex';
                 initSystem();
             } else {
-                // 登录失败
                 errorDiv.classList.add('show');
                 document.getElementById('loginPassword').value = '';
             }
         }
         
-        // 回车键登录
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 const loginOverlay = document.getElementById('loginOverlay');
@@ -1466,7 +1630,6 @@
             }
         });
         
-        // 初始化系统（原来的所有JS代码放在这里）
         function initSystem() {
             // 获取核心元素
             const reportBtn = document.getElementById('reportBtn');
@@ -1485,6 +1648,12 @@
             const closeWaveBtn = document.getElementById('closeWaveBtn');
             const referenceGrid = document.getElementById('referenceGrid');
             const waveGrid = document.getElementById('waveGrid');
+
+            // 识别面板相关元素
+            const parseBtn = document.getElementById('parseBtn');
+            const clearPanelBtn = document.getElementById('clearPanelBtn');
+            const recognizeText = document.getElementById('recognizeText');
+            const parseResult = document.getElementById('parseResult');
 
             // 保存记录相关元素
             const saveBtn = document.getElementById('saveBtn');
@@ -1516,514 +1685,13 @@
             const detailInfo = document.getElementById('detailInfo');
             const detailNumbers = document.getElementById('detailNumbers');
 
-            // 识别相关元素
-            const recognizeBtn = document.getElementById('recognizeBtn');
-            const recognizeModal = document.getElementById('recognizeModal');
-            const closeRecognizeBtn = document.getElementById('closeRecognizeBtn');
-            const cancelRecognizeBtn = document.getElementById('cancelRecognizeBtn');
-            const parseBtn = document.getElementById('parseBtn');
-            const recognizeText = document.getElementById('recognizeText');
-            const parseResult = document.getElementById('parseResult');
-
             // 确认弹窗
             const confirmModal = document.getElementById('confirmModal');
             const confirmYesBtn = document.getElementById('confirmYesBtn');
             const confirmNoBtn = document.getElementById('confirmNoBtn');
             const confirmMessage = document.getElementById('confirmMessage');
 
-            // 累计存储对象（用于本单汇总）
-            let numberAccum = {};
-            let accumulateAmount = 0;
-
-            // 保存记录存储 - 使用 localStorage
-            let savedRecords = [];
-
-            // 当前选中的记录ID（用于删除）
-            let currentDeleteId = null;
-
-            // 号码对应的生肖映射（从input的data-animal获取）
-            const numberToAnimal = {};
-            amountInputs.forEach(input => {
-                const num = input.dataset.number;
-                const animal = input.dataset.animal;
-                numberToAnimal[num] = animal;
-            });
-
-            // 根据新波色表更新每个号码的波色
-            const waveColors = {
-                '01': 'red', '02': 'red', '07': 'red', '08': 'red', '12': 'red', '13': 'red', '18': 'red', '19': 'red',
-                '23': 'red', '24': 'red', '29': 'red', '30': 'red', '34': 'red', '35': 'red', '40': 'red', '45': 'red', '46': 'red',
-                '03': 'blue', '04': 'blue', '09': 'blue', '10': 'blue', '14': 'blue', '15': 'blue', '20': 'blue', '25': 'blue',
-                '26': 'blue', '31': 'blue', '36': 'blue', '37': 'blue', '41': 'blue', '42': 'blue', '47': 'blue', '48': 'blue',
-                '05': 'green', '06': 'green', '11': 'green', '16': 'green', '17': 'green', '21': 'green', '22': 'green',
-                '27': 'green', '28': 'green', '32': 'green', '33': 'green', '38': 'green', '39': 'green', '43': 'green', '44': 'green', '49': 'green'
-            };
-
-            // 生肖对应的号码映射
-            const animalNumbers = {
-                '鼠': ['07', '19', '31', '43'],
-                '牛': ['06', '18', '30', '42'],
-                '虎': ['05', '17', '29', '41'],
-                '兔': ['04', '16', '28', '40'],
-                '龙': ['03', '15', '27', '39'],
-                '蛇': ['02', '14', '26', '38'],
-                '马': ['01', '13', '25', '37', '49'],
-                '羊': ['12', '24', '36', '48'],
-                '猴': ['11', '23', '35', '47'],
-                '鸡': ['10', '22', '34', '46'],
-                '狗': ['09', '21', '33', '45'],
-                '猪': ['08', '20', '32', '44']
-            };
-
-            // 根据animalNumbers生成animalData（用于汇总弹窗）
-            const animalData = {};
-            Object.entries(animalNumbers).forEach(([animal, numbers]) => {
-                animalData[animal] = {
-                    numbers: numbers,
-                    colors: numbers.map(num => waveColors[num] || 'black')
-                };
-            });
-
-            const animalOrder = ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'];
-
-            // 获取当前本地日期时间
-            function getCurrentDateTime() {
-                const now = new Date();
-                const year = now.getFullYear();
-                const month = String(now.getMonth() + 1).padStart(2, '0');
-                const day = String(now.getDate()).padStart(2, '0');
-                const hours = String(now.getHours()).padStart(2, '0');
-                const minutes = String(now.getMinutes()).padStart(2, '0');
-                const seconds = String(now.getSeconds()).padStart(2, '0');
-                return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-            }
-
-            // 实时计算本单汇总
-            amountInputs.forEach(input => {
-                input.addEventListener('input', calculateOrderTotal);
-            });
-
-            function calculateOrderTotal() {
-                let total = 0;
-                amountInputs.forEach(input => {
-                    const value = parseFloat(input.value) || 0;
-                    total += value;
-                });
-                orderTotal.textContent = total.toFixed(2);
-                scatterTotal.textContent = total.toFixed(2);
-            }
-
-            // 获取当前累计的投注明细
-            function getCurrentAccumDetails() {
-                const details = {};
-                let totalAmount = 0;
-                let numbersCount = 0;
-                
-                Object.entries(numberAccum).forEach(([num, amount]) => {
-                    if (amount > 0) {
-                        details[num] = amount;
-                        totalAmount += amount;
-                        numbersCount++;
-                    }
-                });
-                
-                return { details, totalAmount, numbersCount };
-            }
-
-            // 清空累计数据
-            function clearAccumulatedData() {
-                numberAccum = {};
-                accumulateAmount = 0;
-                reportTotal.textContent = '0.00';
-                accumulateTotal.textContent = '0.00';
-            }
-
-            // 加载保存记录
-            function loadSavedRecords() {
-                const saved = localStorage.getItem('savedRecords');
-                if (saved) {
-                    try {
-                        savedRecords = JSON.parse(saved);
-                    } catch (e) {
-                        savedRecords = [];
-                    }
-                } else {
-                    savedRecords = [];
-                    saveRecords();
-                }
-            }
-
-            // 保存记录到localStorage
-            function saveRecords() {
-                localStorage.setItem('savedRecords', JSON.stringify(savedRecords));
-            }
-
-            // 渲染保存记录列表
-            function renderHistoryList() {
-                const sortedRecords = [...savedRecords].sort((a, b) => new Date(b.time) - new Date(a.time));
-                
-                let html = '';
-                let totalAmount = 0;
-                
-                sortedRecords.forEach(record => {
-                    totalAmount += record.totalAmount;
-                    const numbersCount = Object.keys(record.details).length;
-                    
-                    html += `
-                        <div class="history-item" onclick="window.showRecordDetail('${record.id}')">
-                            <div class="date">${record.time}</div>
-                            <div class="amount">¥ ${record.totalAmount.toFixed(2)}</div>
-                            <div class="numbers-count">${numbersCount} 个号码</div>
-                            <div class="remark">${record.remark || '无备注'}</div>
-                            <div class="delete" onclick="event.stopPropagation(); window.confirmDeleteRecord('${record.id}')">删除</div>
-                        </div>
-                    `;
-                });
-                
-                historyListBody.innerHTML = html || '<div style="text-align:center; padding:20px; color:#7f8c8d;">暂无投注记录</div>';
-                
-                const count = savedRecords.length;
-                historyTotalAmount.textContent = totalAmount.toFixed(2);
-                historyCount.textContent = count;
-                historyAvgAmount.textContent = count > 0 ? (totalAmount / count).toFixed(2) : '0.00';
-            }
-
-            // 显示记录详情
-            window.showRecordDetail = function(id) {
-                const record = savedRecords.find(r => r.id === id);
-                if (!record) return;
-                
-                detailTitle.textContent = `投注详情 - ${record.remark || '无备注'}`;
-                
-                const numbersCount = Object.keys(record.details).length;
-                detailInfo.innerHTML = `
-                    <div><strong>保存时间：</strong> ${record.time}</div>
-                    <div><strong>总金额：</strong> ¥${record.totalAmount.toFixed(2)}</div>
-                    <div><strong>号码数量：</strong> ${numbersCount} 个</div>
-                    <div><strong>备注：</strong> ${record.remark || '无备注'}</div>
-                `;
-                
-                let numbersHtml = '';
-                const sortedNumbers = Object.keys(record.details).sort((a, b) => parseInt(a) - parseInt(b));
-                sortedNumbers.forEach(num => {
-                    const amount = record.details[num];
-                    const color = waveColors[num] || 'black';
-                    const animal = numberToAnimal[num] || '';
-                    numbersHtml += `
-                        <div class="detail-number-item ${color}">
-                            <div class="num">${num}</div>
-                            <div class="animal">${animal}</div>
-                            <div class="val">¥${amount.toFixed(2)}</div>
-                        </div>
-                    `;
-                });
-                
-                detailNumbers.innerHTML = numbersHtml;
-                detailModal.style.display = 'flex';
-            };
-
-            // 确认删除记录
-            window.confirmDeleteRecord = function(id) {
-                currentDeleteId = id;
-                confirmMessage.textContent = '确定要删除这条投注记录吗？此操作不可恢复！';
-                confirmModal.style.display = 'flex';
-            };
-
-            // 执行删除
-            function deleteRecord(id) {
-                savedRecords = savedRecords.filter(r => r.id !== id);
-                saveRecords();
-                renderHistoryList();
-                confirmModal.style.display = 'none';
-            }
-
-            // 清除所有记录
-            function clearAllRecords() {
-                savedRecords = [];
-                saveRecords();
-                renderHistoryList();
-                confirmModal.style.display = 'none';
-            }
-
-            // 打开保存记录弹窗
-            saveBtn.addEventListener('click', () => {
-                const { details, totalAmount, numbersCount } = getCurrentAccumDetails();
-                
-                if (totalAmount <= 0) {
-                    alert('当前累计金额为0，无需保存');
-                    return;
-                }
-                
-                saveAmount.textContent = `¥${totalAmount.toFixed(2)}`;
-                saveNumbersCount.textContent = numbersCount;
-                saveTime.textContent = getCurrentDateTime();
-                saveRemark.value = '';
-                saveModal.style.display = 'flex';
-            });
-
-            // 关闭保存记录弹窗
-            function closeSaveModal() {
-                saveModal.style.display = 'none';
-            }
-
-            closeSaveBtn.addEventListener('click', closeSaveModal);
-            cancelSaveBtn.addEventListener('click', closeSaveModal);
-
-            // 确认保存
-            confirmSaveBtn.addEventListener('click', () => {
-                const { details, totalAmount, numbersCount } = getCurrentAccumDetails();
-                
-                if (totalAmount <= 0) {
-                    alert('当前累计金额为0，无需保存');
-                    closeSaveModal();
-                    return;
-                }
-                
-                const newRecord = {
-                    id: Date.now().toString(),
-                    time: getCurrentDateTime(),
-                    totalAmount: totalAmount,
-                    details: { ...details },
-                    remark: saveRemark.value.trim() || '无备注'
-                };
-                
-                savedRecords.push(newRecord);
-                saveRecords();
-                
-                clearAccumulatedData();
-                
-                closeSaveModal();
-                alert(`✅ 保存成功！总金额 ¥${totalAmount.toFixed(2)}，共 ${numbersCount} 个号码已保存到记录中，累计数据已清空。`);
-            });
-
-            // 打开历史记录弹窗
-            historyBtn.addEventListener('click', () => {
-                renderHistoryList();
-                historyModal.style.display = 'flex';
-            });
-
-            // 关闭历史记录弹窗
-            closeHistoryBtn.addEventListener('click', () => {
-                historyModal.style.display = 'none';
-            });
-
-            // 关闭详情弹窗
-            closeDetailBtn.addEventListener('click', () => {
-                detailModal.style.display = 'none';
-            });
-
-            // 刷新历史记录
-            refreshHistoryBtn.addEventListener('click', () => {
-                renderHistoryList();
-            });
-
-            // 导出数据
-            exportHistoryBtn.addEventListener('click', () => {
-                const dataStr = JSON.stringify(savedRecords, null, 2);
-                const blob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `bet_records_${getCurrentDateTime().split(' ')[0]}.json`;
-                a.click();
-                URL.revokeObjectURL(url);
-            });
-
-            // 清除所有记录按钮
-            clearHistoryBtn.addEventListener('click', () => {
-                if (savedRecords.length === 0) {
-                    alert('暂无保存记录');
-                    return;
-                }
-                confirmMessage.textContent = '确定要清除所有投注记录吗？此操作不可恢复！';
-                currentDeleteId = 'ALL';
-                confirmModal.style.display = 'flex';
-            });
-
-            // 确认弹窗按钮
-            confirmYesBtn.addEventListener('click', () => {
-                if (currentDeleteId === 'ALL') {
-                    clearAllRecords();
-                } else {
-                    deleteRecord(currentDeleteId);
-                }
-            });
-
-            confirmNoBtn.addEventListener('click', () => {
-                confirmModal.style.display = 'none';
-                currentDeleteId = null;
-            });
-
-            // 一键上报
-            reportBtn.addEventListener('click', function() {
-                calculateOrderTotal();
-                const currentAmount = parseFloat(orderTotal.textContent) || 0;
-                if (currentAmount <= 0) {
-                    alert('本次无有效金额，无需上报！');
-                    return;
-                }
-
-                amountInputs.forEach(input => {
-                    const num = input.dataset.number;
-                    const val = parseFloat(input.value) || 0;
-                    if (val > 0) {
-                        if (!numberAccum[num]) numberAccum[num] = 0;
-                        numberAccum[num] += val;
-                    }
-                });
-
-                accumulateAmount = Object.values(numberAccum).reduce((sum, v) => sum + v, 0);
-                reportTotal.textContent = currentAmount.toFixed(2);
-                accumulateTotal.textContent = accumulateAmount.toFixed(2);
-
-                amountInputs.forEach(input => { input.value = ''; });
-                calculateOrderTotal();
-
-                alert(`✅ 一键上报成功！本次上报 ¥${currentAmount.toFixed(2)} 已累计。`);
-            });
-
-            // 清空本单汇总
-            clearOrderBtn.addEventListener('click', function() {
-                if (confirm('确定要清空本单所有输入的金额吗？')) {
-                    amountInputs.forEach(input => { input.value = ''; });
-                    calculateOrderTotal();
-                }
-            });
-
-            // 清空累计数据
-            clearAllBtn.addEventListener('click', function() {
-                if (confirm('确定要清空所有累计上报数据吗？本单输入的金额不会清空')) {
-                    numberAccum = {};
-                    accumulateAmount = 0;
-                    reportTotal.textContent = '0.00';
-                    accumulateTotal.textContent = '0.00';
-                    alert('累计上报数据已清空！');
-                }
-            });
-
-            // 初始化
-            calculateOrderTotal();
-            reportTotal.textContent = '0.00';
-            accumulateTotal.textContent = '0.00';
-            loadSavedRecords();
-
-            // 生肖参照弹窗
-            function renderReference() {
-                let html = '';
-                animalOrder.forEach(animal => {
-                    const data = animalData[animal];
-                    html += `<div class="ref-item ${animal}">`;
-                    html += `<div class="ref-title">🐾 ${animal}</div>`;
-                    html += `<div class="ref-numbers">`;
-                    
-                    data.numbers.forEach((num, index) => {
-                        const color = data.colors[index];
-                        const colorClass = color === 'red' ? 'red' : (color === 'blue' ? 'blue' : 'green');
-                        html += `
-                            <div class="ref-number-row">
-                                <span class="ref-number-value ${colorClass}">${num}</span>
-                            </div>
-                        `;
-                    });
-                    
-                    html += `</div></div>`;
-                });
-                referenceGrid.innerHTML = html;
-            }
-
-            referenceBtn.addEventListener('click', () => {
-                renderReference();
-                referenceModal.style.display = 'flex';
-            });
-
-            closeReferenceBtn.addEventListener('click', () => {
-                referenceModal.style.display = 'none';
-            });
-
-            // 波色参照弹窗
-            function renderWave() {
-                const waveGroups = {
-                    'red': [],
-                    'blue': [],
-                    'green': []
-                };
-                
-                Object.entries(waveColors).forEach(([num, color]) => {
-                    waveGroups[color].push(num);
-                });
-
-                waveGroups.red.sort((a, b) => parseInt(a) - parseInt(b));
-                waveGroups.blue.sort((a, b) => parseInt(a) - parseInt(b));
-                waveGroups.green.sort((a, b) => parseInt(a) - parseInt(b));
-
-                let html = `
-                    <div class="wave-section red-section">
-                        <div class="wave-section-title red">🔴 红波</div>
-                        <div class="wave-numbers-grid">
-                `;
-                waveGroups.red.forEach(num => {
-                    html += `<div class="wave-number-item red">${num}</div>`;
-                });
-                html += `</div></div>`;
-
-                html += `
-                    <div class="wave-section blue-section">
-                        <div class="wave-section-title blue">🔵 蓝波</div>
-                        <div class="wave-numbers-grid">
-                `;
-                waveGroups.blue.forEach(num => {
-                    html += `<div class="wave-number-item blue">${num}</div>`;
-                });
-                html += `</div></div>`;
-
-                html += `
-                    <div class="wave-section green-section">
-                        <div class="wave-section-title green">🟢 绿波</div>
-                        <div class="wave-numbers-grid">
-                `;
-                waveGroups.green.forEach(num => {
-                    html += `<div class="wave-number-item green">${num}</div>`;
-                });
-                html += `</div></div>`;
-
-                waveGrid.innerHTML = html;
-            }
-
-            waveBtn.addEventListener('click', () => {
-                renderWave();
-                waveModal.style.display = 'flex';
-            });
-
-            closeWaveBtn.addEventListener('click', () => {
-                waveModal.style.display = 'none';
-            });
-
-            // 点击外部关闭弹窗
-            window.addEventListener('click', (e) => {
-                if (e.target === referenceModal) {
-                    referenceModal.style.display = 'none';
-                }
-                if (e.target === waveModal) {
-                    waveModal.style.display = 'none';
-                }
-                if (e.target === historyModal) {
-                    historyModal.style.display = 'none';
-                }
-                if (e.target === detailModal) {
-                    detailModal.style.display = 'none';
-                }
-                if (e.target === confirmModal) {
-                    confirmModal.style.display = 'none';
-                }
-                if (e.target === recognizeModal) {
-                    recognizeModal.style.display = 'none';
-                }
-                if (e.target === saveModal) {
-                    saveModal.style.display = 'none';
-                }
-            });
-
-            // 汇总弹窗相关
+            // 汇总弹窗元素
             const summaryBtn = document.getElementById('summaryBtn');
             const modal = document.getElementById('summaryModal');
             const closeModalBtn = document.getElementById('closeModalBtn');
@@ -2037,356 +1705,464 @@
             const animalsGrid = document.getElementById('animalsGrid');
             const modalAccumTotal = document.getElementById('modalAccumTotal');
 
+            // 累计存储对象
+            let numberAccum = {};
+            let accumulateAmount = 0;
+            let savedRecords = [];
+            let currentDeleteId = null;
             let currentView = 'numbers';
 
+            // 号码对应的生肖映射
+            const numberToAnimal = {};
+            amountInputs.forEach(input => {
+                const num = input.dataset.number;
+                const animal = input.dataset.animal;
+                numberToAnimal[num] = animal;
+            });
+
+            // 波色映射
+            const waveColors = {
+                '01': 'red', '02': 'red', '07': 'red', '08': 'red', '12': 'red', '13': 'red', '18': 'red', '19': 'red',
+                '23': 'red', '24': 'red', '29': 'red', '30': 'red', '34': 'red', '35': 'red', '40': 'red', '45': 'red', '46': 'red',
+                '03': 'blue', '04': 'blue', '09': 'blue', '10': 'blue', '14': 'blue', '15': 'blue', '20': 'blue', '25': 'blue',
+                '26': 'blue', '31': 'blue', '36': 'blue', '37': 'blue', '41': 'blue', '42': 'blue', '47': 'blue', '48': 'blue',
+                '05': 'green', '06': 'green', '11': 'green', '16': 'green', '17': 'green', '21': 'green', '22': 'green',
+                '27': 'green', '28': 'green', '32': 'green', '33': 'green', '38': 'green', '39': 'green', '43': 'green', '44': 'green', '49': 'green'
+            };
+
+            // 生肖号码映射
+            const animalNumbers = {
+                '鼠': ['07', '19', '31', '43'], '牛': ['06', '18', '30', '42'], '虎': ['05', '17', '29', '41'],
+                '兔': ['04', '16', '28', '40'], '龙': ['03', '15', '27', '39'], '蛇': ['02', '14', '26', '38'],
+                '马': ['01', '13', '25', '37', '49'], '羊': ['12', '24', '36', '48'], '猴': ['11', '23', '35', '47'],
+                '鸡': ['10', '22', '34', '46'], '狗': ['09', '21', '33', '45'], '猪': ['08', '20', '32', '44']
+            };
+
+            const animalData = {};
+            Object.entries(animalNumbers).forEach(([animal, numbers]) => {
+                animalData[animal] = {
+                    numbers: numbers,
+                    colors: numbers.map(num => waveColors[num] || 'black')
+                };
+            });
+            const animalOrder = ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'];
+
+            // 构建所有号码数据
             const allNumbers = [];
             const numberSet = new Set();
             amountInputs.forEach(input => {
                 const num = input.dataset.number;
                 if (!numberSet.has(num)) {
                     numberSet.add(num);
-                    allNumbers.push({
-                        number: num,
-                        animal: input.dataset.animal
-                    });
+                    allNumbers.push({ number: num, animal: input.dataset.animal });
                 }
             });
             allNumbers.sort((a, b) => parseInt(a.number) - parseInt(b.number));
 
-            function closeModal() {
-                modal.style.display = 'none';
+            function getCurrentDateTime() {
+                const now = new Date();
+                return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
             }
-            closeModalBtn.addEventListener('click', closeModal);
-            window.addEventListener('click', (e) => {
-                if (e.target === modal) closeModal();
+
+            function calculateOrderTotal() {
+                let total = 0;
+                amountInputs.forEach(input => {
+                    total += parseFloat(input.value) || 0;
+                });
+                orderTotal.textContent = total.toFixed(2);
+                scatterTotal.textContent = total.toFixed(2);
+            }
+
+            amountInputs.forEach(input => input.addEventListener('input', calculateOrderTotal));
+
+            function getCurrentAccumDetails() {
+                const details = {};
+                let totalAmount = 0, numbersCount = 0;
+                Object.entries(numberAccum).forEach(([num, amount]) => {
+                    if (amount > 0) {
+                        details[num] = amount;
+                        totalAmount += amount;
+                        numbersCount++;
+                    }
+                });
+                return { details, totalAmount, numbersCount };
+            }
+
+            function clearAccumulatedData() {
+                numberAccum = {};
+                accumulateAmount = 0;
+                reportTotal.textContent = '0.00';
+                accumulateTotal.textContent = '0.00';
+            }
+
+            function loadSavedRecords() {
+                const saved = localStorage.getItem('savedRecords');
+                savedRecords = saved ? JSON.parse(saved) : [];
+            }
+
+            function saveRecords() {
+                localStorage.setItem('savedRecords', JSON.stringify(savedRecords));
+            }
+
+            function renderHistoryList() {
+                const sortedRecords = [...savedRecords].sort((a, b) => new Date(b.time) - new Date(a.time));
+                let html = '', totalAmount = 0;
+                sortedRecords.forEach(record => {
+                    totalAmount += record.totalAmount;
+                    const numbersCount = Object.keys(record.details).length;
+                    html += `<div class="history-item" onclick="window.showRecordDetail('${record.id}')">
+                        <div class="date">${record.time}</div>
+                        <div class="amount">¥ ${record.totalAmount.toFixed(2)}</div>
+                        <div class="numbers-count">${numbersCount} 个号码</div>
+                        <div class="remark">${record.remark || '无备注'}</div>
+                        <div class="delete" onclick="event.stopPropagation(); window.confirmDeleteRecord('${record.id}')">删除</div>
+                    </div>`;
+                });
+                if (historyListBody) historyListBody.innerHTML = html || '<div style="text-align:center; padding:20px;">暂无投注记录</div>';
+                if (historyTotalAmount) historyTotalAmount.textContent = totalAmount.toFixed(2);
+                if (historyCount) historyCount.textContent = savedRecords.length;
+                if (historyAvgAmount) historyAvgAmount.textContent = savedRecords.length > 0 ? (totalAmount / savedRecords.length).toFixed(2) : '0.00';
+            }
+
+            window.showRecordDetail = function(id) {
+                const record = savedRecords.find(r => r.id === id);
+                if (!record) return;
+                if (detailTitle) detailTitle.textContent = `投注详情 - ${record.remark || '无备注'}`;
+                if (detailInfo) detailInfo.innerHTML = `<div><strong>保存时间：</strong> ${record.time}</div>
+                    <div><strong>总金额：</strong> ¥${record.totalAmount.toFixed(2)}</div>
+                    <div><strong>号码数量：</strong> ${Object.keys(record.details).length} 个</div>
+                    <div><strong>备注：</strong> ${record.remark || '无备注'}</div>`;
+                let numbersHtml = '';
+                Object.keys(record.details).sort((a,b)=>parseInt(a)-parseInt(b)).forEach(num => {
+                    const amount = record.details[num];
+                    const color = waveColors[num] || 'black';
+                    const animal = numberToAnimal[num] || '';
+                    numbersHtml += `<div class="detail-number-item ${color}"><div class="num">${num}</div><div class="animal">${animal}</div><div class="val">¥${amount.toFixed(2)}</div></div>`;
+                });
+                if (detailNumbers) detailNumbers.innerHTML = numbersHtml;
+                if (detailModal) detailModal.style.display = 'flex';
+            };
+
+            window.confirmDeleteRecord = function(id) {
+                currentDeleteId = id;
+                if (confirmMessage) confirmMessage.textContent = '确定要删除这条投注记录吗？此操作不可恢复！';
+                if (confirmModal) confirmModal.style.display = 'flex';
+            };
+
+            function deleteRecord(id) {
+                savedRecords = savedRecords.filter(r => r.id !== id);
+                saveRecords();
+                renderHistoryList();
+                if (confirmModal) confirmModal.style.display = 'none';
+            }
+
+            function clearAllRecords() {
+                savedRecords = [];
+                saveRecords();
+                renderHistoryList();
+                if (confirmModal) confirmModal.style.display = 'none';
+            }
+
+            // 生肖参照
+            function renderReference() {
+                let html = '';
+                animalOrder.forEach(animal => {
+                    const data = animalData[animal];
+                    html += `<div class="ref-item ${animal}"><div class="ref-title">🐾 ${animal}</div><div class="ref-numbers">`;
+                    data.numbers.forEach((num, idx) => {
+                        const colorClass = data.colors[idx] === 'red' ? 'red' : (data.colors[idx] === 'blue' ? 'blue' : 'green');
+                        html += `<div class="ref-number-row"><span class="ref-number-value ${colorClass}">${num}</span></div>`;
+                    });
+                    html += `</div></div>`;
+                });
+                if (referenceGrid) referenceGrid.innerHTML = html;
+            }
+
+            // 波色参照
+            function renderWave() {
+                const groups = { red: [], blue: [], green: [] };
+                Object.entries(waveColors).forEach(([num, color]) => groups[color].push(num));
+                ['red','blue','green'].forEach(c => groups[c].sort((a,b)=>parseInt(a)-parseInt(b)));
+                let html = `<div class="wave-section red-section"><div class="wave-section-title red">🔴 红波</div><div class="wave-numbers-grid">${groups.red.map(n=>`<div class="wave-number-item red">${n}</div>`).join('')}</div></div>`;
+                html += `<div class="wave-section blue-section"><div class="wave-section-title blue">🔵 蓝波</div><div class="wave-numbers-grid">${groups.blue.map(n=>`<div class="wave-number-item blue">${n}</div>`).join('')}</div></div>`;
+                html += `<div class="wave-section green-section"><div class="wave-section-title green">🟢 绿波</div><div class="wave-numbers-grid">${groups.green.map(n=>`<div class="wave-number-item green">${n}</div>`).join('')}</div></div>`;
+                if (waveGrid) waveGrid.innerHTML = html;
+            }
+
+            // 汇总弹窗渲染函数
+            function calculateAnimalTotals() {
+                const totals = {};
+                animalOrder.forEach(a => totals[a] = 0);
+                Object.entries(numberAccum).forEach(([num, amt]) => {
+                    for (const [animal, data] of Object.entries(animalData)) {
+                        if (data.numbers.includes(num)) { totals[animal] += amt; break; }
+                    }
+                });
+                return totals;
+            }
+
+            function renderNumbersView() {
+                const order = sortSelect?.value || 'number';
+                let items = allNumbers.map(item => ({ ...item, amount: numberAccum[item.number] || 0 }));
+                if (order === 'desc') items.sort((a,b) => b.amount - a.amount);
+                else if (order === 'asc') items.sort((a,b) => a.amount - b.amount);
+                else if (order === 'animalOrder') items.sort((a,b) => animalOrder.indexOf(a.animal) - animalOrder.indexOf(b.animal) || parseInt(a.number) - parseInt(b.number));
+                else items.sort((a,b) => parseInt(a.number) - parseInt(b.number));
+                
+                const amounts = items.map(i => i.amount).filter(v => v > 0);
+                const maxVal = amounts.length ? Math.max(...amounts) : -1;
+                const minVal = amounts.length ? Math.min(...amounts) : -1;
+                let html = '';
+                items.forEach(item => {
+                    let cls = '';
+                    if (item.amount > 0 && item.amount === maxVal && maxVal !== minVal) cls = 'highlight-max';
+                    else if (item.amount > 0 && item.amount === minVal && maxVal !== minVal) cls = 'highlight-min';
+                    html += `<div class="number-card ${cls}"><div class="number-header"><span class="number-badge">${item.number}</span><span class="animal-tag">${item.animal}</span></div><div class="amount-display">¥ ${item.amount.toFixed(2)}</div></div>`;
+                });
+                if (numbersGrid) numbersGrid.innerHTML = html;
+                if (modalAccumTotal) modalAccumTotal.textContent = items.reduce((s,i) => s + i.amount, 0).toFixed(2);
+            }
+
+            function renderAnimalsView() {
+                const order = sortSelect?.value || 'number';
+                let animals = Object.entries(calculateAnimalTotals()).map(([animal, amount]) => ({ animal, amount, numbers: animalData[animal].numbers }));
+                if (order === 'desc') animals.sort((a,b) => b.amount - a.amount);
+                else if (order === 'asc') animals.sort((a,b) => a.amount - b.amount);
+                else animals.sort((a,b) => animalOrder.indexOf(a.animal) - animalOrder.indexOf(b.animal));
+                const amounts = animals.map(a => a.amount).filter(v => v > 0);
+                const maxVal = amounts.length ? Math.max(...amounts) : -1;
+                const minVal = amounts.length ? Math.min(...amounts) : -1;
+                let html = '';
+                animals.forEach(item => {
+                    let cls = '';
+                    if (item.amount > 0 && item.amount === maxVal && maxVal !== minVal) cls = 'highlight-max';
+                    else if (item.amount > 0 && item.amount === minVal && maxVal !== minVal) cls = 'highlight-min';
+                    html += `<div class="animal-card ${cls}"><div class="animal-icon">🐾</div><div class="animal-name">${item.animal}</div><div class="animal-amount">¥ ${item.amount.toFixed(2)}</div><div class="animal-numbers">${item.numbers.join(' ')}</div></div>`;
+                });
+                if (animalsGrid) animalsGrid.innerHTML = html;
+                if (modalAccumTotal) modalAccumTotal.textContent = animals.reduce((s,i) => s + i.amount, 0).toFixed(2);
+            }
+
+            function renderCurrentView() {
+                if (currentView === 'numbers') renderNumbersView();
+                else renderAnimalsView();
+            }
+
+            // 保存投注
+            if (saveBtn) saveBtn.addEventListener('click', () => {
+                const { details, totalAmount, numbersCount } = getCurrentAccumDetails();
+                if (totalAmount <= 0) { alert('当前累计金额为0，无需保存'); return; }
+                if (saveAmount) saveAmount.textContent = `¥${totalAmount.toFixed(2)}`;
+                if (saveNumbersCount) saveNumbersCount.textContent = numbersCount;
+                if (saveTime) saveTime.textContent = getCurrentDateTime();
+                if (saveRemark) saveRemark.value = '';
+                if (saveModal) saveModal.style.display = 'flex';
             });
 
-            viewNumbersBtn.addEventListener('click', () => {
-                viewNumbersBtn.classList.add('active');
-                viewAnimalsBtn.classList.remove('active');
-                numbersView.style.display = 'block';
-                animalsView.style.display = 'none';
+            if (closeSaveBtn) closeSaveBtn.addEventListener('click', () => { if (saveModal) saveModal.style.display = 'none'; });
+            if (cancelSaveBtn) cancelSaveBtn.addEventListener('click', () => { if (saveModal) saveModal.style.display = 'none'; });
+            if (confirmSaveBtn) confirmSaveBtn.addEventListener('click', () => {
+                const { details, totalAmount, numbersCount } = getCurrentAccumDetails();
+                if (totalAmount <= 0) { alert('当前累计金额为0，无需保存'); if (saveModal) saveModal.style.display = 'none'; return; }
+                savedRecords.push({ id: Date.now().toString(), time: getCurrentDateTime(), totalAmount, details: { ...details }, remark: saveRemark?.value.trim() || '无备注' });
+                saveRecords();
+                clearAccumulatedData();
+                if (saveModal) saveModal.style.display = 'none';
+                alert(`✅ 保存成功！总金额 ¥${totalAmount.toFixed(2)}，共 ${numbersCount} 个号码已保存。`);
+            });
+
+            // 历史记录
+            if (historyBtn) historyBtn.addEventListener('click', () => { renderHistoryList(); if (historyModal) historyModal.style.display = 'flex'; });
+            if (closeHistoryBtn) closeHistoryBtn.addEventListener('click', () => { if (historyModal) historyModal.style.display = 'none'; });
+            if (refreshHistoryBtn) refreshHistoryBtn.addEventListener('click', renderHistoryList);
+            if (exportHistoryBtn) exportHistoryBtn.addEventListener('click', () => {
+                const dataStr = JSON.stringify(savedRecords, null, 2);
+                const blob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `bet_records_${getCurrentDateTime().split(' ')[0]}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+            if (clearHistoryBtn) clearHistoryBtn.addEventListener('click', () => {
+                if (savedRecords.length === 0) { alert('暂无保存记录'); return; }
+                if (confirmMessage) confirmMessage.textContent = '确定要清除所有投注记录吗？此操作不可恢复！';
+                currentDeleteId = 'ALL';
+                if (confirmModal) confirmModal.style.display = 'flex';
+            });
+
+            // 确认弹窗
+            if (confirmYesBtn) confirmYesBtn.addEventListener('click', () => {
+                if (currentDeleteId === 'ALL') clearAllRecords();
+                else deleteRecord(currentDeleteId);
+            });
+            if (confirmNoBtn) confirmNoBtn.addEventListener('click', () => { if (confirmModal) confirmModal.style.display = 'none'; currentDeleteId = null; });
+            if (closeDetailBtn) closeDetailBtn.addEventListener('click', () => { if (detailModal) detailModal.style.display = 'none'; });
+
+            // 一键上报
+            if (reportBtn) reportBtn.addEventListener('click', function() {
+                calculateOrderTotal();
+                const currentAmount = parseFloat(orderTotal.textContent) || 0;
+                if (currentAmount <= 0) { alert('本次无有效金额，无需上报！'); return; }
+                amountInputs.forEach(input => {
+                    const num = input.dataset.number;
+                    const val = parseFloat(input.value) || 0;
+                    if (val > 0) numberAccum[num] = (numberAccum[num] || 0) + val;
+                });
+                accumulateAmount = Object.values(numberAccum).reduce((sum, v) => sum + v, 0);
+                reportTotal.textContent = currentAmount.toFixed(2);
+                accumulateTotal.textContent = accumulateAmount.toFixed(2);
+                amountInputs.forEach(input => input.value = '');
+                calculateOrderTotal();
+                alert(`✅ 一键上报成功！本次上报 ¥${currentAmount.toFixed(2)} 已累计。`);
+            });
+
+            if (clearOrderBtn) clearOrderBtn.addEventListener('click', () => {
+                if (confirm('确定要清空本单所有输入的金额吗？')) {
+                    amountInputs.forEach(input => input.value = '');
+                    calculateOrderTotal();
+                }
+            });
+
+            if (clearAllBtn) clearAllBtn.addEventListener('click', () => {
+                if (confirm('确定要清空所有累计上报数据吗？')) {
+                    numberAccum = {};
+                    accumulateAmount = 0;
+                    reportTotal.textContent = '0.00';
+                    accumulateTotal.textContent = '0.00';
+                    alert('累计上报数据已清空！');
+                }
+            });
+
+            // 生肖参照按钮
+            if (referenceBtn) referenceBtn.addEventListener('click', () => { renderReference(); if (referenceModal) referenceModal.style.display = 'flex'; });
+            if (closeReferenceBtn) closeReferenceBtn.addEventListener('click', () => { if (referenceModal) referenceModal.style.display = 'none'; });
+
+            // 波色参照按钮
+            if (waveBtn) waveBtn.addEventListener('click', () => { renderWave(); if (waveModal) waveModal.style.display = 'flex'; });
+            if (closeWaveBtn) closeWaveBtn.addEventListener('click', () => { if (waveModal) waveModal.style.display = 'none'; });
+
+            // 汇总弹窗
+            if (summaryBtn) summaryBtn.addEventListener('click', () => { renderCurrentView(); if (modal) modal.style.display = 'flex'; });
+            if (closeModalBtn) closeModalBtn.addEventListener('click', () => { if (modal) modal.style.display = 'none'; });
+            if (applyFilterBtn) applyFilterBtn.addEventListener('click', renderCurrentView);
+            
+            if (viewNumbersBtn) viewNumbersBtn.addEventListener('click', () => {
+                if (viewNumbersBtn) viewNumbersBtn.classList.add('active');
+                if (viewAnimalsBtn) viewAnimalsBtn.classList.remove('active');
+                if (numbersView) numbersView.style.display = 'block';
+                if (animalsView) animalsView.style.display = 'none';
                 currentView = 'numbers';
                 renderCurrentView();
             });
-
-            viewAnimalsBtn.addEventListener('click', () => {
-                viewAnimalsBtn.classList.add('active');
-                viewNumbersBtn.classList.remove('active');
-                animalsView.style.display = 'block';
-                numbersView.style.display = 'none';
+            
+            if (viewAnimalsBtn) viewAnimalsBtn.addEventListener('click', () => {
+                if (viewAnimalsBtn) viewAnimalsBtn.classList.add('active');
+                if (viewNumbersBtn) viewNumbersBtn.classList.remove('active');
+                if (animalsView) animalsView.style.display = 'block';
+                if (numbersView) numbersView.style.display = 'none';
                 currentView = 'animals';
                 renderCurrentView();
             });
 
-            function calculateAnimalTotals() {
-                const animalTotals = {};
-                animalOrder.forEach(animal => { animalTotals[animal] = 0; });
-
-                Object.entries(numberAccum).forEach(([number, amount]) => {
-                    for (const [animal, data] of Object.entries(animalData)) {
-                        if (data.numbers.includes(number)) {
-                            animalTotals[animal] += amount;
-                            break;
-                        }
-                    }
-                });
-                return animalTotals;
-            }
-
-            function renderCurrentView() {
-                if (currentView === 'numbers') {
-                    renderNumbersView();
-                } else {
-                    renderAnimalsView();
-                }
-            }
-
-            function renderNumbersView() {
-                const sortOrder = sortSelect.value;
-                
-                let items = allNumbers.map(item => ({
-                    number: item.number,
-                    animal: item.animal,
-                    amount: numberAccum[item.number] || 0
-                }));
-
-                if (sortOrder === 'desc') {
-                    items.sort((a, b) => b.amount - a.amount);
-                } else if (sortOrder === 'asc') {
-                    items.sort((a, b) => a.amount - b.amount);
-                } else if (sortOrder === 'animalOrder') {
-                    items.sort((a, b) => {
-                        if (a.animal === b.animal) {
-                            return parseInt(a.number) - parseInt(b.number);
-                        }
-                        return animalOrder.indexOf(a.animal) - animalOrder.indexOf(b.animal);
-                    });
-                } else {
-                    items.sort((a, b) => parseInt(a.number) - parseInt(b.number));
-                }
-
-                const amounts = items.map(i => i.amount).filter(v => v > 0);
-                const maxVal = amounts.length ? Math.max(...amounts) : -1;
-                const minVal = amounts.length ? Math.min(...amounts) : -1;
-
-                let html = '';
-                items.forEach(item => {
-                    const amount = item.amount;
-                    let highlightClass = '';
-                    if (amount > 0 && amount === maxVal && maxVal !== minVal) highlightClass = 'highlight-max';
-                    else if (amount > 0 && amount === minVal && maxVal !== minVal) highlightClass = 'highlight-min';
-                    
-                    html += `
-                        <div class="number-card ${highlightClass}">
-                            <div class="number-header">
-                                <span class="number-badge">${item.number}</span>
-                                <span class="animal-tag">${item.animal}</span>
-                            </div>
-                            <div class="amount-display">¥ ${amount.toFixed(2)}</div>
-                        </div>
-                    `;
-                });
-                numbersGrid.innerHTML = html;
-
-                const total = items.reduce((sum, i) => sum + i.amount, 0);
-                modalAccumTotal.textContent = total.toFixed(2);
-            }
-
-            function renderAnimalsView() {
-                const sortOrder = sortSelect.value;
-                const animalTotals = calculateAnimalTotals();
-                
-                let animals = Object.entries(animalTotals).map(([animal, amount]) => ({
-                    animal,
-                    amount,
-                    numbers: animalData[animal].numbers
-                }));
-
-                if (sortOrder === 'desc') {
-                    animals.sort((a, b) => b.amount - a.amount);
-                } else if (sortOrder === 'asc') {
-                    animals.sort((a, b) => a.amount - b.amount);
-                } else {
-                    animals.sort((a, b) => animalOrder.indexOf(a.animal) - animalOrder.indexOf(b.animal));
-                }
-
-                const amounts = animals.map(a => a.amount).filter(v => v > 0);
-                const maxVal = amounts.length ? Math.max(...amounts) : -1;
-                const minVal = amounts.length ? Math.min(...amounts) : -1;
-
-                let html = '';
-                animals.forEach(item => {
-                    const amount = item.amount;
-                    let highlightClass = '';
-                    if (amount > 0 && amount === maxVal && maxVal !== minVal) highlightClass = 'highlight-max';
-                    else if (amount > 0 && amount === minVal && maxVal !== minVal) highlightClass = 'highlight-min';
-                    
-                    html += `
-                        <div class="animal-card ${highlightClass}">
-                            <div class="animal-icon">🐾</div>
-                            <div class="animal-name">${item.animal}</div>
-                            <div class="animal-amount">¥ ${amount.toFixed(2)}</div>
-                            <div class="animal-numbers">${item.numbers.join(' ')}</div>
-                        </div>
-                    `;
-                });
-                animalsGrid.innerHTML = html;
-
-                const total = animals.reduce((sum, i) => sum + i.amount, 0);
-                modalAccumTotal.textContent = total.toFixed(2);
-            }
-
-            summaryBtn.addEventListener('click', () => {
-                renderCurrentView();
-                modal.style.display = 'flex';
-            });
-
-            applyFilterBtn.addEventListener('click', renderCurrentView);
-
             // 识别功能
             function chineseToNumber(chinese) {
-                if (!isNaN(parseFloat(chinese))) {
-                    return parseFloat(chinese);
-                }
-                
-                const chineseNumbers = {
-                    '一': 1, '二': 2, '三': 3, '四': 4, '五': 5, '六': 6, '七': 7, '八': 8, '九': 9, '十': 10,
-                    '十一': 11, '十二': 12, '十三': 13, '十四': 14, '十五': 15, '十六': 16, '十七': 17, '十八': 18, '十九': 19,
-                    '二十': 20, '二十一': 21, '二十二': 22, '二十三': 23, '二十四': 24, '二十五': 25, '二十六': 26, '二十七': 27, '二十八': 28, '二十九': 29,
-                    '三十': 30, '三十一': 31, '三十二': 32, '三十三': 33, '三十四': 34, '三十五': 35, '三十六': 36, '三十七': 37, '三十八': 38, '三十九': 39,
-                    '四十': 40, '四十一': 41, '四十二': 42, '四十三': 43, '四十四': 44, '四十五': 45, '四十六': 46, '四十七': 47, '四十八': 48, '四十九': 49,
-                    '五十': 50, '五十一': 51, '五十二': 52, '五十三': 53, '五十四': 54, '五十五': 55, '五十六': 56, '五十七': 57, '五十八': 58, '五十九': 59,
-                    '六十': 60, '六十一': 61, '六十二': 62, '六十三': 63, '六十四': 64, '六十五': 65, '六十六': 66, '六十七': 67, '六十八': 68, '六十九': 69,
-                    '七十': 70, '七十一': 71, '七十二': 72, '七十三': 73, '七十四': 74, '七十五': 75, '七十六': 76, '七十七': 77, '七十八': 78, '七十九': 79,
-                    '八十': 80, '八十一': 81, '八十二': 82, '八十三': 83, '八十四': 84, '八十五': 85, '八十六': 86, '八十七': 87, '八十八': 88, '八十九': 89,
-                    '九十': 90, '九十一': 91, '九十二': 92, '九十三': 93, '九十四': 94, '九十五': 95, '九十六': 96, '九十七': 97, '九十八': 98, '九十九': 99,
-                    '一百': 100
-                };
-                
-                if (chineseNumbers[chinese] !== undefined) {
-                    return chineseNumbers[chinese];
-                }
-                
-                return NaN;
+                if (!isNaN(parseFloat(chinese))) return parseFloat(chinese);
+                const cn = { '一':1,'二':2,'三':3,'四':4,'五':5,'六':6,'七':7,'八':8,'九':9,'十':10,'十一':11,'十二':12,'十三':13,'十四':14,'十五':15,'十六':16,'十七':17,'十八':18,'十九':19,'二十':20,'二十一':21,'二十二':22,'二十三':23,'二十四':24,'二十五':25,'二十六':26,'二十七':27,'二十八':28,'二十九':29,'三十':30,'四十':40,'五十':50,'六十':60,'七十':70,'八十':80,'九十':90,'一百':100 };
+                return cn[chinese] || NaN;
             }
 
-            function isValidNumber(num) {
-                if (!/^\d{1,2}$/.test(num)) return false;
-                const numInt = parseInt(num, 10);
-                return numInt >= 1 && numInt <= 49;
-            }
-
-            function formatNumber(num) {
-                const numInt = parseInt(num, 10);
-                return numInt < 10 ? '0' + numInt : numInt.toString();
-            }
+            function isValidNumber(num) { return /^\d{1,2}$/.test(num) && parseInt(num) >= 1 && parseInt(num) <= 49; }
+            function formatNumber(num) { return parseInt(num) < 10 ? '0' + parseInt(num) : num.toString(); }
 
             function parseLine(line) {
                 const results = {};
-                
                 const match = line.match(/(.+?)(?:个|各)(.+)/);
                 if (!match) return results;
-                
                 const leftPart = match[1].trim();
-                const amountStr = match[2].trim();
-                
-                let amount = parseFloat(amountStr);
-                if (isNaN(amount)) {
-                    amount = chineseToNumber(amountStr);
-                }
-                
+                let amount = parseFloat(match[2].trim());
+                if (isNaN(amount)) amount = chineseToNumber(match[2].trim());
                 if (isNaN(amount) || amount <= 0) return results;
                 
                 const animalPattern = /^[鼠牛虎兔龙蛇马羊猴鸡狗猪]+$/;
-                
                 if (animalPattern.test(leftPart)) {
-                    const animals = leftPart.split('');
-                    animals.forEach(animal => {
-                        const numbers = animalNumbers[animal];
-                        if (numbers) {
-                            numbers.forEach(num => {
-                                if (!results[num]) results[num] = 0;
-                                results[num] += amount;
-                            });
-                        }
+                    leftPart.split('').forEach(animal => {
+                        (animalNumbers[animal] || []).forEach(num => results[num] = (results[num] || 0) + amount);
                     });
                 } else {
-                    let normalized = leftPart
-                        .replace(/[.\-。\/\s]+/g, ' ')
-                        .trim();
-                    
-                    if (!normalized) return results;
-                    
-                    const numberList = normalized.split(/\s+/);
-                    
-                    numberList.forEach(numStr => {
-                        let num = numStr.trim();
-                        if (!num) return;
-                        
+                    const numbers = leftPart.replace(/[.\-。\/\s]+/g, ' ').trim().split(/\s+/);
+                    numbers.forEach(num => {
                         if (isValidNumber(num)) {
-                            const formattedNum = formatNumber(num);
-                            if (!results[formattedNum]) results[formattedNum] = 0;
-                            results[formattedNum] += amount;
+                            const formatted = formatNumber(num);
+                            results[formatted] = (results[formatted] || 0) + amount;
                         }
                     });
                 }
-                
                 return results;
             }
 
             function parseText(text) {
                 const results = {};
-                
-                const lines = text.split('\n');
-                
-                lines.forEach(line => {
+                text.split('\n').forEach(line => {
                     line = line.trim();
                     if (!line) return;
-                    
-                    const parts = line.split(/\s+/);
-                    
-                    parts.forEach(part => {
-                        if (!part) return;
-                        
+                    line.split(/\s+/).forEach(part => {
                         if (part.includes('个') || part.includes('各')) {
-                            const lineResults = parseLine(part);
-                            
-                            Object.entries(lineResults).forEach(([num, val]) => {
-                                if (!results[num]) results[num] = 0;
-                                results[num] += val;
-                            });
+                            Object.entries(parseLine(part)).forEach(([num, val]) => results[num] = (results[num] || 0) + val);
                         }
                     });
                 });
-                
                 return results;
             }
 
             function fillAmounts(results) {
-                let filledCount = 0;
-                let totalAmount = 0;
-                
+                let filledCount = 0, totalAmount = 0;
                 amountInputs.forEach(input => {
                     const num = input.dataset.number;
                     if (results[num]) {
                         const currentVal = parseFloat(input.value) || 0;
-                        const newVal = currentVal + results[num];
-                        input.value = newVal.toFixed(2);
+                        input.value = (currentVal + results[num]).toFixed(2);
                         filledCount++;
                         totalAmount += results[num];
                     }
                 });
-                
                 calculateOrderTotal();
-                
                 return { filledCount, totalAmount };
             }
 
-            recognizeBtn.addEventListener('click', () => {
-                recognizeText.value = '';
-                parseResult.classList.remove('show');
-                recognizeModal.style.display = 'flex';
-            });
-
-            function closeRecognizeModal() {
-                recognizeModal.style.display = 'none';
-            }
-
-            closeRecognizeBtn.addEventListener('click', closeRecognizeModal);
-            cancelRecognizeBtn.addEventListener('click', closeRecognizeModal);
-
-            parseBtn.addEventListener('click', () => {
+            if (parseBtn) parseBtn.addEventListener('click', () => {
                 const text = recognizeText.value.trim();
-                if (!text) {
-                    alert('请输入要识别的文本');
-                    return;
-                }
-                
+                if (!text) { alert('请输入要识别的文本'); return; }
                 const results = parseText(text);
-                
-                if (Object.keys(results).length === 0) {
-                    alert('未能识别出任何有效数据，请检查格式');
-                    return;
-                }
-                
+                if (Object.keys(results).length === 0) { alert('未能识别出任何有效数据'); return; }
                 const { filledCount, totalAmount } = fillAmounts(results);
-                
                 parseResult.textContent = `✅ 识别成功！共填充 ${filledCount} 个号码，总金额 ¥${totalAmount.toFixed(2)}`;
                 parseResult.classList.add('show');
+                setTimeout(() => parseResult.classList.remove('show'), 3000);
             });
+
+            if (clearPanelBtn) clearPanelBtn.addEventListener('click', () => {
+                recognizeText.value = '';
+                parseResult.classList.remove('show');
+            });
+
+            // 点击外部关闭弹窗
+            window.addEventListener('click', (e) => {
+                if (e.target === referenceModal) { if (referenceModal) referenceModal.style.display = 'none'; }
+                if (e.target === waveModal) { if (waveModal) waveModal.style.display = 'none'; }
+                if (e.target === historyModal) { if (historyModal) historyModal.style.display = 'none'; }
+                if (e.target === detailModal) { if (detailModal) detailModal.style.display = 'none'; }
+                if (e.target === confirmModal) { if (confirmModal) confirmModal.style.display = 'none'; }
+                if (e.target === saveModal) { if (saveModal) saveModal.style.display = 'none'; }
+                if (e.target === modal) { if (modal) modal.style.display = 'none'; }
+            });
+
+            calculateOrderTotal();
+            loadSavedRecords();
         }
         
-        // 页面加载完成后不自动显示主内容，等待登录
-        // 但需要确保弹窗容器存在，这里先隐藏主内容
-        document.getElementById('mainContent').style.display = 'none';
-        
-        // 初始化弹窗内容（由于弹窗内容很长，这里只是占位，实际需要从原文件复制完整内容）
-        // 注意：由于代码长度限制，弹窗的HTML内容需要从原文件完整复制过来
-        // 这里为了简洁，省略了弹窗的完整HTML，实际使用时需要将原文件中的所有弹窗内容复制到对应位置
-        
-        // 提示：由于代码长度限制，以上弹窗的完整HTML内容（summaryModal、referenceModal、waveModal、saveModal、historyModal、detailModal、confirmModal、recognizeModal）
-        // 需要从用户提供的原文件中完整复制过来，保持功能完整
+        document.getElementById('mainLayout').style.display = 'none';
     </script>
 </body>
 </html>
