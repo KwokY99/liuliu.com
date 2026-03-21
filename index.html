@@ -108,7 +108,7 @@
         
         /* 主内容布局 */
         .main-layout {
-            display: flex;
+            display: none;
             gap: 20px;
             max-width: 1600px;
             margin: 0 auto;
@@ -117,6 +117,107 @@
         .main-content {
             flex: 1;
             min-width: 0;
+        }
+        
+        /* 原有样式 */
+        body {
+            font-family: "Microsoft Yahei", sans-serif;
+            background: #f0f0f0;
+            margin: 20px;
+        }
+        .container {
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .top-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+        .top-bar button {
+            padding: 6px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            background: #f5f5f5;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+        .top-bar button:hover {
+            background: #e0e0e0;
+        }
+        .top-bar button.save-btn {
+            background: #27ae60;
+            color: white;
+            font-weight: bold;
+        }
+        .top-bar button.save-btn:hover {
+            background: #219a52;
+        }
+        .customer-info {
+            margin-bottom: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+        }
+        .table-area {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .col {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .row span {
+            width: 50px;
+            font-weight: bold;
+        }
+        .row input {
+            flex: 1;
+            padding: 4px;
+            border: 1px solid #ccc;
+        }
+        .red { color: red; }
+        .blue { color: blue; }
+        .green { color: green; }
+        .summary {
+            margin-top: 15px;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+        .amount-item {
+            font-weight: bold;
+        }
+        .current-amount {
+            color: #ff6600;
+        }
+        .accumulate-amount {
+            color: #0099ff;
+        }
+        .data-code {
+            margin-left: auto;
+            color: #666;
         }
         
         /* 右侧识别面板样式 */
@@ -266,107 +367,43 @@
             display: block;
         }
         
-        /* 原有样式 */
-        body {
-            font-family: "Microsoft Yahei", sans-serif;
-            background: #f0f0f0;
-            margin: 20px;
+        .recognize-input-area textarea.clearing {
+            transition: background-color 0.3s;
+            background-color: #e8f8f5;
         }
-        .container {
-            background: #fff;
-            border: 1px solid #ccc;
-            padding: 10px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .top-bar {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #ccc;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-        }
-        .top-bar button {
-            padding: 6px 12px;
-            font-size: 14px;
-            cursor: pointer;
-            border: none;
-            background: #f5f5f5;
-            border-radius: 4px;
-            white-space: nowrap;
-        }
-        .top-bar button:hover {
-            background: #e0e0e0;
-        }
-        .top-bar button.save-btn {
-            background: #27ae60;
+        
+        /* 通知弹窗 */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
             color: white;
-            font-weight: bold;
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
-        .top-bar button.save-btn:hover {
-            background: #219a52;
+        .notification.success {
+            background: #27ae60;
         }
-        .customer-info {
-            margin-bottom: 10px;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 10px;
+        .notification.error {
+            background: #e74c3c;
         }
-        .table-area {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
+        .notification.info {
+            background: #3498db;
         }
-        .col {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
-        .row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .row span {
-            width: 50px;
-            font-weight: bold;
-        }
-        .row input {
-            flex: 1;
-            padding: 4px;
-            border: 1px solid #ccc;
-        }
-        .red { color: red; }
-        .blue { color: blue; }
-        .green { color: green; }
-        .summary {
-            margin-top: 15px;
-            padding: 10px;
-            border-top: 1px solid #ccc;
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            background: #f9f9f9;
-            border-radius: 4px;
-        }
-        .amount-item {
-            font-weight: bold;
-        }
-        .current-amount {
-            color: #ff6600;
-        }
-        .accumulate-amount {
-            color: #0099ff;
-        }
-        .data-code {
-            margin-left: auto;
-            color: #666;
-        }
-
+        
         /* 弹窗样式 */
         .modal-overlay, .reference-modal, .wave-modal, .history-modal, .detail-modal, .confirm-modal, .save-modal {
             display: none;
@@ -789,38 +826,6 @@
         }
         .highlight-max { border: 3px solid #f39c12 !important; background: #fff9e6 !important; }
         .highlight-min { border: 3px solid #3498db !important; background: #e8f0fe !important; }
-        
-        /* 通知弹窗 */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 12px 20px;
-            border-radius: 8px;
-            color: white;
-            z-index: 10000;
-            animation: slideIn 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        .notification.success {
-            background: #27ae60;
-        }
-        .notification.error {
-            background: #e74c3c;
-        }
-        .notification.info {
-            background: #3498db;
-        }
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
     </style>
 </head>
 <body>
@@ -847,7 +852,7 @@
     </div>
 
     <!-- 主内容布局 -->
-    <div class="main-layout" id="mainLayout" style="display: none;">
+    <div class="main-layout" id="mainLayout">
         <!-- 左侧主界面 -->
         <div class="main-content">
             <div class="container">
@@ -966,17 +971,16 @@
                 <p><strong>📝 支持的格式：</strong></p>
                 <p>• 生肖格式：<code>虎马鼠羊兔牛各50</code> → 每个生肖的所有号码各50元</p>
                 <p>• 生肖平均分配：<code>虎马肖各40</code> → 虎的4个号码平均分配40元（每个10元），马的5个号码平均分配40元（每个8元）</p>
-                <p>• 波色格式：<code>红波个20</code>、<code>蓝波各30</code>、<code>绿波个30</code> → 对应波色所有号码各20/30元</p>
-                <p>• 单双格式：<code>单号个50</code>、<code>双号各30</code> → 单数或双数号码各50/30元</p>
+                <p>• 波色格式：<code>红波个20</code>、<code>蓝波各30</code>、<code>绿波个30</code></p>
+                <p>• 单双格式：<code>单号个50</code>、<code>双号各30</code></p>
                 <p>• 号码列表：<code>05 13 34 23 45 36各50</code> 或 <code>05、13、34、23、45、36各50</code></p>
-                <p>• 支持分隔符：点号(.)、减号(-)、句号(。)、斜杠(/)、顿号(、)、空格</p>
+                <p>• 支持分隔符：点号(.)、减号(-)、顿号(、)、空格</p>
                 <p>• 金额关键词：<code>个</code> 或 <code>各</code></p>
                 <p>• 中文金额：<code>二十</code>、<code>三十</code>等</p>
-                <p><strong>💡 示例：</strong>虎马鼠羊兔牛各50<br>虎马肖各40<br>红波个20 蓝波各30 绿波各30<br>单号个50 双号各30<br>05、13、34、23、45、36各50</p>
             </div>
             
             <div class="recognize-input-area">
-                <textarea id="recognizeText" placeholder="请输入要识别的文本，支持多种格式..."></textarea>
+                <textarea id="recognizeText" placeholder="请输入要识别的文本..."></textarea>
             </div>
             
             <div class="recognize-actions">
@@ -1156,27 +1160,22 @@
             notification.className = `notification ${type}`;
             notification.textContent = message;
             document.body.appendChild(notification);
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
+            setTimeout(() => notification.remove(), 3000);
         }
         
         // 格式化投注记录
         function formatRecordForWechat(record, customerName, numberToAnimalMap) {
             const details = record.details;
             const sortedNumbers = Object.keys(details).sort((a, b) => parseInt(a) - parseInt(b));
-            
             let detailsText = '';
             sortedNumbers.forEach(num => {
                 const amount = details[num];
                 const animal = numberToAnimalMap[num] || '';
                 detailsText += `${num}${animal}：¥${amount.toFixed(2)}\n`;
             });
-            
             return `客户：${customerName || '未填写'}\n保存时间：${record.time}\n总金额：¥${record.totalAmount.toFixed(2)}\n备注：${record.remark || '无备注'}`;
         }
         
-        // 复制到剪贴板
         async function copyToClipboard(text) {
             try {
                 await navigator.clipboard.writeText(text);
@@ -1188,38 +1187,28 @@
             }
         }
         
-        // 发送到微信
         async function sendToWechat(record, customerName, numberToAnimalMap) {
             const title = `📊 记录 - ${customerName || '客户'}`;
             const content = formatRecordForWechat(record, customerName, numberToAnimalMap);
-            
             const formData = new URLSearchParams();
             formData.append('title', title);
             formData.append('desp', content);
-            
             try {
                 showNotification('⏳ 正在发送...', 'info');
-                
                 const response = await fetch(API_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: formData.toString()
                 });
-                
                 const result = await response.json();
-                console.log('Server酱返回结果:', result);
-                
                 if (result.code === 0) {
-                    showNotification('✅ 已发送到微信，请查收', 'success');
+                    showNotification('✅ 已发送到微信', 'success');
                     return true;
                 } else {
                     showNotification(`❌ 发送失败：${result.message || '未知错误'}`, 'error');
                     return false;
                 }
             } catch (err) {
-                console.error('发送错误:', err);
                 showNotification('❌ 网络错误，发送失败', 'error');
                 return false;
             }
@@ -1230,7 +1219,6 @@
             const username = document.getElementById('loginUsername').value;
             const password = document.getElementById('loginPassword').value;
             const errorDiv = document.getElementById('loginError');
-            
             const correctUsername = '421763841';
             const correctPassword = 'zz123456';
             
@@ -1335,9 +1323,7 @@
             // 数据映射
             let numberToAnimal = {};
             amountInputs.forEach(input => {
-                const num = input.dataset.number;
-                const animal = input.dataset.animal;
-                numberToAnimal[num] = animal;
+                numberToAnimal[input.dataset.number] = input.dataset.animal;
             });
             
             // 波色映射
@@ -1755,8 +1741,7 @@
                 
                 if (leftPart.includes('肖')) {
                     let animalStr = leftPart.replace('肖', '').trim();
-                    const animalPattern = /[鼠牛虎兔龙蛇马羊猴鸡狗猪]/g;
-                    const animals = animalStr.match(animalPattern);
+                    const animals = animalStr.match(/[鼠牛虎兔龙蛇马羊猴鸡狗猪]/g);
                     if (animals && animals.length > 0) {
                         animals.forEach(animal => {
                             const numbers = animalNumbers[animal];
@@ -1772,19 +1757,16 @@
                 }
                 
                 if (leftPart === '红波' || leftPart === '蓝波' || leftPart === '绿波') {
-                    const numbers = waveNumbers[leftPart];
-                    if (numbers) numbers.forEach(num => results[num] = (results[num] || 0) + amount);
+                    (waveNumbers[leftPart] || []).forEach(num => results[num] = (results[num] || 0) + amount);
                     return results;
                 }
                 
                 if (leftPart === '单号' || leftPart === '双号') {
-                    const numbers = oddEvenNumbers[leftPart];
-                    if (numbers) numbers.forEach(num => results[num] = (results[num] || 0) + amount);
+                    (oddEvenNumbers[leftPart] || []).forEach(num => results[num] = (results[num] || 0) + amount);
                     return results;
                 }
                 
-                const animalPattern = /^[鼠牛虎兔龙蛇马羊猴鸡狗猪]+$/;
-                if (animalPattern.test(leftPart)) {
+                if (/^[鼠牛虎兔龙蛇马羊猴鸡狗猪]+$/.test(leftPart)) {
                     leftPart.split('').forEach(animal => {
                         (animalNumbers[animal] || []).forEach(num => results[num] = (results[num] || 0) + amount);
                     });
@@ -1841,8 +1823,15 @@
                 const results = parseText(text);
                 if (Object.keys(results).length === 0) { alert('未能识别出任何有效数据'); return; }
                 const { filledCount, totalAmount } = fillAmounts(results);
-                if (parseResult) parseResult.textContent = `✅ 识别成功！共填充 ${filledCount} 个号码，总金额 ¥${totalAmount.toFixed(2)}`;
-                if (parseResult) parseResult.classList.add('show');
+                if (parseResult) {
+                    parseResult.textContent = `✅ 识别成功！共填充 ${filledCount} 个号码，总金额 ¥${totalAmount.toFixed(2)}`;
+                    parseResult.classList.add('show');
+                }
+                if (recognizeText) {
+                    recognizeText.value = '';
+                    recognizeText.classList.add('clearing');
+                    setTimeout(() => recognizeText.classList.remove('clearing'), 300);
+                }
                 setTimeout(() => { if (parseResult) parseResult.classList.remove('show'); }, 3000);
             });
             
@@ -1851,7 +1840,7 @@
                 if (parseResult) parseResult.classList.remove('show');
             });
             
-            // 点击外部关闭弹窗和提示框
+            // 点击外部关闭弹窗
             window.addEventListener('click', (e) => {
                 if (e.target === referenceModal) referenceModal.style.display = 'none';
                 if (e.target === waveModal) waveModal.style.display = 'none';
@@ -1869,7 +1858,9 @@
             loadSavedRecords();
         }
         
+        // 确保主内容初始隐藏，登录框显示
         document.getElementById('mainLayout').style.display = 'none';
+        document.getElementById('loginOverlay').style.display = 'flex';
     </script>
 </body>
 </html>
