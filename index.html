@@ -167,7 +167,6 @@
         
         .help-btn:hover {
             background: #ff8c00;
-            transform: scale(1.02);
         }
         
         .format-hint {
@@ -392,7 +391,7 @@
             padding: 30px;
             overflow-y: auto;
         }
-        .modal-header, .reference-header, .wave-header, .history-header, .detail-header, .confirm-header, .save-header {
+        .modal-header, .reference-header, .wave-header, .history-header, .detail-header, .save-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -400,19 +399,24 @@
             padding-bottom: 15px;
             margin-bottom: 25px;
         }
-        .modal-header h3, .reference-header h3, .wave-header h3, .history-header h3, .detail-header h4, .confirm-header h4, .save-header h3 {
+        .modal-header h3, .reference-header h3, .wave-header h3, .history-header h3, .save-header h3 {
             margin: 0;
             font-size: 2rem;
             color: #2c3e50;
             font-weight: 700;
         }
-        .close-btn, .reference-close, .wave-close, .history-close, .detail-close, .confirm-close, .save-close {
+        .detail-header h4 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #2c3e50;
+        }
+        .close-btn, .reference-close, .wave-close, .history-close, .detail-close, .save-close {
             font-size: 40px;
             cursor: pointer;
             color: #95a5a6;
             line-height: 1;
         }
-        .close-btn:hover, .reference-close:hover, .wave-close:hover, .history-close:hover, .detail-close:hover, .confirm-close:hover, .save-close:hover {
+        .close-btn:hover, .reference-close:hover, .wave-close:hover, .history-close:hover, .detail-close:hover, .save-close:hover {
             color: #e74c3c;
         }
         
@@ -479,7 +483,7 @@
             text-align: right;
             border: 2px solid #2980b9;
         }
-        .history-stats, .detail-stats {
+        .history-stats {
             background: #f8f9fa;
             border-radius: 20px;
             padding: 25px;
@@ -491,6 +495,23 @@
             justify-content: space-around;
             text-align: center;
         }
+        .stat-item {
+            flex: 1;
+        }
+        .stat-label {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .stat-value.total { color: #e74c3c; }
+        .stat-value.avg { color: #3498db; }
+        .stat-value.count { color: #27ae60; }
+        
         .history-list {
             background: white;
             border-radius: 16px;
@@ -499,20 +520,105 @@
         }
         .history-list-header {
             display: grid;
-            grid-template-columns: 2fr 1fr 1.5fr 1.5fr 1fr;
+            grid-template-columns: 1.5fr 1fr 1fr 1.5fr 0.8fr 0.8fr;
             background: #667eea;
             color: white;
             padding: 15px 20px;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1rem;
+        }
+        .history-list-body {
+            max-height: 400px;
+            overflow-y: auto;
         }
         .history-item {
             display: grid;
-            grid-template-columns: 2fr 1fr 1.5fr 1.5fr 1fr;
-            padding: 15px 20px;
+            grid-template-columns: 1.5fr 1fr 1fr 1.5fr 0.8fr 0.8fr;
+            padding: 12px 20px;
             border-bottom: 1px solid #ecf0f1;
             align-items: center;
             cursor: pointer;
+        }
+        .history-item:hover {
+            background: #f8f9fa;
+        }
+        .history-item .date {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+        .history-item .amount {
+            font-weight: bold;
+            color: #27ae60;
+        }
+        .history-item .numbers-count {
+            color: #3498db;
+        }
+        .history-item .remark {
+            color: #e67e22;
+            font-style: italic;
+            font-size: 0.85rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .history-item .copy-btn, .history-item .send-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .history-item .copy-btn {
+            background: #3498db;
+            color: white;
+        }
+        .history-item .copy-btn:hover {
+            background: #2980b9;
+        }
+        .history-item .send-btn {
+            background: #27ae60;
+            color: white;
+        }
+        .history-item .send-btn:hover {
+            background: #219a52;
+        }
+        
+        .history-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+        .history-actions button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn-clear-history {
+            background: #e74c3c;
+            color: white;
+        }
+        .btn-export {
+            background: #3498db;
+            color: white;
+        }
+        .btn-refresh {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .detail-stats {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
         }
         .detail-numbers-grid {
             display: grid;
@@ -526,6 +632,24 @@
             border-radius: 8px;
             text-align: center;
         }
+        .detail-number-item .num {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        .detail-number-item .animal {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+        .detail-number-item .val {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .detail-number-item.red .num { color: red; }
+        .detail-number-item.blue .num { color: blue; }
+        .detail-number-item.green .num { color: green; }
+        
         .save-info {
             background: #f8f9fa;
             padding: 20px;
@@ -555,37 +679,21 @@
             font-size: 1rem;
             box-sizing: border-box;
         }
-        .save-actions, .history-actions, .confirm-buttons {
+        .save-actions {
             display: flex;
             gap: 15px;
             justify-content: flex-end;
             margin-top: 20px;
         }
-        .btn-save, .btn-parse, .btn-clear-panel, .btn-clear-history, .btn-export, .btn-refresh, .btn-confirm-yes, .btn-confirm-no {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 40px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
         .btn-save, .btn-confirm-yes {
             background: #27ae60;
             color: white;
         }
-        .btn-clear-history, .btn-confirm-no {
-            background: #e74c3c;
-            color: white;
+        .btn-cancel-save, .btn-confirm-no {
+            background: #ecf0f1;
+            color: #2c3e50;
         }
-        .btn-export {
-            background: #3498db;
-            color: white;
-        }
-        .btn-refresh {
-            background: #95a5a6;
-            color: white;
-        }
+        
         .reference-grid, .wave-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -625,12 +733,94 @@
         .wave-number-item.red { background: #fadbd8; color: #c0392b; }
         .wave-number-item.blue { background: #d4e6f1; color: #2980b9; }
         .wave-number-item.green { background: #d5f5e3; color: #27ae60; }
+        
+        .confirm-content {
+            background: white;
+            width: 400px;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+        }
+        .confirm-content h4 {
+            font-size: 1.5rem;
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+        .confirm-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .btn-confirm-yes, .btn-confirm-no {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .animal-card .animal-numbers {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 8px;
+            background: #ecf0f1;
+            padding: 5px;
+            border-radius: 30px;
+        }
+        .ref-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        .ref-numbers {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .ref-number-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            padding: 5px 0;
+            border-bottom: 1px dashed #eee;
+        }
         .highlight-max { border: 3px solid #f39c12 !important; background: #fff9e6 !important; }
         .highlight-min { border: 3px solid #3498db !important; background: #e8f0fe !important; }
-        .animal-card .animal-numbers { font-size: 0.9rem; color: #7f8c8d; margin-top: 8px; background: #ecf0f1; padding: 5px; border-radius: 30px; }
-        .ref-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 15px; color: #2c3e50; }
-        .ref-numbers { display: flex; flex-direction: column; gap: 8px; }
-        .ref-number-row { display: flex; align-items: center; gap: 10px; font-size: 1.2rem; padding: 5px 0; border-bottom: 1px dashed #eee; }
+        
+        /* 通知弹窗 */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .notification.success {
+            background: #27ae60;
+        }
+        .notification.error {
+            background: #e74c3c;
+        }
+        .notification.info {
+            background: #3498db;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -674,7 +864,7 @@
                 </div>
 
                 <div class="customer-info">
-                    客户: <input type="text" value="2222" style="width: 60px;">
+                    客户: <input type="text" id="customerName" value="2222" style="width: 80px;">
                     <label><input type="checkbox"> 包特</label>
                     <label><input type="checkbox"> 平连码</label>
                     <label><input type="checkbox"> 特平</label>
@@ -918,7 +1108,8 @@
                     <div>总金额</div>
                     <div>号码数量</div>
                     <div>备注</div>
-                    <div>操作</div>
+                    <div>复制</div>
+                    <div>发送微信</div>
                 </div>
                 <div class="history-list-body" id="historyListBody"></div>
             </div>
@@ -955,6 +1146,85 @@
     </div>
 
     <script>
+        // Server酱配置
+        const SERVER_KEY = 'SCT326494TM6jsvvlQbfJIDY69StGLgK1U';
+        const API_URL = `https://sctapi.ftqq.com/${SERVER_KEY}.send`;
+        
+        // 显示通知
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        // 格式化投注记录
+        function formatRecordForWechat(record, customerName, numberToAnimalMap) {
+            const details = record.details;
+            const sortedNumbers = Object.keys(details).sort((a, b) => parseInt(a) - parseInt(b));
+            
+            let detailsText = '';
+            sortedNumbers.forEach(num => {
+                const amount = details[num];
+                const animal = numberToAnimalMap[num] || '';
+                detailsText += `${num}${animal}：¥${amount.toFixed(2)}\n`;
+            });
+            
+            return `客户：${customerName || '未填写'}\n保存时间：${record.time}\n总金额：¥${record.totalAmount.toFixed(2)}\n备注：${record.remark || '无备注'}`;
+        }
+        
+        // 复制到剪贴板
+        async function copyToClipboard(text) {
+            try {
+                await navigator.clipboard.writeText(text);
+                showNotification('✅ 已复制到剪贴板', 'success');
+                return true;
+            } catch (err) {
+                showNotification('❌ 复制失败', 'error');
+                return false;
+            }
+        }
+        
+        // 发送到微信
+        async function sendToWechat(record, customerName, numberToAnimalMap) {
+            const title = `📊 记录 - ${customerName || '客户'}`;
+            const content = formatRecordForWechat(record, customerName, numberToAnimalMap);
+            
+            const formData = new URLSearchParams();
+            formData.append('title', title);
+            formData.append('desp', content);
+            
+            try {
+                showNotification('⏳ 正在发送...', 'info');
+                
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formData.toString()
+                });
+                
+                const result = await response.json();
+                console.log('Server酱返回结果:', result);
+                
+                if (result.code === 0) {
+                    showNotification('✅ 已发送到微信，请查收', 'success');
+                    return true;
+                } else {
+                    showNotification(`❌ 发送失败：${result.message || '未知错误'}`, 'error');
+                    return false;
+                }
+            } catch (err) {
+                console.error('发送错误:', err);
+                showNotification('❌ 网络错误，发送失败', 'error');
+                return false;
+            }
+        }
+        
         // 登录验证
         function login() {
             const username = document.getElementById('loginUsername').value;
@@ -1002,6 +1272,7 @@
             const closeWaveBtn = document.getElementById('closeWaveBtn');
             const referenceGrid = document.getElementById('referenceGrid');
             const waveGrid = document.getElementById('waveGrid');
+            const customerNameInput = document.getElementById('customerName');
             
             // 识别面板相关元素
             const parseBtn = document.getElementById('parseBtn');
@@ -1061,15 +1332,8 @@
             const animalsGrid = document.getElementById('animalsGrid');
             const modalAccumTotal = document.getElementById('modalAccumTotal');
             
-            // 累计存储对象
-            let numberAccum = {};
-            let accumulateAmount = 0;
-            let savedRecords = [];
-            let currentDeleteId = null;
-            let currentView = 'numbers';
-            
-            // 号码对应的生肖映射
-            const numberToAnimal = {};
+            // 数据映射
+            let numberToAnimal = {};
             amountInputs.forEach(input => {
                 const num = input.dataset.number;
                 const animal = input.dataset.animal;
@@ -1102,16 +1366,14 @@
             };
             
             // 单双号码映射
-            const oddEvenNumbers = {
-                '单号': [],
-                '双号': []
-            };
+            const oddEvenNumbers = { '单号': [], '双号': [] };
             for (let i = 1; i <= 49; i++) {
                 const numStr = i < 10 ? '0' + i : i.toString();
                 if (i % 2 === 1) oddEvenNumbers['单号'].push(numStr);
                 else oddEvenNumbers['双号'].push(numStr);
             }
             
+            // 构建animalData
             const animalData = {};
             Object.entries(animalNumbers).forEach(([animal, numbers]) => {
                 animalData[animal] = {
@@ -1132,6 +1394,13 @@
                 }
             });
             allNumbers.sort((a, b) => parseInt(a.number) - parseInt(b.number));
+            
+            // 累计数据
+            let numberAccum = {};
+            let accumulateAmount = 0;
+            let savedRecords = [];
+            let currentDeleteId = null;
+            let currentView = 'numbers';
             
             function getCurrentDateTime() {
                 const now = new Date();
@@ -1187,22 +1456,38 @@
                     html += `<div class="history-item" onclick="window.showRecordDetail('${record.id}')">
                         <div class="date">${record.time}</div>
                         <div class="amount">¥ ${record.totalAmount.toFixed(2)}</div>
-                        <div class="numbers-count">${numbersCount} 个号码</div>
-                        <div class="remark">${record.remark || '无备注'}</div>
-                        <div class="delete" onclick="event.stopPropagation(); window.confirmDeleteRecord('${record.id}')">删除</div>
+                        <div class="numbers-count">${numbersCount} 个</div>
+                        <div class="remark" title="${(record.remark || '无备注').replace(/"/g, '&quot;')}">${record.remark || '无备注'}</div>
+                        <div><button class="copy-btn" onclick="event.stopPropagation(); window.copyRecord('${record.id}')">📋 复制</button></div>
+                        <div><button class="send-btn" onclick="event.stopPropagation(); window.sendRecord('${record.id}')">📱 发送微信</button></div>
                     </div>`;
                 });
-                if (historyListBody) historyListBody.innerHTML = html || '<div style="text-align:center; padding:20px;">暂无投注记录</div>';
-                if (historyTotalAmount) historyTotalAmount.textContent = totalAmount.toFixed(2);
-                if (historyCount) historyCount.textContent = savedRecords.length;
-                if (historyAvgAmount) historyAvgAmount.textContent = savedRecords.length > 0 ? (totalAmount / savedRecords.length).toFixed(2) : '0.00';
+                historyListBody.innerHTML = html || '<div style="text-align:center; padding:20px;">暂无投注记录</div>';
+                historyTotalAmount.textContent = totalAmount.toFixed(2);
+                historyCount.textContent = savedRecords.length;
+                historyAvgAmount.textContent = savedRecords.length > 0 ? (totalAmount / savedRecords.length).toFixed(2) : '0.00';
             }
+            
+            window.copyRecord = async function(id) {
+                const record = savedRecords.find(r => r.id === id);
+                if (!record) return;
+                const customerName = customerNameInput?.value || '未填写';
+                const text = formatRecordForWechat(record, customerName, numberToAnimal);
+                await copyToClipboard(text);
+            };
+            
+            window.sendRecord = async function(id) {
+                const record = savedRecords.find(r => r.id === id);
+                if (!record) return;
+                const customerName = customerNameInput?.value || '未填写';
+                await sendToWechat(record, customerName, numberToAnimal);
+            };
             
             window.showRecordDetail = function(id) {
                 const record = savedRecords.find(r => r.id === id);
                 if (!record) return;
-                if (detailTitle) detailTitle.textContent = `投注详情 - ${record.remark || '无备注'}`;
-                if (detailInfo) detailInfo.innerHTML = `<div><strong>保存时间：</strong> ${record.time}</div>
+                detailTitle.textContent = `投注详情 - ${record.remark || '无备注'}`;
+                detailInfo.innerHTML = `<div><strong>保存时间：</strong> ${record.time}</div>
                     <div><strong>总金额：</strong> ¥${record.totalAmount.toFixed(2)}</div>
                     <div><strong>号码数量：</strong> ${Object.keys(record.details).length} 个</div>
                     <div><strong>备注：</strong> ${record.remark || '无备注'}</div>`;
@@ -1213,28 +1498,28 @@
                     const animal = numberToAnimal[num] || '';
                     numbersHtml += `<div class="detail-number-item ${color}"><div class="num">${num}</div><div class="animal">${animal}</div><div class="val">¥${amount.toFixed(2)}</div></div>`;
                 });
-                if (detailNumbers) detailNumbers.innerHTML = numbersHtml;
-                if (detailModal) detailModal.style.display = 'flex';
+                detailNumbers.innerHTML = numbersHtml;
+                detailModal.style.display = 'flex';
             };
             
             window.confirmDeleteRecord = function(id) {
                 currentDeleteId = id;
-                if (confirmMessage) confirmMessage.textContent = '确定要删除这条投注记录吗？此操作不可恢复！';
-                if (confirmModal) confirmModal.style.display = 'flex';
+                confirmMessage.textContent = '确定要删除这条投注记录吗？此操作不可恢复！';
+                confirmModal.style.display = 'flex';
             };
             
             function deleteRecord(id) {
                 savedRecords = savedRecords.filter(r => r.id !== id);
                 saveRecords();
                 renderHistoryList();
-                if (confirmModal) confirmModal.style.display = 'none';
+                confirmModal.style.display = 'none';
             }
             
             function clearAllRecords() {
                 savedRecords = [];
                 saveRecords();
                 renderHistoryList();
-                if (confirmModal) confirmModal.style.display = 'none';
+                confirmModal.style.display = 'none';
             }
             
             // 生肖参照
@@ -1249,7 +1534,7 @@
                     });
                     html += `</div></div>`;
                 });
-                if (referenceGrid) referenceGrid.innerHTML = html;
+                referenceGrid.innerHTML = html;
             }
             
             // 波色参照
@@ -1260,7 +1545,7 @@
                 let html = `<div class="wave-section red-section"><div class="wave-section-title red">🔴 红波</div><div class="wave-numbers-grid">${groups.red.map(n=>`<div class="wave-number-item red">${n}</div>`).join('')}</div></div>`;
                 html += `<div class="wave-section blue-section"><div class="wave-section-title blue">🔵 蓝波</div><div class="wave-numbers-grid">${groups.blue.map(n=>`<div class="wave-number-item blue">${n}</div>`).join('')}</div></div>`;
                 html += `<div class="wave-section green-section"><div class="wave-section-title green">🟢 绿波</div><div class="wave-numbers-grid">${groups.green.map(n=>`<div class="wave-number-item green">${n}</div>`).join('')}</div></div>`;
-                if (waveGrid) waveGrid.innerHTML = html;
+                waveGrid.innerHTML = html;
             }
             
             // 汇总弹窗渲染函数
@@ -1293,8 +1578,8 @@
                     else if (item.amount > 0 && item.amount === minVal && maxVal !== minVal) cls = 'highlight-min';
                     html += `<div class="number-card ${cls}"><div class="number-header"><span class="number-badge">${item.number}</span><span class="animal-tag">${item.animal}</span></div><div class="amount-display">¥ ${item.amount.toFixed(2)}</div></div>`;
                 });
-                if (numbersGrid) numbersGrid.innerHTML = html;
-                if (modalAccumTotal) modalAccumTotal.textContent = items.reduce((s,i) => s + i.amount, 0).toFixed(2);
+                numbersGrid.innerHTML = html;
+                modalAccumTotal.textContent = items.reduce((s,i) => s + i.amount, 0).toFixed(2);
             }
             
             function renderAnimalsView() {
@@ -1313,8 +1598,8 @@
                     else if (item.amount > 0 && item.amount === minVal && maxVal !== minVal) cls = 'highlight-min';
                     html += `<div class="animal-card ${cls}"><div class="animal-icon">🐾</div><div class="animal-name">${item.animal}</div><div class="animal-amount">¥ ${item.amount.toFixed(2)}</div><div class="animal-numbers">${item.numbers.join(' ')}</div></div>`;
                 });
-                if (animalsGrid) animalsGrid.innerHTML = html;
-                if (modalAccumTotal) modalAccumTotal.textContent = animals.reduce((s,i) => s + i.amount, 0).toFixed(2);
+                animalsGrid.innerHTML = html;
+                modalAccumTotal.textContent = animals.reduce((s,i) => s + i.amount, 0).toFixed(2);
             }
             
             function renderCurrentView() {
@@ -1326,28 +1611,28 @@
             if (saveBtn) saveBtn.addEventListener('click', () => {
                 const { details, totalAmount, numbersCount } = getCurrentAccumDetails();
                 if (totalAmount <= 0) { alert('当前累计金额为0，无需保存'); return; }
-                if (saveAmount) saveAmount.textContent = `¥${totalAmount.toFixed(2)}`;
-                if (saveNumbersCount) saveNumbersCount.textContent = numbersCount;
-                if (saveTime) saveTime.textContent = getCurrentDateTime();
-                if (saveRemark) saveRemark.value = '';
-                if (saveModal) saveModal.style.display = 'flex';
+                saveAmount.textContent = `¥${totalAmount.toFixed(2)}`;
+                saveNumbersCount.textContent = numbersCount;
+                saveTime.textContent = getCurrentDateTime();
+                saveRemark.value = '';
+                saveModal.style.display = 'flex';
             });
             
-            if (closeSaveBtn) closeSaveBtn.addEventListener('click', () => { if (saveModal) saveModal.style.display = 'none'; });
-            if (cancelSaveBtn) cancelSaveBtn.addEventListener('click', () => { if (saveModal) saveModal.style.display = 'none'; });
+            if (closeSaveBtn) closeSaveBtn.addEventListener('click', () => { saveModal.style.display = 'none'; });
+            if (cancelSaveBtn) cancelSaveBtn.addEventListener('click', () => { saveModal.style.display = 'none'; });
             if (confirmSaveBtn) confirmSaveBtn.addEventListener('click', () => {
                 const { details, totalAmount, numbersCount } = getCurrentAccumDetails();
-                if (totalAmount <= 0) { alert('当前累计金额为0，无需保存'); if (saveModal) saveModal.style.display = 'none'; return; }
-                savedRecords.push({ id: Date.now().toString(), time: getCurrentDateTime(), totalAmount, details: { ...details }, remark: saveRemark?.value.trim() || '无备注' });
+                if (totalAmount <= 0) { alert('当前累计金额为0，无需保存'); saveModal.style.display = 'none'; return; }
+                savedRecords.push({ id: Date.now().toString(), time: getCurrentDateTime(), totalAmount, details: { ...details }, remark: saveRemark.value.trim() || '无备注' });
                 saveRecords();
                 clearAccumulatedData();
-                if (saveModal) saveModal.style.display = 'none';
+                saveModal.style.display = 'none';
                 alert(`✅ 保存成功！总金额 ¥${totalAmount.toFixed(2)}，共 ${numbersCount} 个号码已保存。`);
             });
             
             // 历史记录
-            if (historyBtn) historyBtn.addEventListener('click', () => { renderHistoryList(); if (historyModal) historyModal.style.display = 'flex'; });
-            if (closeHistoryBtn) closeHistoryBtn.addEventListener('click', () => { if (historyModal) historyModal.style.display = 'none'; });
+            if (historyBtn) historyBtn.addEventListener('click', () => { renderHistoryList(); historyModal.style.display = 'flex'; });
+            if (closeHistoryBtn) closeHistoryBtn.addEventListener('click', () => { historyModal.style.display = 'none'; });
             if (refreshHistoryBtn) refreshHistoryBtn.addEventListener('click', renderHistoryList);
             if (exportHistoryBtn) exportHistoryBtn.addEventListener('click', () => {
                 const dataStr = JSON.stringify(savedRecords, null, 2);
@@ -1361,9 +1646,9 @@
             });
             if (clearHistoryBtn) clearHistoryBtn.addEventListener('click', () => {
                 if (savedRecords.length === 0) { alert('暂无保存记录'); return; }
-                if (confirmMessage) confirmMessage.textContent = '确定要清除所有投注记录吗？此操作不可恢复！';
+                confirmMessage.textContent = '确定要清除所有投注记录吗？此操作不可恢复！';
                 currentDeleteId = 'ALL';
-                if (confirmModal) confirmModal.style.display = 'flex';
+                confirmModal.style.display = 'flex';
             });
             
             // 确认弹窗
@@ -1371,8 +1656,8 @@
                 if (currentDeleteId === 'ALL') clearAllRecords();
                 else deleteRecord(currentDeleteId);
             });
-            if (confirmNoBtn) confirmNoBtn.addEventListener('click', () => { if (confirmModal) confirmModal.style.display = 'none'; currentDeleteId = null; });
-            if (closeDetailBtn) closeDetailBtn.addEventListener('click', () => { if (detailModal) detailModal.style.display = 'none'; });
+            if (confirmNoBtn) confirmNoBtn.addEventListener('click', () => { confirmModal.style.display = 'none'; currentDeleteId = null; });
+            if (closeDetailBtn) closeDetailBtn.addEventListener('click', () => { detailModal.style.display = 'none'; });
             
             // 一键上报
             if (reportBtn) reportBtn.addEventListener('click', function() {
@@ -1385,8 +1670,8 @@
                     if (val > 0) numberAccum[num] = (numberAccum[num] || 0) + val;
                 });
                 accumulateAmount = Object.values(numberAccum).reduce((sum, v) => sum + v, 0);
-                if (reportTotal) reportTotal.textContent = currentAmount.toFixed(2);
-                if (accumulateTotal) accumulateTotal.textContent = accumulateAmount.toFixed(2);
+                reportTotal.textContent = currentAmount.toFixed(2);
+                accumulateTotal.textContent = accumulateAmount.toFixed(2);
                 amountInputs.forEach(input => input.value = '');
                 calculateOrderTotal();
                 alert(`✅ 一键上报成功！本次上报 ¥${currentAmount.toFixed(2)} 已累计。`);
@@ -1403,46 +1688,46 @@
                 if (confirm('确定要清空所有累计上报数据吗？')) {
                     numberAccum = {};
                     accumulateAmount = 0;
-                    if (reportTotal) reportTotal.textContent = '0.00';
-                    if (accumulateTotal) accumulateTotal.textContent = '0.00';
+                    reportTotal.textContent = '0.00';
+                    accumulateTotal.textContent = '0.00';
                     alert('累计上报数据已清空！');
                 }
             });
             
             // 生肖参照按钮
-            if (referenceBtn) referenceBtn.addEventListener('click', () => { renderReference(); if (referenceModal) referenceModal.style.display = 'flex'; });
-            if (closeReferenceBtn) closeReferenceBtn.addEventListener('click', () => { if (referenceModal) referenceModal.style.display = 'none'; });
+            if (referenceBtn) referenceBtn.addEventListener('click', () => { renderReference(); referenceModal.style.display = 'flex'; });
+            if (closeReferenceBtn) closeReferenceBtn.addEventListener('click', () => { referenceModal.style.display = 'none'; });
             
             // 波色参照按钮
-            if (waveBtn) waveBtn.addEventListener('click', () => { renderWave(); if (waveModal) waveModal.style.display = 'flex'; });
-            if (closeWaveBtn) closeWaveBtn.addEventListener('click', () => { if (waveModal) waveModal.style.display = 'none'; });
+            if (waveBtn) waveBtn.addEventListener('click', () => { renderWave(); waveModal.style.display = 'flex'; });
+            if (closeWaveBtn) closeWaveBtn.addEventListener('click', () => { waveModal.style.display = 'none'; });
             
             // 汇总弹窗
-            if (summaryBtn) summaryBtn.addEventListener('click', () => { renderCurrentView(); if (modal) modal.style.display = 'flex'; });
-            if (closeModalBtn) closeModalBtn.addEventListener('click', () => { if (modal) modal.style.display = 'none'; });
+            if (summaryBtn) summaryBtn.addEventListener('click', () => { renderCurrentView(); modal.style.display = 'flex'; });
+            if (closeModalBtn) closeModalBtn.addEventListener('click', () => { modal.style.display = 'none'; });
             if (applyFilterBtn) applyFilterBtn.addEventListener('click', renderCurrentView);
             
             if (viewNumbersBtn) viewNumbersBtn.addEventListener('click', () => {
-                if (viewNumbersBtn) viewNumbersBtn.classList.add('active');
-                if (viewAnimalsBtn) viewAnimalsBtn.classList.remove('active');
-                if (numbersView) numbersView.style.display = 'block';
-                if (animalsView) animalsView.style.display = 'none';
+                viewNumbersBtn.classList.add('active');
+                viewAnimalsBtn.classList.remove('active');
+                numbersView.style.display = 'block';
+                animalsView.style.display = 'none';
                 currentView = 'numbers';
                 renderCurrentView();
             });
             
             if (viewAnimalsBtn) viewAnimalsBtn.addEventListener('click', () => {
-                if (viewAnimalsBtn) viewAnimalsBtn.classList.add('active');
-                if (viewNumbersBtn) viewNumbersBtn.classList.remove('active');
-                if (animalsView) animalsView.style.display = 'block';
-                if (numbersView) numbersView.style.display = 'none';
+                viewAnimalsBtn.classList.add('active');
+                viewNumbersBtn.classList.remove('active');
+                animalsView.style.display = 'block';
+                numbersView.style.display = 'none';
                 currentView = 'animals';
                 renderCurrentView();
             });
             
             // 提示按钮功能
             if (helpBtn) helpBtn.addEventListener('click', () => {
-                if (formatHint) formatHint.classList.toggle('show');
+                formatHint.classList.toggle('show');
             });
             
             // 识别功能
@@ -1458,7 +1743,6 @@
             function isValidNumber(num) { return /^\d{1,2}$/.test(num) && parseInt(num) >= 1 && parseInt(num) <= 49; }
             function formatNumber(num) { return parseInt(num) < 10 ? '0' + parseInt(num) : num.toString(); }
             
-            // 解析规则行
             function parseRule(rule) {
                 const results = {};
                 const match = rule.match(/(.+?)(?:个|各)(.+)/);
@@ -1469,7 +1753,6 @@
                 if (isNaN(amount)) amount = chineseToNumber(match[2].trim());
                 if (isNaN(amount) || amount <= 0) return results;
                 
-                // 检查是否是"肖"字平均分配格式
                 if (leftPart.includes('肖')) {
                     let animalStr = leftPart.replace('肖', '').trim();
                     const animalPattern = /[鼠牛虎兔龙蛇马羊猴鸡狗猪]/g;
@@ -1488,25 +1771,18 @@
                     }
                 }
                 
-                // 检查波色
                 if (leftPart === '红波' || leftPart === '蓝波' || leftPart === '绿波') {
                     const numbers = waveNumbers[leftPart];
-                    if (numbers) {
-                        numbers.forEach(num => results[num] = (results[num] || 0) + amount);
-                    }
+                    if (numbers) numbers.forEach(num => results[num] = (results[num] || 0) + amount);
                     return results;
                 }
                 
-                // 检查单双
                 if (leftPart === '单号' || leftPart === '双号') {
                     const numbers = oddEvenNumbers[leftPart];
-                    if (numbers) {
-                        numbers.forEach(num => results[num] = (results[num] || 0) + amount);
-                    }
+                    if (numbers) numbers.forEach(num => results[num] = (results[num] || 0) + amount);
                     return results;
                 }
                 
-                // 检查生肖组合
                 const animalPattern = /^[鼠牛虎兔龙蛇马羊猴鸡狗猪]+$/;
                 if (animalPattern.test(leftPart)) {
                     leftPart.split('').forEach(animal => {
@@ -1515,7 +1791,6 @@
                     return results;
                 }
                 
-                // 号码列表格式（支持顿号等分隔符）
                 const numbers = leftPart.replace(/[.\-。\/\s、]+/g, ' ').trim().split(/\s+/);
                 numbers.forEach(num => {
                     if (isValidNumber(num)) {
