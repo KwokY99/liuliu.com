@@ -170,6 +170,8 @@
         .risk-buttons .sort-btn:hover { background: #8e44ad; }
         .risk-buttons .hide-btn { background: #f39c12; }
         .risk-buttons .hide-btn:hover { background: #e67e22; }
+        .risk-buttons .copy-btn { background: #27ae60; }
+        .risk-buttons .copy-btn:hover { background: #219a52; }
         
         .risk-table { width: 100%; border-collapse: collapse; font-size: 11px; }
         .risk-table th { background: #f0f0f0; padding: 8px 4px; text-align: center; font-weight: bold; position: sticky; top: 0; border-bottom: 2px solid #ddd; white-space: nowrap; }
@@ -406,6 +408,8 @@
                     <button id="sortByFinalRiskBtn" class="sort-btn">📊 按最终风险额度排序</button>
                     <button id="sortByFixedRiskBtn" class="sort-btn">📊 按定风险额度排序</button>
                     <button id="hideAmountsBtn" class="hide-btn">🙈 隐藏金额</button>
+                    <button id="copyFixedTailBtn" class="copy-btn">📋 复制定尾单额</button>
+                    <button id="copyFixedFinalBtn" class="copy-btn">📋 复制定最终额</button>
                 </div>
                 
                 <div class="risk-table-container">
@@ -773,7 +777,7 @@
             return { filled, total };
         }
         
-        // ==================== 风险评估核心函数（新版） ====================
+        // ==================== 风险评估核心函数 ====================
         // 获取原始风险数据（不含定尾单）
         function getOriginalRiskData(targetLimit) {
             let accumTotal = parseFloat($('accumulateTotal')?.innerText) || 0;
@@ -831,8 +835,7 @@
                 if (amount > 0 || fixedTail > 0) {
                     // 定最终额 = 上报额 - 定尾单额度
                     let fixedFinalAmount = Math.max(0, amount - fixedTail);
-                    // 新公式：定风险额度 = 定总上报额 - 定水果 - 定最终额 × 48
-                    // 正数=盈利，负数=亏损
+                    // 公式：定风险额度 = 定总上报额 - 定水果 - 定最终额 × 48
                     let fixedRisk = fixedTotalReport - fixedFruitAmount - (fixedFinalAmount * 48);
                     
                     fixedRiskData.push({
@@ -852,7 +855,7 @@
             return { accumTotal, fixedTotalTail, fixedTotalReport, fixedFruitAmount, fixedRiskData };
         }
         
-        // 获取合并后的表格数据（包含原始和定尾单数据）
+        // 获取合并后的表格数据
         function getMergedRiskData() {
             let targetLimit = parseFloat($('targetLimit')?.value) || 1000;
             let originalData = getOriginalRiskData(targetLimit);
@@ -862,7 +865,6 @@
             if (!originalData) return { ...fixedData, originalRiskData: [] };
             if (!fixedData) return { ...originalData, fixedRiskData: [] };
             
-            // 合并数据
             let mergedData = [];
             let originalMap = new Map();
             originalData.riskData.forEach(item => {
@@ -874,7 +876,6 @@
                 fixedMap.set(item.number, item);
             });
             
-            // 合并所有号码
             let allNumbers = new Set([...originalMap.keys(), ...fixedMap.keys()]);
             for (let num of allNumbers) {
                 let original = originalMap.get(num) || { amount: 0, animal: numberToAnimal[num] || '', risk: 0, tailAmount: 0, finalAmount: 0, finalRisk: 0 };
@@ -896,10 +897,8 @@
             
             // 按当前排序模式排序
             if (currentSortMode === 'finalRisk') {
-                // 按最终风险额度排序（从最高亏损到最高盈利，即从小到大）
                 mergedData.sort((a, b) => a.finalRisk - b.finalRisk);
             } else if (currentSortMode === 'fixedRisk') {
-                // 按定风险额度排序（从最高亏损到最高盈利，即从小到大）
                 mergedData.sort((a, b) => a.fixedRisk - b.fixedRisk);
             } else {
                 mergedData.sort((a, b) => b.amount - a.amount);
@@ -917,39 +916,11 @@
             };
         }
         
-        // 应用隐藏模式到表格
-        function applyHideModeToTable() {
-            const hideableColumns = ['hideableTail', 'hideableFinal', 'hideableFinalRisk'];
-            hideableColumns.forEach(colId => {
-                const th = document.getElementById(colId);
-                if (th) {
-                    if (hideMode) {
-                        th.style.color = '#999';
-                    } else {
-                        th.style.color = '';
-                    }
-                }
-            });
-            
-            // 更新所有可隐藏的单元格
-            const hideableCells = document.querySelectorAll('.hideable-cell');
-            hideableCells.forEach(cell => {
-                const originalValue = cell.getAttribute('data-original-value');
-                if (hideMode) {
-                    cell.innerText = '***';
-                    cell.style.color = '#999';
-                } else {
-                    cell.innerText = originalValue;
-                    cell.style.color = '';
-                }
-            });
-        }
-        
         // 渲染风险评估表格
         function renderRiskTable() {
             let data = getMergedRiskData();
             if (!data) {
-                if($('riskTableBody')) $('riskTableBody').innerHTML = '<tr><td colspan="11" style="text-align:center;">暂无上报数据</td></tr>';
+                if($('riskTableBody')) $('riskTableBody').innerHTML = '<td><td colspan="11" style="text-align:center;">暂无上报数据</td></tr>';
                 if($('riskTotalAccum')) $('riskTotalAccum').innerText = '0.00';
                 if($('totalTailAmount')) $('totalTailAmount').innerText = '0.00';
                 if($('finalReportAmount')) $('finalReportAmount').innerText = '0.00';
@@ -977,7 +948,6 @@
                 let fixedRiskClass = item.fixedRisk >= 0 ? 'risk-positive' : 'risk-negative';
                 let fixedRiskSign = item.fixedRisk >= 0 ? '+' : '';
                 
-                // 存储原始值用于隐藏/显示
                 let tailAmountStr = item.tailAmount.toFixed(2);
                 let finalAmountStr = item.finalAmount.toFixed(2);
                 let finalRiskStr = `${finalRiskSign}${item.finalRisk.toFixed(2)}`;
@@ -999,7 +969,7 @@
                     </td>
                  </tr>`;
             }
-            if($('riskTableBody')) $('riskTableBody').innerHTML = tbodyHtml || '<td><td colspan="11" style="text-align:center;">暂无上报数据</td></tr>';
+            if($('riskTableBody')) $('riskTableBody').innerHTML = tbodyHtml || '<tr><td colspan="11" style="text-align:center;">暂无上报数据</td></tr>';
             
             // 绑定定尾单输入框事件
             document.querySelectorAll('.fixed-tail-input').forEach(input => {
@@ -1009,11 +979,11 @@
                     if (val < 0) val = 0;
                     fixedTailAmounts[num] = val;
                     saveFixedTailAmounts();
-                    renderRiskTable(); // 重新渲染
+                    renderRiskTable();
                 };
             });
             
-            // 绑定复制按钮 - 隐藏模式下禁用
+            // 绑定复制按钮
             document.querySelectorAll('.copy-tail-btn').forEach(btn => {
                 btn.onclick = (e) => { 
                     e.stopPropagation(); 
@@ -1061,7 +1031,7 @@
             showNotification('已按定风险额度排序（从最高亏损到最高盈利）', 'info');
         }
         
-        // 切换隐藏金额模式 - 只隐藏尾单额、最终额、最终风险额度
+        // 切换隐藏金额模式
         function toggleHideAmounts() {
             hideMode = !hideMode;
             let btn = $('hideAmountsBtn');
@@ -1075,6 +1045,61 @@
                 showNotification('金额已显示', 'info');
             }
             renderRiskTable();
+        }
+        
+        // 复制定尾单额 - 格式：号码/定尾单额
+        function copyFixedTailAmount() {
+            let data = getMergedRiskData();
+            if (!data || data.mergedData.length === 0) { 
+                showNotification('暂无数据可复制', 'error'); 
+                return; 
+            }
+            
+            let items = [];
+            let totalFixedTail = 0;
+            for (let item of data.mergedData) {
+                if (item.fixedTail > 0) {
+                    items.push(`${item.number}/${item.fixedTail.toFixed(2)}`);
+                    totalFixedTail += item.fixedTail;
+                }
+            }
+            
+            if (items.length === 0) {
+                showNotification('没有定尾单额大于0的数据', 'info');
+                return;
+            }
+            
+            let resultText = items.join('\n');
+            resultText += `\n总计：${totalFixedTail.toFixed(2)}`;
+            copyToClipboard(resultText);
+        }
+        
+        // 复制定最终额 - 格式：号码/生肖/定最终额/定风险额度（正数显示+）
+        function copyFixedFinalAmount() {
+            let data = getMergedRiskData();
+            if (!data || data.mergedData.length === 0) { 
+                showNotification('暂无数据可复制', 'error'); 
+                return; 
+            }
+            
+            let items = [];
+            let totalFixedFinal = 0;
+            for (let item of data.mergedData) {
+                if (item.fixedFinalAmount > 0) {
+                    let riskSign = item.fixedRisk >= 0 ? '+' : '';
+                    items.push(`${item.number}/${item.animal}/${item.fixedFinalAmount.toFixed(2)}（${riskSign}${item.fixedRisk.toFixed(2)}）`);
+                    totalFixedFinal += item.fixedFinalAmount;
+                }
+            }
+            
+            if (items.length === 0) {
+                showNotification('没有定最终额大于0的数据', 'info');
+                return;
+            }
+            
+            let resultText = items.join('\n');
+            resultText += `\n总计：${totalFixedFinal.toFixed(2)}`;
+            copyToClipboard(resultText);
         }
         
         // 复制尾单额（所有号码）
@@ -1106,7 +1131,7 @@
         }
         
         async function copyToClipboard(text) {
-            try { await navigator.clipboard.writeText(text); showNotification('✅ 已复制', 'success'); } 
+            try { await navigator.clipboard.writeText(text); showNotification('✅ 已复制到剪贴板', 'success'); } 
             catch(err) { showNotification('❌ 复制失败', 'error'); }
         }
         
@@ -1713,7 +1738,7 @@
         // ==================== 云端同步 ====================
         function getCurrentConfig() {
             return {
-                version: '2.3',
+                version: '2.4',
                 exportTime: getCurrentDateTime(),
                 separatorsRaw: $('customSeparators')?.value || separatorsToDisplayString(customSeparators),
                 separators: customSeparators,
@@ -1878,6 +1903,8 @@
             if($('sortByFinalRiskBtn')) $('sortByFinalRiskBtn').onclick = sortByFinalRisk;
             if($('sortByFixedRiskBtn')) $('sortByFixedRiskBtn').onclick = sortByFixedRisk;
             if($('hideAmountsBtn')) $('hideAmountsBtn').onclick = toggleHideAmounts;
+            if($('copyFixedTailBtn')) $('copyFixedTailBtn').onclick = copyFixedTailAmount;
+            if($('copyFixedFinalBtn')) $('copyFixedFinalBtn').onclick = copyFixedFinalAmount;
             if($('configTokenBtn')) $('configTokenBtn').onclick = openTokenModal;
             if($('uploadToGistBtn')) $('uploadToGistBtn').onclick = uploadToGist;
             if($('downloadFromGistBtn')) $('downloadFromGistBtn').onclick = downloadFromGist;
