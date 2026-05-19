@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>统计系统 - 完整版</title>
+    <title>统计系统 - 完整版（修复风险评估）</title>
     <style>
         * { box-sizing: border-box; }
         body { font-family: "Microsoft Yahei", sans-serif; background: #f0f0f0; margin: 20px; }
@@ -777,37 +777,56 @@
             return { filled, total };
         }
         
-        // ==================== 风险评估核心函数 ====================
-        // 获取原始风险数据（不含定尾单）
+        // ==================== 风险评估核心函数（修复版：显示所有1-49号 + 修复最终风险额度公式） ====================
+        // 获取原始风险数据（不含定尾单）- 修复：显示所有号码，修复最终风险额度公式
         function getOriginalRiskData(targetLimit) {
             let accumTotal = parseFloat($('accumulateTotal')?.innerText) || 0;
             if (accumTotal === 0) return null;
             
-            let riskData = [], totalTailAmount = 0;
+            // 先计算每个号码的尾单额和最终额
+            let riskData = [];
+            let totalTailAmount = 0;
+            
             for (let i = 1; i <= 49; i++) {
                 let numStr = i < 10 ? '0' + i : i.toString();
                 let amount = numberAccum[numStr] || 0;
                 let animal = numberToAnimal[numStr] || '';
-                if (amount > 0) {
-                    let riskValue = (accumTotal * 0.98) - (amount * 48);
-                    let tailAmount = Math.max(0, amount - targetLimit);
-                    totalTailAmount += tailAmount;
-                    let finalAmount = Math.max(0, amount - tailAmount);
-                    let finalReportAmount = Math.max(0, accumTotal - totalTailAmount);
-                    let finalRisk = (finalReportAmount * 0.98) - (finalAmount * 48);
-                    riskData.push({ 
-                        number: numStr, animal: animal, amount: amount, 
-                        risk: riskValue, tailAmount: tailAmount, finalAmount: finalAmount,
-                        finalRisk: finalRisk
-                    });
-                }
+                
+                // 原始风险额度（基于总累计额）
+                let riskValue = (accumTotal * 0.98) - (amount * 48);
+                
+                // 尾单额：超出目标上限的部分
+                let tailAmount = Math.max(0, amount - targetLimit);
+                totalTailAmount += tailAmount;
+                
+                // 最终额：上报额减去尾单额（即不超过目标上限的部分）
+                let finalAmount = Math.max(0, amount - tailAmount);
+                
+                riskData.push({ 
+                    number: numStr, 
+                    animal: animal, 
+                    amount: amount, 
+                    risk: riskValue, 
+                    tailAmount: tailAmount, 
+                    finalAmount: finalAmount,
+                    finalRisk: 0  // 暂时设为0，稍后统一计算
+                });
             }
+            
+            // 总最终上报额 = 累计总金额 - 总尾单额
             let finalReportAmount = Math.max(0, accumTotal - totalTailAmount);
             let fruitAmount = finalReportAmount * 0.02;
+            
+            // 计算每个号码的最终风险额度
+            // 公式：最终风险额度 = (总最终上报额 × 0.98) - (该号码最终额 × 48)
+            for (let item of riskData) {
+                item.finalRisk = (finalReportAmount * 0.98) - (item.finalAmount * 48);
+            }
+            
             return { accumTotal, totalTailAmount, finalReportAmount, fruitAmount, riskData };
         }
         
-        // 获取带定尾单的风险数据（新公式：定风险额度 = 定总上报额 - 定水果 - 定最终额 × 48）
+        // 获取带定尾单的风险数据（新公式）- 修复：显示所有号码，修复定风险额度公式
         function getFixedRiskData() {
             let accumTotal = parseFloat($('accumulateTotal')?.innerText) || 0;
             if (accumTotal === 0) return null;
@@ -826,36 +845,37 @@
             let fixedFruitAmount = fixedTotalReport * 0.02;
             
             let fixedRiskData = [];
+            
+            // 先计算每个号码的定最终额
             for (let i = 1; i <= 49; i++) {
                 let numStr = i < 10 ? '0' + i : i.toString();
                 let amount = numberAccum[numStr] || 0;
                 let animal = numberToAnimal[numStr] || '';
                 let fixedTail = fixedTailAmounts[numStr] || 0;
                 
-                if (amount > 0 || fixedTail > 0) {
-                    // 定最终额 = 上报额 - 定尾单额度
-                    let fixedFinalAmount = Math.max(0, amount - fixedTail);
-                    // 公式：定风险额度 = 定总上报额 - 定水果 - 定最终额 × 48
-                    let fixedRisk = fixedTotalReport - fixedFruitAmount - (fixedFinalAmount * 48);
-                    
-                    fixedRiskData.push({
-                        number: numStr,
-                        animal: animal,
-                        amount: amount,
-                        fixedTail: fixedTail,
-                        fixedFinalAmount: fixedFinalAmount,
-                        fixedRisk: fixedRisk
-                    });
-                }
+                // 定最终额 = 上报额 - 定尾单额度
+                let fixedFinalAmount = Math.max(0, amount - fixedTail);
+                
+                fixedRiskData.push({
+                    number: numStr,
+                    animal: animal,
+                    amount: amount,
+                    fixedTail: fixedTail,
+                    fixedFinalAmount: fixedFinalAmount,
+                    fixedRisk: 0  // 暂时设为0，稍后统一计算
+                });
             }
             
-            // 过滤掉上报额为0且定尾单为0的项
-            fixedRiskData = fixedRiskData.filter(item => item.amount > 0 || item.fixedTail > 0);
+            // 计算每个号码的定风险额度
+            // 公式：定风险额度 = 定总上报额 - 定水果 - (定最终额 × 48)
+            for (let item of fixedRiskData) {
+                item.fixedRisk = fixedTotalReport - fixedFruitAmount - (item.fixedFinalAmount * 48);
+            }
             
             return { accumTotal, fixedTotalTail, fixedTotalReport, fixedFruitAmount, fixedRiskData };
         }
         
-        // 获取合并后的表格数据
+        // 获取合并后的表格数据（修复：包含所有号码）
         function getMergedRiskData() {
             let targetLimit = parseFloat($('targetLimit')?.value) || 1000;
             let originalData = getOriginalRiskData(targetLimit);
@@ -876,13 +896,25 @@
                 fixedMap.set(item.number, item);
             });
             
-            let allNumbers = new Set([...originalMap.keys(), ...fixedMap.keys()]);
-            for (let num of allNumbers) {
-                let original = originalMap.get(num) || { amount: 0, animal: numberToAnimal[num] || '', risk: 0, tailAmount: 0, finalAmount: 0, finalRisk: 0 };
-                let fixed = fixedMap.get(num) || { fixedTail: 0, fixedFinalAmount: 0, fixedRisk: 0 };
+            // 遍历所有 1-49 个号码
+            for (let i = 1; i <= 49; i++) {
+                let numStr = i < 10 ? '0' + i : i.toString();
+                let original = originalMap.get(numStr) || { 
+                    amount: 0, 
+                    animal: numberToAnimal[numStr] || '', 
+                    risk: 0, 
+                    tailAmount: 0, 
+                    finalAmount: 0, 
+                    finalRisk: 0 
+                };
+                let fixed = fixedMap.get(numStr) || { 
+                    fixedTail: 0, 
+                    fixedFinalAmount: 0, 
+                    fixedRisk: 0 
+                };
                 
                 mergedData.push({
-                    number: num,
+                    number: numStr,
                     animal: original.animal,
                     amount: original.amount,
                     risk: original.risk,
@@ -920,7 +952,7 @@
         function renderRiskTable() {
             let data = getMergedRiskData();
             if (!data) {
-                if($('riskTableBody')) $('riskTableBody').innerHTML = '<td><td colspan="11" style="text-align:center;">暂无上报数据</td></tr>';
+                if($('riskTableBody')) $('riskTableBody').innerHTML = '<tr><td colspan="11" style="text-align:center;">累计上报金额为0，暂无数据</td></tr>';
                 if($('riskTotalAccum')) $('riskTotalAccum').innerText = '0.00';
                 if($('totalTailAmount')) $('totalTailAmount').innerText = '0.00';
                 if($('finalReportAmount')) $('finalReportAmount').innerText = '0.00';
@@ -967,9 +999,9 @@
                         <button class="copy-btn-small copy-tail-btn" data-number="${item.number}" data-tail="${item.tailAmount.toFixed(2)}">📋尾单</button>
                         <button class="copy-btn-small copy-item-btn" data-number="${item.number}" data-animal="${item.animal}" data-final="${item.finalAmount.toFixed(2)}" data-finalrisk="${item.finalRisk.toFixed(2)}">📋详情</button>
                     </td>
-                 </tr>`;
+                  </tr>`;
             }
-            if($('riskTableBody')) $('riskTableBody').innerHTML = tbodyHtml || '<tr><td colspan="11" style="text-align:center;">暂无上报数据</td></tr>';
+            if($('riskTableBody')) $('riskTableBody').innerHTML = tbodyHtml || '<tr><td colspan="11" style="text-align:center;">暂无数据</td></tr>';
             
             // 绑定定尾单输入框事件
             document.querySelectorAll('.fixed-tail-input').forEach(input => {
