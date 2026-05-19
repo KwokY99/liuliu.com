@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>统计系统 - 完整版（修复风险评估）</title>
+    <title>统计系统 - 完整版</title>
     <style>
         * { box-sizing: border-box; }
         body { font-family: "Microsoft Yahei", sans-serif; background: #f0f0f0; margin: 20px; }
@@ -162,6 +162,9 @@
         .fruit-amount .risk-summary-value { color: #e67e22; }
         .custom-risk-item { background: #e8f4fd; border-radius: 12px; padding: 8px 15px; }
         .custom-risk-item .risk-summary-value { color: #2980b9; }
+        /* 新增：赢亏损个数样式 */
+        .win-count-item .risk-summary-value { color: #27ae60; }
+        .loss-count-item .risk-summary-value { color: #e74c3c; }
         
         .risk-buttons { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; justify-content: flex-end; }
         .risk-buttons button { padding: 8px 16px; border: none; border-radius: 40px; cursor: pointer; font-weight: bold; font-size: 12px; background: #3498db; color: white; }
@@ -277,11 +280,6 @@
                 </div>
                 
                 <div style="margin-top:15px; padding-top:10px; border-top:1px solid #ccc;">
-                    <button>散码汇总</button>
-                    <button>包特汇总</button>
-                    <button>平连码汇总</button>
-                    <button>特平汇总</button>
-                    <button>导出数据</button>
                 </div>
             </div>
         </div>
@@ -356,7 +354,7 @@
         </div>
     </div>
 
-    <!-- 风险评估弹窗 -->
+    <!-- 风险评估弹窗（已添加赢个数和亏损个数显示） -->
     <div id="riskModal" class="risk-modal">
         <div class="risk-content">
             <div class="risk-header">
@@ -399,6 +397,16 @@
                         <div class="risk-summary-label">📌 定水果</div>
                         <div class="risk-summary-value" id="fixedFruitAmount">0.00</div>
                     </div>
+                    <!-- ========== 新增：赢个数和亏损个数显示 ========== -->
+                    <div class="risk-summary-item win-count-item">
+                        <div class="risk-summary-label">🏆 赢个数</div>
+                        <div class="risk-summary-value" id="winCount">0</div>
+                    </div>
+                    <div class="risk-summary-item loss-count-item">
+                        <div class="risk-summary-label">📉 亏损个数</div>
+                        <div class="risk-summary-value" id="lossCount">0</div>
+                    </div>
+                    <!-- ========== 新增结束 ========== -->
                 </div>
                 
                 <div class="risk-buttons">
@@ -948,7 +956,7 @@
             };
         }
         
-        // 渲染风险评估表格
+        // 渲染风险评估表格（新增：计算并显示赢个数和亏损个数）
         function renderRiskTable() {
             let data = getMergedRiskData();
             if (!data) {
@@ -960,6 +968,9 @@
                 if($('fixedTotalTail')) $('fixedTotalTail').innerText = '0.00';
                 if($('fixedTotalReport')) $('fixedTotalReport').innerText = '0.00';
                 if($('fixedFruitAmount')) $('fixedFruitAmount').innerText = '0.00';
+                // 清空赢/亏损个数显示
+                if ($('winCount')) $('winCount').innerText = '0';
+                if ($('lossCount')) $('lossCount').innerText = '0';
                 return;
             }
             
@@ -970,6 +981,24 @@
             if($('fixedTotalTail')) $('fixedTotalTail').innerText = data.fixedTotalTail.toFixed(2);
             if($('fixedTotalReport')) $('fixedTotalReport').innerText = data.fixedTotalReport.toFixed(2);
             if($('fixedFruitAmount')) $('fixedFruitAmount').innerText = data.fixedFruitAmount.toFixed(2);
+            
+            // ========== 新增：计算赢个数和亏损个数 ==========
+            let winCount = 0;   // 定风险额度 > 0 的行数（盈利）
+            let lossCount = 0;  // 定风险额度 < 0 的行数（亏损）
+            
+            for (let item of data.mergedData) {
+                if (item.fixedRisk > 0) {
+                    winCount++;
+                } else if (item.fixedRisk < 0) {
+                    lossCount++;
+                }
+                // 等于 0 的不计入任何一方
+            }
+            
+            // 更新页面上的显示元素
+            if ($('winCount')) $('winCount').innerText = winCount;
+            if ($('lossCount')) $('lossCount').innerText = lossCount;
+            // ========== 新增结束 ==========
             
             let tbodyHtml = '';
             for (let item of data.mergedData) {
@@ -999,7 +1028,7 @@
                         <button class="copy-btn-small copy-tail-btn" data-number="${item.number}" data-tail="${item.tailAmount.toFixed(2)}">📋尾单</button>
                         <button class="copy-btn-small copy-item-btn" data-number="${item.number}" data-animal="${item.animal}" data-final="${item.finalAmount.toFixed(2)}" data-finalrisk="${item.finalRisk.toFixed(2)}">📋详情</button>
                     </td>
-                  </tr>`;
+                   </tr>`;
             }
             if($('riskTableBody')) $('riskTableBody').innerHTML = tbodyHtml || '<tr><td colspan="11" style="text-align:center;">暂无数据</td></tr>';
             
