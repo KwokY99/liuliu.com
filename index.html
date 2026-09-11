@@ -78,9 +78,13 @@
         .format-hint { background: #f8f9fa; padding: 15px; border-radius: 12px; margin: 10px 0; border-left: 4px solid #ff6b6b; display: none; font-size: 0.85rem; }
         .format-hint.show { display: block; }
         .recognize-input-area textarea { width: 100%; height: 200px; padding: 12px; border: 2px solid #e0e0e0; border-radius: 12px; font-family: monospace; resize: vertical; margin-bottom: 12px; }
-        .recognize-actions { display: flex; gap: 15px; margin-bottom: 15px; }
+        .recognize-actions { display: flex; gap: 10px; margin-bottom: 15px; }
         .btn-parse { background: #ff6b6b; color: white; flex:1; padding: 10px; border-radius: 40px; border:none; font-weight:600; cursor:pointer; }
-        .btn-clear-panel { background: #ecf0f1; flex:1; border:none; border-radius:40px; cursor:pointer; }
+        .btn-parse:hover { background: #ff5252; }
+        .btn-paste { background: #3498db; color: white; flex:1; padding: 10px; border-radius: 40px; border:none; font-weight:600; cursor:pointer; }
+        .btn-paste:hover { background: #2980b9; }
+        .btn-clear-panel { background: #ecf0f1; flex:1; border:none; border-radius:40px; cursor:pointer; padding: 10px; }
+        .btn-clear-panel:hover { background: #d5dbdb; }
         .parse-result { padding: 12px; border-radius: 8px; background: #f0f9f0; color: #27ae60; display: none; text-align: center; }
         .parse-result.show { display: block; }
         .help-btn { background: #ffa500; color: white; border: none; border-radius: 20px; padding: 5px 12px; margin: 10px 0; cursor: pointer; }
@@ -156,13 +160,10 @@
         .risk-summary-item { flex: 1; min-width: 100px; }
         .risk-summary-label { font-size: 12px; color: #666; margin-bottom: 5px; }
         .risk-summary-value { font-size: 18px; font-weight: bold; color: #e74c3c; }
-        .risk-summary-value input { font-size: 16px; width: 100px; text-align: center; border: 2px solid #e0e0e0; border-radius: 8px; padding: 5px; font-weight: bold; color: #e74c3c; }
-        .risk-summary-value input:focus { border-color: #e74c3c; outline: none; }
         .fruit-amount { background: #fff3e0; border-radius: 12px; padding: 8px 15px; }
         .fruit-amount .risk-summary-value { color: #e67e22; }
         .custom-risk-item { background: #e8f4fd; border-radius: 12px; padding: 8px 15px; }
         .custom-risk-item .risk-summary-value { color: #2980b9; }
-        /* 新增：赢亏损个数样式 */
         .win-count-item .risk-summary-value { color: #27ae60; }
         .loss-count-item .risk-summary-value { color: #e74c3c; }
         
@@ -171,8 +172,6 @@
         .risk-buttons button:hover { background: #2980b9; }
         .risk-buttons .sort-btn { background: #9b59b6; }
         .risk-buttons .sort-btn:hover { background: #8e44ad; }
-        .risk-buttons .hide-btn { background: #f39c12; }
-        .risk-buttons .hide-btn:hover { background: #e67e22; }
         .risk-buttons .copy-btn { background: #27ae60; }
         .risk-buttons .copy-btn:hover { background: #219a52; }
         
@@ -189,7 +188,6 @@
         .copy-all-btn:hover { background: #219a52; }
         .tail-input { width: 70px; padding: 4px; border: 1px solid #ccc; border-radius: 6px; text-align: center; font-size: 11px; }
         .tail-input:focus { border-color: #e67e22; outline: none; }
-        .hidden-number { color: #999; font-weight: normal; }
         
         .modal-overlay, .reference-modal, .wave-modal, .history-modal, .detail-modal, .confirm-modal, .save-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000; }
         .modal-content, .reference-content, .wave-content, .history-content, .detail-content, .confirm-content, .save-content { background: white; max-width: 95%; max-height: 85vh; border-radius: 24px; padding: 20px; overflow-y: auto; min-width: 400px; }
@@ -227,6 +225,21 @@
         .btn-save, .btn-confirm-yes { background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 40px; cursor: pointer; }
         .btn-cancel-save, .btn-confirm-no { background: #ecf0f1; border: none; padding: 10px 20px; border-radius: 40px; cursor: pointer; }
         #currentEditKeywordName { color: #e67e22; margin-bottom: 10px; font-weight: bold; }
+        
+        /* 识别错误报告弹窗 */
+        .parse-error-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 10800; }
+        .parse-error-content { background: white; width: 600px; max-width: 95%; max-height: 80vh; border-radius: 24px; display: flex; flex-direction: column; overflow: hidden; }
+        .parse-error-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; }
+        .parse-error-header h3 { margin: 0; }
+        .parse-error-close { font-size: 32px; cursor: pointer; }
+        .parse-error-body { padding: 20px; overflow-y: auto; flex: 1; }
+        .parse-error-line { padding: 10px 12px; margin-bottom: 10px; background: #fef5f5; border-radius: 10px; border-left: 4px solid #e74c3c; font-size: 13px; line-height: 1.6; }
+        .parse-error-line-no { font-weight: bold; color: #e74c3c; }
+        .parse-error-line-text { font-family: monospace; color: #2c3e50; word-break: break-all; }
+        .parse-error-reason { color: #666; margin-top: 6px; padding-left: 10px; font-size: 12px; }
+        .parse-error-footer { padding: 15px 20px; border-top: 1px solid #eee; display: flex; justify-content: flex-end; }
+        .parse-error-footer button { background: #ecf0f1; border: none; border-radius: 40px; padding: 10px 24px; cursor: pointer; font-weight: 600; }
+        .parse-error-footer button:hover { background: #d5dbdb; }
     </style>
 </head>
 <body>
@@ -251,7 +264,6 @@
                     <button id="clearAllBtn" style="color:red;">🗑️ 清空累计数据</button>
                     <button id="saveBtn" class="save-btn">💾 保存投注</button>
                     <button id="historyBtn" style="background:#667eea;color:white;">📋 投注记录</button>
-                    <button id="reportBtn" style="background:#e74c3c;color:white;">📤 一键上报</button>
                     <button id="riskBtn" class="risk-btn">⚠️ 风险评估</button>
                 </div>
                 <div class="customer-info">
@@ -294,21 +306,25 @@
             </div>
             <div id="cloudStatus" class="cloud-status">☁️ 云端状态：未配置Token，请先点击"配置Token"</div>
             
-            <button class="help-btn" id="helpBtn">📖 格式说明</button>
+            <div style="display:flex; gap:8px; margin:10px 0;">
+                <button class="help-btn" id="helpBtn" style="margin:0; flex:1;">📖 格式说明</button>
+                <button id="reportBtn" style="background:#e74c3c; color:white; border:none; border-radius:20px; padding:5px 12px; cursor:pointer; flex:1; font-weight:600;">📤 一键上报</button>
+            </div>
             <div class="format-hint" id="formatHint">
                 <p><strong>📝 支持的格式：</strong></p>
                 <p>• 生肖格式：<code>虎马鼠羊兔牛各50</code> → 每个生肖的所有号码各50元</p>
                 <p>• 生肖平均分配：<code>虎马肖各40</code> → 虎的4个号码平均分配40元（每个10元），马的5个号码平均分配40元（每个8元）</p>
                 <p>• 波色格式：<code>红波个20</code>、<code>蓝波各30</code>、<code>绿波个30</code></p>
                 <p>• 单双格式：<code>单号个50</code>、<code>双号各30</code></p>
-                <p>• 号码列表：<code>05 13 34 23 45 36各50</code> 或 <code>22/32/4/43/25个25</code></p>
+                <p>• 号码列表：<code>05 13 34 23 45 36各50</code> 或 <code>22/32/4/43/25个25</code>（号码必须用分隔符隔开，不能连写）</p>
                 <p>• 多生肖组合：<code>狗鸡兔猴个50</code> → 4个生肖各50元</p>
+                <p><strong>📌 肖字规则：</strong> "肖"字写在<strong>金额数字之前</strong>才算平均分配，如 <code>虎马肖个50</code>、<code>虎马个肖50</code>；写在金额数字之后（含备注）不算</p>
                 <p><strong>📌 分割符配置：</strong> 使用 # 号隔断多个分隔符，如 <code>#,#.#/#-#</code> 表示分隔符为 , . / -</p>
-                <p><strong>💰 金额关键词配置：</strong> 可自定义金额分隔词，如"各"、"个"、"各肖"、"米"等</p>
-                <p><strong>💡 备注说明：</strong> 金额后面的内容会被自动忽略，如 <code>虎龙羊个5。备注内容</code> 中的备注会被忽略</p>
+                <p><strong>💰 金额关键词配置：</strong> 可自定义金额分隔词，如"各"、"个"、"米"等</p>
+                <p><strong>💡 备注说明：</strong> 金额后面的内容会被自动忽略</p>
             </div>
             <div class="recognize-input-area"><textarea id="recognizeText" placeholder="例如: 03-04-05个50&#10;单号各100&#10;狗鸡兔猴个50&#10;虎马肖各40&#10;22/32/4/43/25个25"></textarea></div>
-            <div class="recognize-actions"><button class="btn-parse" id="parseBtn">开始识别</button><button class="btn-clear-panel" id="clearPanelBtn">清空文本</button></div>
+            <div class="recognize-actions"><button class="btn-parse" id="parseBtn">开始识别</button><button class="btn-paste" id="pasteBtn">📋 粘贴</button><button class="btn-clear-panel" id="clearPanelBtn">清空文本</button></div>
             <div class="parse-result" id="parseResult">解析成功！</div>
         </div>
     </div>
@@ -354,7 +370,7 @@
         </div>
     </div>
 
-    <!-- 风险评估弹窗（已添加赢个数和亏损个数显示） -->
+    <!-- 风险评估弹窗 -->
     <div id="riskModal" class="risk-modal">
         <div class="risk-content">
             <div class="risk-header">
@@ -366,16 +382,6 @@
                     <div class="risk-summary-item">
                         <div class="risk-summary-label">累计上报总金额</div>
                         <div class="risk-summary-value" id="riskTotalAccum">0.00</div>
-                    </div>
-                    <div class="risk-summary-item">
-                        <div class="risk-summary-label">目标上限额度</div>
-                        <div class="risk-summary-value">
-                            <input type="number" id="targetLimit" value="10000" step="100" style="width:100px;">
-                        </div>
-                    </div>
-                    <div class="risk-summary-item">
-                        <div class="risk-summary-label">累计尾单额</div>
-                        <div class="risk-summary-value" id="totalTailAmount">0.00</div>
                     </div>
                     <div class="risk-summary-item">
                         <div class="risk-summary-label">最终上报金额</div>
@@ -393,11 +399,6 @@
                         <div class="risk-summary-label">📌 定总上报额</div>
                         <div class="risk-summary-value" id="fixedTotalReport">0.00</div>
                     </div>
-                    <div class="risk-summary-item custom-risk-item">
-                        <div class="risk-summary-label">📌 定水果</div>
-                        <div class="risk-summary-value" id="fixedFruitAmount">0.00</div>
-                    </div>
-                    <!-- ========== 新增：赢个数和亏损个数显示 ========== -->
                     <div class="risk-summary-item win-count-item">
                         <div class="risk-summary-label">🏆 赢个数</div>
                         <div class="risk-summary-value" id="winCount">0</div>
@@ -406,18 +407,12 @@
                         <div class="risk-summary-label">📉 亏损个数</div>
                         <div class="risk-summary-value" id="lossCount">0</div>
                     </div>
-                    <!-- ========== 新增结束 ========== -->
                 </div>
                 
                 <div class="risk-buttons">
                     <button id="refreshRiskBtn" style="background:#3498db;">🔄 刷新计算</button>
-                    <button id="copyTailAmountBtn" style="background:#e67e22;">📋 复制尾单额</button>
                     <button id="copyAllContentBtn" class="copy-all-btn">📋 复制全部内容</button>
-                    <button id="sortByFinalRiskBtn" class="sort-btn">📊 按最终风险额度排序</button>
                     <button id="sortByFixedRiskBtn" class="sort-btn">📊 按定风险额度排序</button>
-                    <button id="hideAmountsBtn" class="hide-btn">🙈 隐藏金额</button>
-                    <button id="copyFixedTailBtn" class="copy-btn">📋 复制定尾单额</button>
-                    <button id="copyFixedFinalBtn" class="copy-btn">📋 复制定最终额</button>
                 </div>
                 
                 <div class="risk-table-container">
@@ -425,7 +420,6 @@
                         <thead>
                             <tr>
                                 <th>号码</th><th>生肖</th><th>上报额(¥)</th><th>风险额度(¥)</th>
-                                <th id="hideableTail">尾单额(¥)</th><th id="hideableFinal">最终额(¥)</th><th id="hideableFinalRisk">最终风险额度(¥)</th>
                                 <th>定尾单额(¥)</th><th>定最终额(¥)</th><th>定风险额度(¥)</th><th>操作</th>
                             </tr>
                         </thead>
@@ -474,6 +468,20 @@
         </div>
     </div>
 
+    <!-- 识别错误报告弹窗 -->
+    <div id="parseErrorModal" class="parse-error-modal">
+        <div class="parse-error-content">
+            <div class="parse-error-header">
+                <h3>❌ 识别出错</h3>
+                <span class="parse-error-close" id="closeParseErrorBtn">&times;</span>
+            </div>
+            <div class="parse-error-body" id="parseErrorBody"></div>
+            <div class="parse-error-footer">
+                <button id="parseErrorOkBtn">我知道了</button>
+            </div>
+        </div>
+    </div>
+
     <!-- 其他弹窗 -->
     <div id="summaryModal" class="modal-overlay"><div class="modal-content"><span class="close-btn" id="closeModalBtn">&times;</span><h3>📊 累计金额总览</h3><div class="view-toggle"><button id="viewNumbersBtn" class="view-btn active">按号码查看</button><button id="viewAnimalsBtn" class="view-btn">按生肖查看</button></div><div class="filter-bar"><select id="sortSelect"><option value="number">按号码顺序</option><option value="desc">金额从高到低</option><option value="asc">金额从低到高</option></select><button id="applyFilterBtn">应用排序</button></div><div id="numbersView" class="numbers-grid"><div class="grid-container" id="numbersGrid"></div></div><div id="animalsView" class="animals-grid" style="display:none;"><div class="grid-container" id="animalsGrid"></div></div><div class="total-accum-bar">累计总金额：¥<span id="modalAccumTotal">0</span></div></div></div>
     <div id="referenceModal" class="reference-modal"><div class="reference-content"><span class="reference-close" id="closeReferenceBtn">&times;</span><h3>🐾 生肖参照表</h3><div id="referenceGrid" class="reference-grid"></div></div></div>
@@ -501,12 +509,8 @@
         let customKeywordGroups = {};
         let customAmountKeywords = ['各', '个'];
         
-        // 存储每个号码的定尾单额度
         let fixedTailAmounts = {};
-        // 当前排序模式: 'default', 'finalRisk', 'fixedRisk'
         let currentSortMode = 'default';
-        // 金额隐藏模式 - 只隐藏尾单额、最终额、最终风险额度
-        let hideMode = false;
         
         const animalOrder = ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'];
         
@@ -515,17 +519,6 @@
         
         // ==================== 辅助函数 ====================
         function $(id) { return document.getElementById(id); }
-        
-        // 格式化显示数字（隐藏模式只隐藏指定的三列）
-        function formatNumber(value, isHideable = false) {
-            if (isHideable && hideMode) {
-                return '***';
-            }
-            if (typeof value === 'number') {
-                return value.toFixed(2);
-            }
-            return value;
-        }
         
         function parseSeparatorsFromInput(inputStr) {
             if (!inputStr || inputStr.trim() === '') {
@@ -577,18 +570,19 @@
         
         function chineseToNumber(chinese) {
             if (!isNaN(parseFloat(chinese))) return parseFloat(chinese);
+            let cleaned = chinese.replace(/[元块米蚊圆]$/, '');
             const cn = { '一':1,'二':2,'三':3,'四':4,'五':5,'六':6,'七':7,'八':8,'九':9,'十':10,
                 '十一':11,'十二':12,'十三':13,'十四':14,'十五':15,'十六':16,'十七':17,'十八':18,'十九':19,
                 '二十':20,'二十一':21,'二十二':22,'二十三':23,'二十四':24,'二十五':25,'二十六':26,'二十七':27,'二十八':28,'二十九':29,
                 '三十':30,'四十':40,'五十':50,'六十':60,'七十':70,'八十':80,'九十':90,'一百':100 };
-            return cn[chinese] || NaN;
+            return cn[cleaned] || NaN;
         }
         
-        // 构建金额关键词正则表达式
+        // [本次修改] 允许关键词后可选"肖"，金额限定为阿拉伯数字 或 中文数字+可选单位
         function buildAmountKeywordRegex() {
             let sorted = [...customAmountKeywords].sort((a, b) => b.length - a.length);
             let escaped = sorted.map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
-            return new RegExp(`(${escaped.join('|')})\\s*([\\d\u4e00-\u9fa5]+)`);
+            return new RegExp(`(${escaped.join('|')})\\s*(?:肖)?\\s*(\\d+|[一二三四五六七八九十百零]+[元块米蚊圆]?)`);
         }
         
         function matchAmountKeyword(text) {
@@ -598,7 +592,12 @@
                 let amountStr = match[2];
                 let amount = !isNaN(parseFloat(amountStr)) ? parseFloat(amountStr) : chineseToNumber(amountStr);
                 if (!isNaN(amount) && amount > 0) {
-                    return { amount, keyword: match[1], keywordIndex: match.index };
+                    return { 
+                        amount, 
+                        keyword: match[1], 
+                        keywordIndex: match.index,
+                        amountEnd: match.index + match[0].length
+                    };
                 }
             }
             return null;
@@ -609,106 +608,119 @@
             let results = {}, totalAmount = 0;
             let amountMatchInfo = matchAmountKeyword(ruleText);
             if (!amountMatchInfo) return { results, totalAmount: 0 };
-            
+
             let amount = amountMatchInfo.amount;
             let amountIndex = amountMatchInfo.keywordIndex;
             let leftRaw = ruleText.substring(0, amountIndex).trim();
             if (!leftRaw) return { results, totalAmount: 0 };
-            
-            let matched = false;
-            let hasXiaoChar = leftRaw.includes('肖') || ruleText.includes('肖');
-            
-            if (hasXiaoChar) {
-                let animals = leftRaw.match(/[鼠牛虎兔龙蛇马羊猴鸡狗猪]/g);
-                if (animals && animals.length > 0) {
-                    let uniqueAnimals = [...new Set(animals)];
-                    for (let animal of uniqueAnimals) {
-                        let numbers = animalNumbers[animal];
-                        if (numbers && numbers.length > 0) {
-                            let perAmount = amount / numbers.length;
-                            for (let num of numbers) {
-                                results[num] = (results[num] || 0) + perAmount;
-                                totalAmount += perAmount;
-                            }
-                        }
-                    }
-                    matched = true;
+
+            // ========== Step 1: 判定分配模式 ==========
+            let hasXiao = ruleText.substring(0, amountMatchInfo.amountEnd).includes('肖');
+
+            // ========== Step 2: 目标收集器 ==========
+            let targets = [];
+
+            // ---------- 2.1 生肖字 ----------
+            let animalMatches = leftRaw.match(/[鼠牛虎兔龙蛇马羊猴鸡狗猪]/g) || [];
+            let uniqueAnimals = [...new Set(animalMatches)];
+            for (let animal of uniqueAnimals) {
+                let numbers = animalNumbers[animal];
+                if (numbers && numbers.length > 0) {
+                    targets.push({
+                        type: 'animal',
+                        key: animal,
+                        numbers: numbers,
+                        mode: hasXiao ? 'average' : 'per_number'
+                    });
                 }
             }
-            
-            if (!matched && /^[鼠牛虎兔龙蛇马羊猴鸡狗猪]+$/.test(leftRaw)) {
-                for (let animal of leftRaw) {
-                    let numbers = animalNumbers[animal];
-                    if (numbers) {
-                        for (let num of numbers) {
-                            results[num] = (results[num] || 0) + amount;
-                            totalAmount += amount;
-                        }
-                    }
-                }
-                matched = true;
-            }
-            
-            if (!matched && leftRaw.length === 1 && animalOrder.includes(leftRaw)) {
-                let numbers = animalNumbers[leftRaw];
-                if (numbers) {
-                    for (let num of numbers) {
-                        results[num] = (results[num] || 0) + amount;
-                        totalAmount += amount;
-                    }
-                    matched = true;
-                }
-            }
-            
-            if (!matched) {
-                let sortedKeywords = Object.keys(customKeywordGroups).sort((a, b) => b.length - a.length);
-                for (let keyword of sortedKeywords) {
-                    if (leftRaw.includes(keyword)) {
-                        let numbers = customKeywordGroups[keyword];
-                        if (numbers && numbers.length > 0) {
-                            if (animalOrder.includes(keyword)) {
-                                let perAmount = amount / numbers.length;
-                                for (let num of numbers) {
-                                    results[num] = (results[num] || 0) + perAmount;
-                                    totalAmount += perAmount;
-                                }
-                            } else {
-                                for (let num of numbers) {
-                                    results[num] = (results[num] || 0) + amount;
-                                    totalAmount += amount;
-                                }
-                            }
-                            matched = true;
-                            break;
-                        }
+
+            // ---------- 2.2 关键词组（剥掉"肖"）----------
+            let remainingForKeywords = leftRaw.replace(/[鼠牛虎兔龙蛇马羊猴鸡狗猪]/g, '');
+            remainingForKeywords = remainingForKeywords.replace(/肖/g, '');
+            let sortedKeywords = Object.keys(customKeywordGroups).sort((a, b) => b.length - a.length);
+            for (let keyword of sortedKeywords) {
+                if (remainingForKeywords.includes(keyword)) {
+                    let numbers = customKeywordGroups[keyword];
+                    if (numbers && numbers.length > 0) {
+                        targets.push({
+                            type: 'keyword',
+                            key: keyword,
+                            numbers: numbers,
+                            mode: hasXiao ? 'average' : 'per_number'
+                        });
+                        remainingForKeywords = remainingForKeywords.replace(keyword, '');
                     }
                 }
             }
-            
-            if (!matched) {
+
+            // ---------- 2.3 号码列表（剥掉"肖"，严格校验）----------
+            let remainingForNumbers = leftRaw.replace(/[鼠牛虎兔龙蛇马羊猴鸡狗猪]/g, '');
+            for (let keyword of Object.keys(customKeywordGroups)) {
+                remainingForNumbers = remainingForNumbers.split(keyword).join('');
+            }
+            remainingForNumbers = remainingForNumbers.replace(/肖/g, '');
+            remainingForNumbers = remainingForNumbers.trim();
+
+            if (remainingForNumbers) {
                 let escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
                 let sepPattern = customSeparators.map(s => escapeRegex(s)).join('');
                 let sepRegex = new RegExp(`[${sepPattern}\\s]+`);
-                let parts = leftRaw.split(sepRegex);
+                
+                let hasSeparator = sepRegex.test(remainingForNumbers);
                 let numberStrs = [];
-                for (let part of parts) {
-                    let numMatch = part.match(/(\d{1,2})/);
-                    if (numMatch && parseInt(numMatch[1]) >= 1 && parseInt(numMatch[1]) <= 49) {
-                        numberStrs.push(numMatch[1]);
-                    } else if (/^\d{1,2}$/.test(part) && parseInt(part) >= 1 && parseInt(part) <= 49) {
+                
+                if (hasSeparator) {
+                    let parts = remainingForNumbers.split(sepRegex);
+                    for (let part of parts) {
+                        part = part.trim();
+                        if (!part) continue;
+                        if (!/^\d{1,2}$/.test(part)) {
+                            return { results: {}, totalAmount: 0, error: `"${part}"不是有效号码（应为1~2位数字）` };
+                        }
                         numberStrs.push(part);
                     }
-                }
-                if (numberStrs.length > 0) {
-                    for (let n of numberStrs) {
-                        let fmt = parseInt(n) < 10 ? '0'+parseInt(n) : n;
-                        results[fmt] = (results[fmt] || 0) + amount;
-                        totalAmount += amount;
+                } else {
+                    if (!/^\d+$/.test(remainingForNumbers)) {
+                        return { results: {}, totalAmount: 0, error: `"${remainingForNumbers}"不是有效号码格式` };
                     }
-                    matched = true;
+                    if (remainingForNumbers.length > 2) {
+                        return { results: {}, totalAmount: 0, error: `号码"${remainingForNumbers}"未用分隔符隔开，请用空格/逗号/斜杠等分隔` };
+                    }
+                    numberStrs.push(remainingForNumbers);
+                }
+                
+                for (let ns of numberStrs) {
+                    let n = parseInt(ns);
+                    if (isNaN(n) || n < 1 || n > 49) {
+                        return { results: {}, totalAmount: 0, error: `号码"${ns}"超出范围（应为01~49）` };
+                    }
+                    let fmt = n < 10 ? '0' + n : '' + n;
+                    targets.push({
+                        type: 'number',
+                        key: fmt,
+                        numbers: [fmt],
+                        mode: 'per_number'
+                    });
                 }
             }
-            
+
+            // ========== Step 3: 按目标逐个分配 ==========
+            for (let t of targets) {
+                if (t.mode === 'average') {
+                    let perAmount = amount / t.numbers.length;
+                    for (let num of t.numbers) {
+                        results[num] = (results[num] || 0) + perAmount;
+                        totalAmount += perAmount;
+                    }
+                } else {
+                    for (let num of t.numbers) {
+                        results[num] = (results[num] || 0) + amount;
+                        totalAmount += amount;
+                    }
+                }
+            }
+
             return { results, totalAmount };
         }
         
@@ -730,7 +742,9 @@
                         }
                     }
                     if (!hasAmountKeyword) continue;
-                    let { results, totalAmount } = parseRuleAndCalculate(part);
+                    let parsed = parseRuleAndCalculate(part);
+                    if (parsed.error) continue;
+                    let { results, totalAmount } = parsed;
                     if (totalAmount > 0) {
                         lineTotal += totalAmount;
                         for (let [num, amt] of Object.entries(results)) {
@@ -749,8 +763,10 @@
         
         function parseAdvanced(text) {
             let results = {};
+            let errors = [];
             let lines = text.split(/\r?\n/);
-            for (let line of lines) {
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i];
                 let ruleParts = line.split(/[;；]/);
                 for (let part of ruleParts) {
                     let hasAmountKeyword = false;
@@ -761,13 +777,17 @@
                         }
                     }
                     if (!hasAmountKeyword) continue;
-                    let { results: partResults } = parseRuleAndCalculate(part.trim());
-                    for (let [num, amt] of Object.entries(partResults)) {
+                    let parsed = parseRuleAndCalculate(part.trim());
+                    if (parsed.error) {
+                        errors.push({ line: i + 1, text: part.trim(), reason: parsed.error });
+                        continue;
+                    }
+                    for (let [num, amt] of Object.entries(parsed.results)) {
                         results[num] = (results[num] || 0) + amt;
                     }
                 }
             }
-            return results;
+            return { results, errors };
         }
         
         function fillAmounts(results) {
@@ -785,61 +805,11 @@
             return { filled, total };
         }
         
-        // ==================== 风险评估核心函数（修复版：显示所有1-49号 + 修复最终风险额度公式） ====================
-        // 获取原始风险数据（不含定尾单）- 修复：显示所有号码，修复最终风险额度公式
-        function getOriginalRiskData(targetLimit) {
-            let accumTotal = parseFloat($('accumulateTotal')?.innerText) || 0;
-            if (accumTotal === 0) return null;
-            
-            // 先计算每个号码的尾单额和最终额
-            let riskData = [];
-            let totalTailAmount = 0;
-            
-            for (let i = 1; i <= 49; i++) {
-                let numStr = i < 10 ? '0' + i : i.toString();
-                let amount = numberAccum[numStr] || 0;
-                let animal = numberToAnimal[numStr] || '';
-                
-                // 原始风险额度（基于总累计额）
-                let riskValue = (accumTotal * 0.98) - (amount * 48);
-                
-                // 尾单额：超出目标上限的部分
-                let tailAmount = Math.max(0, amount - targetLimit);
-                totalTailAmount += tailAmount;
-                
-                // 最终额：上报额减去尾单额（即不超过目标上限的部分）
-                let finalAmount = Math.max(0, amount - tailAmount);
-                
-                riskData.push({ 
-                    number: numStr, 
-                    animal: animal, 
-                    amount: amount, 
-                    risk: riskValue, 
-                    tailAmount: tailAmount, 
-                    finalAmount: finalAmount,
-                    finalRisk: 0  // 暂时设为0，稍后统一计算
-                });
-            }
-            
-            // 总最终上报额 = 累计总金额 - 总尾单额
-            let finalReportAmount = Math.max(0, accumTotal - totalTailAmount);
-            let fruitAmount = finalReportAmount * 0.02;
-            
-            // 计算每个号码的最终风险额度
-            // 公式：最终风险额度 = (总最终上报额 × 0.98) - (该号码最终额 × 48)
-            for (let item of riskData) {
-                item.finalRisk = (finalReportAmount * 0.98) - (item.finalAmount * 48);
-            }
-            
-            return { accumTotal, totalTailAmount, finalReportAmount, fruitAmount, riskData };
-        }
-        
-        // 获取带定尾单的风险数据（新公式）- 修复：显示所有号码，修复定风险额度公式
+        // ==================== 风险评估核心函数 ====================
         function getFixedRiskData() {
             let accumTotal = parseFloat($('accumulateTotal')?.innerText) || 0;
             if (accumTotal === 0) return null;
             
-            // 计算定总尾额
             let fixedTotalTail = 0;
             for (let i = 1; i <= 49; i++) {
                 let numStr = i < 10 ? '0' + i : i.toString();
@@ -847,35 +817,29 @@
                 fixedTotalTail += fixedTail;
             }
             
-            // 定总上报额 = 累计上报总金额 - 定总尾额
             let fixedTotalReport = Math.max(0, accumTotal - fixedTotalTail);
-            // 定水果 = 定总上报额 × 0.02
             let fixedFruitAmount = fixedTotalReport * 0.02;
             
             let fixedRiskData = [];
             
-            // 先计算每个号码的定最终额
             for (let i = 1; i <= 49; i++) {
                 let numStr = i < 10 ? '0' + i : i.toString();
                 let amount = numberAccum[numStr] || 0;
                 let animal = numberToAnimal[numStr] || '';
                 let fixedTail = fixedTailAmounts[numStr] || 0;
-                
-                // 定最终额 = 上报额 - 定尾单额度
                 let fixedFinalAmount = Math.max(0, amount - fixedTail);
                 
                 fixedRiskData.push({
                     number: numStr,
                     animal: animal,
                     amount: amount,
+                    risk: 0,
                     fixedTail: fixedTail,
                     fixedFinalAmount: fixedFinalAmount,
-                    fixedRisk: 0  // 暂时设为0，稍后统一计算
+                    fixedRisk: 0
                 });
             }
             
-            // 计算每个号码的定风险额度
-            // 公式：定风险额度 = 定总上报额 - 定水果 - (定最终额 × 48)
             for (let item of fixedRiskData) {
                 item.fixedRisk = fixedTotalReport - fixedFruitAmount - (item.fixedFinalAmount * 48);
             }
@@ -883,72 +847,36 @@
             return { accumTotal, fixedTotalTail, fixedTotalReport, fixedFruitAmount, fixedRiskData };
         }
         
-        // 获取合并后的表格数据（修复：包含所有号码）
         function getMergedRiskData() {
-            let targetLimit = parseFloat($('targetLimit')?.value) || 1000;
-            let originalData = getOriginalRiskData(targetLimit);
             let fixedData = getFixedRiskData();
-            
-            if (!originalData && !fixedData) return null;
-            if (!originalData) return { ...fixedData, originalRiskData: [] };
-            if (!fixedData) return { ...originalData, fixedRiskData: [] };
+            if (!fixedData) return null;
             
             let mergedData = [];
-            let originalMap = new Map();
-            originalData.riskData.forEach(item => {
-                originalMap.set(item.number, item);
-            });
-            
-            let fixedMap = new Map();
-            fixedData.fixedRiskData.forEach(item => {
-                fixedMap.set(item.number, item);
-            });
-            
-            // 遍历所有 1-49 个号码
-            for (let i = 1; i <= 49; i++) {
-                let numStr = i < 10 ? '0' + i : i.toString();
-                let original = originalMap.get(numStr) || { 
-                    amount: 0, 
-                    animal: numberToAnimal[numStr] || '', 
-                    risk: 0, 
-                    tailAmount: 0, 
-                    finalAmount: 0, 
-                    finalRisk: 0 
-                };
-                let fixed = fixedMap.get(numStr) || { 
-                    fixedTail: 0, 
-                    fixedFinalAmount: 0, 
-                    fixedRisk: 0 
-                };
-                
+            for (let item of fixedData.fixedRiskData) {
                 mergedData.push({
-                    number: numStr,
-                    animal: original.animal,
-                    amount: original.amount,
-                    risk: original.risk,
-                    tailAmount: original.tailAmount,
-                    finalAmount: original.finalAmount,
-                    finalRisk: original.finalRisk,
-                    fixedTail: fixed.fixedTail,
-                    fixedFinalAmount: fixed.fixedFinalAmount,
-                    fixedRisk: fixed.fixedRisk
+                    number: item.number,
+                    animal: item.animal,
+                    amount: item.amount,
+                    risk: 0,
+                    fixedTail: item.fixedTail,
+                    fixedFinalAmount: item.fixedFinalAmount,
+                    fixedRisk: item.fixedRisk
                 });
             }
             
-            // 按当前排序模式排序
-            if (currentSortMode === 'finalRisk') {
-                mergedData.sort((a, b) => a.finalRisk - b.finalRisk);
-            } else if (currentSortMode === 'fixedRisk') {
+            if (currentSortMode === 'fixedRisk') {
                 mergedData.sort((a, b) => a.fixedRisk - b.fixedRisk);
             } else {
                 mergedData.sort((a, b) => b.amount - a.amount);
             }
             
+            let finalReportAmount = Math.max(0, fixedData.accumTotal - fixedData.fixedTotalTail);
+            let fruitAmount = finalReportAmount * 0.02;
+            
             return {
-                accumTotal: originalData.accumTotal,
-                totalTailAmount: originalData.totalTailAmount,
-                finalReportAmount: originalData.finalReportAmount,
-                fruitAmount: originalData.fruitAmount,
+                accumTotal: fixedData.accumTotal,
+                finalReportAmount: finalReportAmount,
+                fruitAmount: fruitAmount,
                 fixedTotalTail: fixedData.fixedTotalTail,
                 fixedTotalReport: fixedData.fixedTotalReport,
                 fixedFruitAmount: fixedData.fixedFruitAmount,
@@ -956,35 +884,28 @@
             };
         }
         
-        // 渲染风险评估表格（新增：计算并显示赢个数和亏损个数）
         function renderRiskTable() {
             let data = getMergedRiskData();
             if (!data) {
-                if($('riskTableBody')) $('riskTableBody').innerHTML = '<tr><td colspan="11" style="text-align:center;">累计上报金额为0，暂无数据</td></tr>';
+                if($('riskTableBody')) $('riskTableBody').innerHTML = '<tr><td colspan="8" style="text-align:center;">累计上报金额为0，暂无数据</td></tr>';
                 if($('riskTotalAccum')) $('riskTotalAccum').innerText = '0.00';
-                if($('totalTailAmount')) $('totalTailAmount').innerText = '0.00';
                 if($('finalReportAmount')) $('finalReportAmount').innerText = '0.00';
                 if($('fruitAmount')) $('fruitAmount').innerText = '0.00';
                 if($('fixedTotalTail')) $('fixedTotalTail').innerText = '0.00';
                 if($('fixedTotalReport')) $('fixedTotalReport').innerText = '0.00';
-                if($('fixedFruitAmount')) $('fixedFruitAmount').innerText = '0.00';
-                // 清空赢/亏损个数显示
                 if ($('winCount')) $('winCount').innerText = '0';
                 if ($('lossCount')) $('lossCount').innerText = '0';
                 return;
             }
             
             if($('riskTotalAccum')) $('riskTotalAccum').innerText = data.accumTotal.toFixed(2);
-            if($('totalTailAmount')) $('totalTailAmount').innerText = data.totalTailAmount.toFixed(2);
             if($('finalReportAmount')) $('finalReportAmount').innerText = data.finalReportAmount.toFixed(2);
             if($('fruitAmount')) $('fruitAmount').innerText = data.fruitAmount.toFixed(2);
             if($('fixedTotalTail')) $('fixedTotalTail').innerText = data.fixedTotalTail.toFixed(2);
             if($('fixedTotalReport')) $('fixedTotalReport').innerText = data.fixedTotalReport.toFixed(2);
-            if($('fixedFruitAmount')) $('fixedFruitAmount').innerText = data.fixedFruitAmount.toFixed(2);
             
-            // ========== 新增：计算赢个数和亏损个数 ==========
-            let winCount = 0;   // 定风险额度 > 0 的行数（盈利）
-            let lossCount = 0;  // 定风险额度 < 0 的行数（亏损）
+            let winCount = 0;
+            let lossCount = 0;
             
             for (let item of data.mergedData) {
                 if (item.fixedRisk > 0) {
@@ -992,47 +913,31 @@
                 } else if (item.fixedRisk < 0) {
                     lossCount++;
                 }
-                // 等于 0 的不计入任何一方
             }
             
-            // 更新页面上的显示元素
             if ($('winCount')) $('winCount').innerText = winCount;
             if ($('lossCount')) $('lossCount').innerText = lossCount;
-            // ========== 新增结束 ==========
             
             let tbodyHtml = '';
             for (let item of data.mergedData) {
-                let riskClass = item.risk >= 0 ? 'risk-positive' : 'risk-negative';
-                let riskSign = item.risk >= 0 ? '+' : '';
-                let finalRiskClass = item.finalRisk >= 0 ? 'risk-positive' : 'risk-negative';
-                let finalRiskSign = item.finalRisk >= 0 ? '+' : '';
                 let fixedRiskClass = item.fixedRisk >= 0 ? 'risk-positive' : 'risk-negative';
                 let fixedRiskSign = item.fixedRisk >= 0 ? '+' : '';
-                
-                let tailAmountStr = item.tailAmount.toFixed(2);
-                let finalAmountStr = item.finalAmount.toFixed(2);
-                let finalRiskStr = `${finalRiskSign}${item.finalRisk.toFixed(2)}`;
                 
                 tbodyHtml += `<tr data-number="${item.number}">
                     <td>${item.number}</td>
                     <td>${item.animal}</td>
                     <td>${item.amount.toFixed(2)}</td>
-                    <td class="${riskClass}">${riskSign}${item.risk.toFixed(2)}</td>
-                    <td class="hideable-cell" data-original-value="${tailAmountStr}">${hideMode ? '***' : tailAmountStr}</td>
-                    <td class="hideable-cell" data-original-value="${finalAmountStr}">${hideMode ? '***' : finalAmountStr}</td>
-                    <td class="hideable-cell ${finalRiskClass}" data-original-value="${finalRiskStr}">${hideMode ? '***' : finalRiskStr}</td>
+                    <td>0.00</td>
                     <td><input type="number" class="tail-input fixed-tail-input" data-number="${item.number}" value="${(item.fixedTail || 0).toFixed(2)}" step="10" style="width:70px;"></td>
                     <td>${item.fixedFinalAmount.toFixed(2)}</td>
                     <td class="${fixedRiskClass}">${fixedRiskSign}${item.fixedRisk.toFixed(2)}</td>
                     <td>
-                        <button class="copy-btn-small copy-tail-btn" data-number="${item.number}" data-tail="${item.tailAmount.toFixed(2)}">📋尾单</button>
-                        <button class="copy-btn-small copy-item-btn" data-number="${item.number}" data-animal="${item.animal}" data-final="${item.finalAmount.toFixed(2)}" data-finalrisk="${item.finalRisk.toFixed(2)}">📋详情</button>
+                        <button class="copy-btn-small copy-item-btn" data-number="${item.number}" data-animal="${item.animal}" data-final="${item.fixedFinalAmount.toFixed(2)}" data-finalrisk="${item.fixedRisk.toFixed(2)}">📋详情</button>
                     </td>
                    </tr>`;
             }
-            if($('riskTableBody')) $('riskTableBody').innerHTML = tbodyHtml || '<tr><td colspan="11" style="text-align:center;">暂无数据</td></tr>';
+            if($('riskTableBody')) $('riskTableBody').innerHTML = tbodyHtml || '<tr><td colspan="8" style="text-align:center;">暂无数据</td></tr>';
             
-            // 绑定定尾单输入框事件
             document.querySelectorAll('.fixed-tail-input').forEach(input => {
                 input.onchange = (e) => {
                     let num = input.dataset.number;
@@ -1044,30 +949,14 @@
                 };
             });
             
-            // 绑定复制按钮
-            document.querySelectorAll('.copy-tail-btn').forEach(btn => {
-                btn.onclick = (e) => { 
-                    e.stopPropagation(); 
-                    if (hideMode) {
-                        showNotification('金额已隐藏，请先点击"显示金额"查看后再复制', 'info');
-                        return;
-                    }
-                    copyToClipboard(`${btn.dataset.number}/${btn.dataset.tail}`); 
-                };
-            });
             document.querySelectorAll('.copy-item-btn').forEach(btn => {
                 btn.onclick = (e) => { 
                     e.stopPropagation(); 
-                    if (hideMode) {
-                        showNotification('金额已隐藏，请先点击"显示金额"查看后再复制', 'info');
-                        return;
-                    }
                     copyToClipboard(`${btn.dataset.number}/${btn.dataset.animal}/${btn.dataset.final}(${btn.dataset.finalrisk})`); 
                 };
             });
         }
         
-        // 保存定尾单额度
         function saveFixedTailAmounts() {
             localStorage.setItem('fixedTailAmounts', JSON.stringify(fixedTailAmounts));
         }
@@ -1079,115 +968,17 @@
             }
         }
         
-        // 排序函数
-        function sortByFinalRisk() {
-            currentSortMode = 'finalRisk';
-            renderRiskTable();
-            showNotification('已按最终风险额度排序（从最高亏损到最高盈利）', 'info');
-        }
-        
         function sortByFixedRisk() {
             currentSortMode = 'fixedRisk';
             renderRiskTable();
             showNotification('已按定风险额度排序（从最高亏损到最高盈利）', 'info');
         }
         
-        // 切换隐藏金额模式
-        function toggleHideAmounts() {
-            hideMode = !hideMode;
-            let btn = $('hideAmountsBtn');
-            if (hideMode) {
-                btn.innerHTML = '👁️ 显示金额';
-                btn.style.background = '#27ae60';
-                showNotification('尾单额、最终额、最终风险额度已隐藏', 'info');
-            } else {
-                btn.innerHTML = '🙈 隐藏金额';
-                btn.style.background = '#f39c12';
-                showNotification('金额已显示', 'info');
-            }
-            renderRiskTable();
-        }
-        
-        // 复制定尾单额 - 格式：号码/定尾单额
-        function copyFixedTailAmount() {
-            let data = getMergedRiskData();
-            if (!data || data.mergedData.length === 0) { 
-                showNotification('暂无数据可复制', 'error'); 
-                return; 
-            }
-            
-            let items = [];
-            let totalFixedTail = 0;
-            for (let item of data.mergedData) {
-                if (item.fixedTail > 0) {
-                    items.push(`${item.number}/${item.fixedTail.toFixed(2)}`);
-                    totalFixedTail += item.fixedTail;
-                }
-            }
-            
-            if (items.length === 0) {
-                showNotification('没有定尾单额大于0的数据', 'info');
-                return;
-            }
-            
-            let resultText = items.join('\n');
-            resultText += `\n总计：${totalFixedTail.toFixed(2)}`;
-            copyToClipboard(resultText);
-        }
-        
-        // 复制定最终额 - 格式：号码/生肖/定最终额/定风险额度（正数显示+）
-        function copyFixedFinalAmount() {
-            let data = getMergedRiskData();
-            if (!data || data.mergedData.length === 0) { 
-                showNotification('暂无数据可复制', 'error'); 
-                return; 
-            }
-            
-            let items = [];
-            let totalFixedFinal = 0;
-            for (let item of data.mergedData) {
-                if (item.fixedFinalAmount > 0) {
-                    let riskSign = item.fixedRisk >= 0 ? '+' : '';
-                    items.push(`${item.number}/${item.animal}/${item.fixedFinalAmount.toFixed(2)}（${riskSign}${item.fixedRisk.toFixed(2)}）`);
-                    totalFixedFinal += item.fixedFinalAmount;
-                }
-            }
-            
-            if (items.length === 0) {
-                showNotification('没有定最终额大于0的数据', 'info');
-                return;
-            }
-            
-            let resultText = items.join('\n');
-            resultText += `\n总计：${totalFixedFinal.toFixed(2)}`;
-            copyToClipboard(resultText);
-        }
-        
-        // 复制尾单额（所有号码）
-        function copyAllTailAmount() {
-            if (hideMode) {
-                showNotification('金额已隐藏，请先点击"显示金额"查看后再复制', 'info');
-                return;
-            }
-            let data = getMergedRiskData();
-            if (!data || data.mergedData.length === 0) { showNotification('暂无数据可复制', 'error'); return; }
-            let tailItems = data.mergedData.filter(item => item.tailAmount > 0);
-            if (tailItems.length === 0) { showNotification('没有尾单额大于0的数据', 'info'); return; }
-            let tailText = tailItems.map(item => `${item.number}/${item.tailAmount.toFixed(2)}`).join('\n');
-            tailText += `\n累计：${tailItems.reduce((s,i)=>s+i.tailAmount,0).toFixed(2)}`;
-            copyToClipboard(tailText);
-        }
-        
-        // 复制全部内容
         function copyAllContent() {
-            if (hideMode) {
-                showNotification('金额已隐藏，请先点击"显示金额"查看后再复制', 'info');
-                return;
-            }
             let data = getMergedRiskData();
             if (!data || data.mergedData.length === 0) { showNotification('暂无数据可复制', 'error'); return; }
-            let contentText = data.mergedData.map(item => `${item.number}/${item.animal}/${item.finalAmount.toFixed(2)}(${item.finalRisk.toFixed(2)})`).join('\n');
-            contentText += `\n累计：${data.mergedData.reduce((s,i)=>s+i.finalAmount,0).toFixed(2)}`;
+            let contentText = data.mergedData.map(item => `${item.number}/${item.animal}/${item.fixedFinalAmount.toFixed(2)}(${item.fixedRisk.toFixed(2)})`).join('\n');
+            contentText += `\n累计：${data.mergedData.reduce((s,i)=>s+i.fixedFinalAmount,0).toFixed(2)}`;
             copyToClipboard(contentText);
         }
         
@@ -1282,12 +1073,6 @@
         function showHistoryModal() { renderHistoryList(); if($('historyModal')) $('historyModal').style.display = 'flex'; }
         function showRiskModal() { 
             currentSortMode = 'default';
-            hideMode = false;
-            let hideBtn = $('hideAmountsBtn');
-            if (hideBtn) {
-                hideBtn.innerHTML = '🙈 隐藏金额';
-                hideBtn.style.background = '#f39c12';
-            }
             renderRiskTable(); 
             if($('riskModal')) $('riskModal').style.display = 'flex'; 
         }
@@ -1923,14 +1708,68 @@
         function onParseClick() {
             let txt = $('recognizeText')?.value.trim();
             if (!txt) { alert('请输入要识别的文本'); return; }
-            let results = parseAdvanced(txt);
-            if (Object.keys(results).length === 0) { alert('未能识别出任何有效数据，请检查格式是否正确'); return; }
+            
+            let { results, errors } = parseAdvanced(txt);
+            
+            if (errors.length > 0) {
+                showParseErrorModal(errors);
+                return;
+            }
+            
+            if (Object.keys(results).length === 0) {
+                alert('未能识别出任何有效数据，请检查格式是否正确');
+                return;
+            }
+            
             let { filled, total } = fillAmounts(results);
             let { lineDetails, grandTotal } = parseAdvancedWithDetails(txt);
             addRecognizeReportRecord(txt, grandTotal, lineDetails);
             if($('parseResult')) { $('parseResult').innerHTML = `✅ 识别成功！共填充 ${filled} 个号码，总金额 ¥${total.toFixed(2)}`; $('parseResult').classList.add('show'); }
             if($('recognizeText')) $('recognizeText').value = '';
             setTimeout(() => { if($('parseResult')) $('parseResult').classList.remove('show'); }, 3000);
+        }
+        
+        function showParseErrorModal(errors) {
+            let body = $('parseErrorBody');
+            if (!body) return;
+            let html = '';
+            for (let e of errors) {
+                html += `<div class="parse-error-line">
+                    <div><span class="parse-error-line-no">第${e.line}行：</span><span class="parse-error-line-text">${escapeHtml(e.text)}</span></div>
+                    <div class="parse-error-reason">原因：${escapeHtml(e.reason)}</div>
+                </div>`;
+            }
+            body.innerHTML = html;
+            if($('parseErrorModal')) $('parseErrorModal').style.display = 'flex';
+        }
+        
+        function escapeHtml(str) {
+            return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        }
+        
+        async function onPasteClick() {
+            let textarea = $('recognizeText');
+            if (!textarea) return;
+            
+            if (!navigator.clipboard || !navigator.clipboard.readText) {
+                showNotification('浏览器不支持自动读取剪贴板，请手动 Ctrl+V', 'error');
+                textarea.focus();
+                return;
+            }
+            
+            try {
+                let text = await navigator.clipboard.readText();
+                if (!text || !text.trim()) {
+                    showNotification('剪贴板为空', 'info');
+                    return;
+                }
+                textarea.value = text;
+                showNotification('✅ 已粘贴剪贴板内容', 'success');
+                textarea.focus();
+            } catch (err) {
+                showNotification('无法读取剪贴板，请手动 Ctrl+V 粘贴', 'error');
+                textarea.focus();
+            }
         }
         
         // ==================== 绑定所有事件 ====================
@@ -1945,6 +1784,7 @@
             if($('riskBtn')) $('riskBtn').onclick = showRiskModal;
             if($('reportBtn')) $('reportBtn').onclick = onReportClick;
             if($('parseBtn')) $('parseBtn').onclick = onParseClick;
+            if($('pasteBtn')) $('pasteBtn').onclick = onPasteClick;
             if($('clearPanelBtn')) $('clearPanelBtn').onclick = () => { if($('recognizeText')) $('recognizeText').value = ''; };
             if($('helpBtn')) $('helpBtn').onclick = () => { if($('formatHint')) $('formatHint').classList.toggle('show'); };
             if($('clearOrderBtn')) $('clearOrderBtn').onclick = () => { if(confirm('确定要清空本单所有输入的金额吗？')){ amountInputs.forEach(inp=>inp.value=''); calculateOrderTotal(); } };
@@ -1959,13 +1799,8 @@
             if($('viewNumbersBtn')) $('viewNumbersBtn').onclick = () => { if($('viewNumbersBtn')) $('viewNumbersBtn').classList.add('active'); if($('viewAnimalsBtn')) $('viewAnimalsBtn').classList.remove('active'); if($('numbersView')) $('numbersView').style.display='block'; if($('animalsView')) $('animalsView').style.display='none'; renderSummaryView(); };
             if($('viewAnimalsBtn')) $('viewAnimalsBtn').onclick = () => { if($('viewAnimalsBtn')) $('viewAnimalsBtn').classList.add('active'); if($('viewNumbersBtn')) $('viewNumbersBtn').classList.remove('active'); if($('animalsView')) $('animalsView').style.display='block'; if($('numbersView')) $('numbersView').style.display='none'; renderSummaryView(); };
             if($('refreshRiskBtn')) $('refreshRiskBtn').onclick = () => { renderRiskTable(); };
-            if($('copyTailAmountBtn')) $('copyTailAmountBtn').onclick = copyAllTailAmount;
             if($('copyAllContentBtn')) $('copyAllContentBtn').onclick = copyAllContent;
-            if($('sortByFinalRiskBtn')) $('sortByFinalRiskBtn').onclick = sortByFinalRisk;
             if($('sortByFixedRiskBtn')) $('sortByFixedRiskBtn').onclick = sortByFixedRisk;
-            if($('hideAmountsBtn')) $('hideAmountsBtn').onclick = toggleHideAmounts;
-            if($('copyFixedTailBtn')) $('copyFixedTailBtn').onclick = copyFixedTailAmount;
-            if($('copyFixedFinalBtn')) $('copyFixedFinalBtn').onclick = copyFixedFinalAmount;
             if($('configTokenBtn')) $('configTokenBtn').onclick = openTokenModal;
             if($('uploadToGistBtn')) $('uploadToGistBtn').onclick = uploadToGist;
             if($('downloadFromGistBtn')) $('downloadFromGistBtn').onclick = downloadFromGist;
@@ -1977,7 +1812,6 @@
             if($('clearAllRecordsBtn')) $('clearAllRecordsBtn').onclick = manualClearRecognizeReportRecords;
             if($('saveTokenBtn')) $('saveTokenBtn').onclick = saveTokenConfig;
             if($('cancelTokenBtn')) $('cancelTokenBtn').onclick = () => { if($('tokenModal')) $('tokenModal').style.display='none'; };
-            if($('targetLimit')) { $('targetLimit').onchange = () => { renderRiskTable(); }; $('targetLimit').oninput = () => { renderRiskTable(); }; }
             if($('confirmYesBtn')) $('confirmYesBtn').onclick = () => { if(currentDeleteTarget==='ALL') deleteAllRecords(); if($('confirmModal')) $('confirmModal').style.display='none'; currentDeleteTarget=null; };
             if($('confirmNoBtn')) $('confirmNoBtn').onclick = () => { if($('confirmModal')) $('confirmModal').style.display='none'; currentDeleteTarget=null; };
             if($('clearCancelRecordsBtn')) $('clearCancelRecordsBtn').onclick = clearAllCancelRecords;
@@ -1993,8 +1827,11 @@
             if($('closeFormatManagerBtn')) $('closeFormatManagerBtn').onclick = () => { if($('formatManagerModal')) $('formatManagerModal').style.display='none'; };
             if($('closeCancelBtn')) $('closeCancelBtn').onclick = () => { if($('cancelModal')) $('cancelModal').style.display='none'; };
             
+            if($('closeParseErrorBtn')) $('closeParseErrorBtn').onclick = () => { if($('parseErrorModal')) $('parseErrorModal').style.display='none'; };
+            if($('parseErrorOkBtn')) $('parseErrorOkBtn').onclick = () => { if($('parseErrorModal')) $('parseErrorModal').style.display='none'; };
+            
             window.onclick = (e) => {
-                const modals = ['summaryModal', 'referenceModal', 'waveModal', 'historyModal', 'detailModal', 'riskModal', 'formatManagerModal', 'tokenModal', 'cancelModal', 'saveModal', 'confirmModal'];
+                const modals = ['summaryModal', 'referenceModal', 'waveModal', 'historyModal', 'detailModal', 'riskModal', 'formatManagerModal', 'tokenModal', 'cancelModal', 'saveModal', 'confirmModal', 'parseErrorModal'];
                 modals.forEach(id => { const modal = $(id); if(e.target === modal && modal) modal.style.display = 'none'; });
             };
         }
