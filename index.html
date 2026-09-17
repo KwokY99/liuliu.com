@@ -123,6 +123,7 @@
         .rule-card { background: #fef9e6; border-radius: 20px; padding: 20px; margin-bottom: 20px; border:1px solid #ffd966; }
         .flex-group { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 15px; align-items: center; }
         .flex-group input { flex:2; min-width: 150px; padding: 8px 12px; border-radius: 40px; border:1px solid #ccc; }
+        .flex-group select { padding: 8px 12px; border-radius: 40px; border:1px solid #ccc; background: white; }
         .separator-hint { font-size: 12px; color: #e67e22; margin-top: 5px; display: block; }
         .btn-add-rule { background: #27ae60; color:white; border:none; padding: 8px 18px; border-radius: 40px; cursor:pointer; }
         .restore-default { background: #3498db; color:white; border:none; padding: 6px 16px; border-radius: 40px; cursor: pointer; }
@@ -142,13 +143,18 @@
         .amount-keyword-card { background: #e8f4fd; border-radius: 20px; padding: 20px; margin-bottom: 20px; border: 1px solid #87ceeb; }
         .amount-keyword-title { font-weight: bold; font-size: 16px; margin-bottom: 15px; color: #2980b9; }
         .amount-keyword-input-group { display: flex; gap: 12px; margin-bottom: 15px; flex-wrap: wrap; align-items: center; }
-        .amount-keyword-input-group input { flex: 2; min-width: 200px; padding: 8px 12px; border-radius: 40px; border: 1px solid #ccc; }
-        .amount-keyword-list { background: white; border-radius: 16px; border: 1px solid #ddd; max-height: 150px; overflow-y: auto; margin-top: 10px; }
+        .amount-keyword-input-group input { flex: 2; min-width: 150px; padding: 8px 12px; border-radius: 40px; border: 1px solid #ccc; }
+        .amount-keyword-input-group select { padding: 8px 12px; border-radius: 40px; border: 1px solid #ccc; background: white; }
+        .amount-keyword-list { background: white; border-radius: 16px; border: 1px solid #ddd; max-height: 200px; overflow-y: auto; margin-top: 10px; }
         .amount-keyword-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 15px; border-bottom: 1px solid #ecf0f1; }
         .amount-keyword-text { font-family: monospace; background: #e8f4fd; padding: 4px 12px; border-radius: 30px; font-weight: bold; color: #2980b9; }
+        .amount-keyword-mode { font-size: 12px; padding: 3px 10px; border-radius: 20px; margin-left: 8px; }
+        .mode-auto { background: #ecf0f1; color: #7f8c8d; }
+        .mode-average { background: #d5f5e3; color: #27ae60; }
+        .mode-per_number { background: #fdebd0; color: #e67e22; }
         .amount-keyword-actions button { background: none; border: none; cursor: pointer; padding: 4px 8px; border-radius: 20px; }
         .del-amount-keyword { color: #e74c3c; }
-        .amount-keyword-hint { font-size: 11px; color: #666; margin-top: 8px; }
+        .amount-keyword-hint { font-size: 11px; color: #666; margin-top: 8px; line-height: 1.6; }
         
         .risk-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 10050; }
         .risk-content { background: white; width: 1600px; max-width: 98%; max-height: 90vh; border-radius: 24px; display: flex; flex-direction: column; overflow: hidden; }
@@ -226,7 +232,6 @@
         .btn-cancel-save, .btn-confirm-no { background: #ecf0f1; border: none; padding: 10px 20px; border-radius: 40px; cursor: pointer; }
         #currentEditKeywordName { color: #e67e22; margin-bottom: 10px; font-weight: bold; }
         
-        /* 识别错误报告弹窗 */
         .parse-error-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 10800; }
         .parse-error-content { background: white; width: 600px; max-width: 95%; max-height: 80vh; border-radius: 24px; display: flex; flex-direction: column; overflow: hidden; }
         .parse-error-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; }
@@ -313,17 +318,19 @@
             <div class="format-hint" id="formatHint">
                 <p><strong>📝 支持的格式：</strong></p>
                 <p>• 生肖格式：<code>虎马鼠羊兔牛各50</code> → 每个生肖的所有号码各50元</p>
-                <p>• 生肖平均分配：<code>虎马肖各40</code> → 虎的4个号码平均分配40元（每个10元），马的5个号码平均分配40元（每个8元）</p>
+                <p>• 生肖平均分配：<code>虎马肖各40</code> 或 <code>虎马个肖40</code> → 虎的4个号码平均分配40元（每个10元），马的5个号码平均分配40元（每个8元）</p>
                 <p>• 波色格式：<code>红波个20</code>、<code>蓝波各30</code>、<code>绿波个30</code></p>
                 <p>• 单双格式：<code>单号个50</code>、<code>双号各30</code></p>
                 <p>• 号码列表：<code>05 13 34 23 45 36各50</code> 或 <code>22/32/4/43/25个25</code>（号码必须用分隔符隔开，不能连写）</p>
                 <p>• 多生肖组合：<code>狗鸡兔猴个50</code> → 4个生肖各50元</p>
-                <p><strong>📌 肖字规则：</strong> "肖"字写在<strong>金额数字之前</strong>才算平均分配，如 <code>虎马肖个50</code>、<code>虎马个肖50</code>；写在金额数字之后（含备注）不算</p>
+                <p><strong>📌 分配模式：</strong> 每个金额关键词可单独配置"自动 / 平均分配 / 每码全额"。<br>
+                • <strong>自动</strong>：看金额前有没有"肖"字，有则平均，无则每码（兼容旧格式）<br>
+                • <strong>平均分配</strong>：金额在该组号码间均分，无视"肖"字<br>
+                • <strong>每码全额</strong>：该组每个号码都投该金额，无视"肖"字</p>
                 <p><strong>📌 分割符配置：</strong> 使用 # 号隔断多个分隔符，如 <code>#,#.#/#-#</code> 表示分隔符为 , . / -</p>
-                <p><strong>💰 金额关键词配置：</strong> 可自定义金额分隔词，如"各"、"个"、"米"等</p>
                 <p><strong>💡 备注说明：</strong> 金额后面的内容会被自动忽略</p>
             </div>
-            <div class="recognize-input-area"><textarea id="recognizeText" placeholder="例如: 03-04-05个50&#10;单号各100&#10;狗鸡兔猴个50&#10;虎马肖各40&#10;22/32/4/43/25个25"></textarea></div>
+            <div class="recognize-input-area"><textarea id="recognizeText" placeholder="例如: 03-04-05个50&#10;单号各100&#10;狗鸡兔猴个50&#10;虎马肖各40&#10;虎马个肖40&#10;22/32/4/43/25个25"></textarea></div>
             <div class="recognize-actions"><button class="btn-parse" id="parseBtn">开始识别</button><button class="btn-paste" id="pasteBtn">📋 粘贴</button><button class="btn-clear-panel" id="clearPanelBtn">清空文本</button></div>
             <div class="parse-result" id="parseResult">解析成功！</div>
         </div>
@@ -440,11 +447,22 @@
                         <div class="amount-keyword-title">💰 金额关键词配置</div>
                         <div class="amount-keyword-input-group">
                             <input type="text" id="newAmountKeyword" placeholder="新金额关键词，如：各肖、个肖、米">
+                            <select id="newAmountKeywordMode">
+                                <option value="auto">自动（按肖字判定）</option>
+                                <option value="average">平均分配</option>
+                                <option value="per_number">每码全额</option>
+                            </select>
                             <button id="addAmountKeywordBtn" class="btn-add-rule">添加关键词</button>
                             <button id="restoreDefaultAmountKeywords" class="restore-default">恢复默认</button>
                         </div>
                         <div id="amountKeywordList" class="amount-keyword-list"></div>
-                        <div class="amount-keyword-hint">💡 说明：识别文本时，遇到这些词后面的数字作为金额。内置关键词：各、个（不可删除）</div>
+                        <div class="amount-keyword-hint">
+                            💡 说明：识别文本时，遇到这些词后面的数字作为金额。<br>
+                            • <strong>自动</strong>：金额前有"肖"字则平均分配，否则每码全额（兼容旧格式）<br>
+                            • <strong>平均分配</strong>：金额在该组号码间均分，无视"肖"字<br>
+                            • <strong>每码全额</strong>：该组每个号码都投该金额，无视"肖"字<br>
+                            内置关键词"各""个"不可删除（模式为自动）。
+                        </div>
                     </div>
                     <div class="rule-card">
                         <h4>🔧 号码分割符号</h4>
@@ -507,7 +525,11 @@
         
         let customSeparators = ['-', '，', ',', '、', '.', ';', ' ', '/'];
         let customKeywordGroups = {};
-        let customAmountKeywords = ['各', '个'];
+        // [改造] 金额关键词升级为对象数组：{ text, mode }，mode ∈ 'auto' | 'average' | 'per_number'
+        let customAmountKeywords = [
+            { text: '各', mode: 'auto' },
+            { text: '个', mode: 'auto' }
+        ];
         
         let fixedTailAmounts = {};
         let currentSortMode = 'default';
@@ -578,13 +600,34 @@
             return cn[cleaned] || NaN;
         }
         
-        // [本次修改] 允许关键词后可选"肖"，金额限定为阿拉伯数字 或 中文数字+可选单位
+        // [改造] 归一化金额关键词（兼容旧的字符串数组）
+        function normalizeAmountKeywords(arr) {
+            if (!Array.isArray(arr)) return [{ text: '各', mode: 'auto' }, { text: '个', mode: 'auto' }];
+            return arr.map(k => {
+                if (typeof k === 'string') return { text: k, mode: 'auto' };
+                if (k && typeof k === 'object' && typeof k.text === 'string') {
+                    let mode = (k.mode === 'average' || k.mode === 'per_number') ? k.mode : 'auto';
+                    return { text: k.text, mode: mode };
+                }
+                return null;
+            }).filter(Boolean);
+        }
+        
+        // [改造] 按长度降序排列的金额关键词文本
+        function getSortedAmountKeywordTexts() {
+            return [...customAmountKeywords]
+                .map(k => k.text)
+                .sort((a, b) => b.length - a.length);
+        }
+        
+        // [改造] 允许关键词后可选"肖"，金额限定为阿拉伯数字 或 中文数字+可选单位
         function buildAmountKeywordRegex() {
-            let sorted = [...customAmountKeywords].sort((a, b) => b.length - a.length);
+            let sorted = getSortedAmountKeywordTexts();
             let escaped = sorted.map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
             return new RegExp(`(${escaped.join('|')})\\s*(?:肖)?\\s*(\\d+|[一二三四五六七八九十百零]+[元块米蚊圆]?)`);
         }
         
+        // [改造] 返回关键词及其绑定的模式
         function matchAmountKeyword(text) {
             const amountRegex = buildAmountKeywordRegex();
             let match = text.match(amountRegex);
@@ -592,9 +635,13 @@
                 let amountStr = match[2];
                 let amount = !isNaN(parseFloat(amountStr)) ? parseFloat(amountStr) : chineseToNumber(amountStr);
                 if (!isNaN(amount) && amount > 0) {
-                    return { 
-                        amount, 
-                        keyword: match[1], 
+                    let kwText = match[1];
+                    let kwObj = customAmountKeywords.find(k => k.text === kwText);
+                    let mode = kwObj ? kwObj.mode : 'auto';
+                    return {
+                        amount,
+                        keyword: kwText,
+                        mode: mode,
                         keywordIndex: match.index,
                         amountEnd: match.index + match[0].length
                     };
@@ -615,7 +662,12 @@
             if (!leftRaw) return { results, totalAmount: 0 };
 
             // ========== Step 1: 判定分配模式 ==========
+            // 优先级：关键词绑定的模式（average / per_number） > 文本里的"肖"字（auto 回退）
             let hasXiao = ruleText.substring(0, amountMatchInfo.amountEnd).includes('肖');
+            let effectiveMode;
+            if (amountMatchInfo.mode === 'average') effectiveMode = 'average';
+            else if (amountMatchInfo.mode === 'per_number') effectiveMode = 'per_number';
+            else effectiveMode = hasXiao ? 'average' : 'per_number'; // auto 回退
 
             // ========== Step 2: 目标收集器 ==========
             let targets = [];
@@ -630,12 +682,12 @@
                         type: 'animal',
                         key: animal,
                         numbers: numbers,
-                        mode: hasXiao ? 'average' : 'per_number'
+                        mode: effectiveMode
                     });
                 }
             }
 
-            // ---------- 2.2 关键词组（剥掉"肖"）----------
+            // ---------- 2.2 关键词组（剥掉"肖"，按长度降序剥避免"个"先拆"个肖"）----------
             let remainingForKeywords = leftRaw.replace(/[鼠牛虎兔龙蛇马羊猴鸡狗猪]/g, '');
             remainingForKeywords = remainingForKeywords.replace(/肖/g, '');
             let sortedKeywords = Object.keys(customKeywordGroups).sort((a, b) => b.length - a.length);
@@ -647,16 +699,21 @@
                             type: 'keyword',
                             key: keyword,
                             numbers: numbers,
-                            mode: hasXiao ? 'average' : 'per_number'
+                            mode: effectiveMode
                         });
-                        remainingForKeywords = remainingForKeywords.replace(keyword, '');
+                        remainingForKeywords = remainingForKeywords.split(keyword).join('');
                     }
                 }
             }
 
-            // ---------- 2.3 号码列表（剥掉"肖"，严格校验）----------
+            // ---------- 2.3 号码列表（剥掉"肖"和所有关键词，严格校验）----------
             let remainingForNumbers = leftRaw.replace(/[鼠牛虎兔龙蛇马羊猴鸡狗猪]/g, '');
-            for (let keyword of Object.keys(customKeywordGroups)) {
+            // [改造] 按长度降序剥掉关键词组 + 金额关键词，避免残留导致号码解析错误
+            let allKeywordsToStrip = [
+                ...Object.keys(customKeywordGroups),
+                ...customAmountKeywords.map(k => k.text)
+            ].sort((a, b) => b.length - a.length);
+            for (let keyword of allKeywordsToStrip) {
                 remainingForNumbers = remainingForNumbers.split(keyword).join('');
             }
             remainingForNumbers = remainingForNumbers.replace(/肖/g, '');
@@ -700,7 +757,7 @@
                         type: 'number',
                         key: fmt,
                         numbers: [fmt],
-                        mode: 'per_number'
+                        mode: 'per_number' // 单个号码始终每码全额（平均分配和每码全额等价）
                     });
                 }
             }
@@ -736,7 +793,7 @@
                     part = part.trim();
                     let hasAmountKeyword = false;
                     for (let kw of customAmountKeywords) {
-                        if (part.includes(kw)) {
+                        if (part.includes(kw.text)) {
                             hasAmountKeyword = true;
                             break;
                         }
@@ -771,7 +828,7 @@
                 for (let part of ruleParts) {
                     let hasAmountKeyword = false;
                     for (let kw of customAmountKeywords) {
-                        if (part.includes(kw)) {
+                        if (part.includes(kw.text)) {
                             hasAmountKeyword = true;
                             break;
                         }
@@ -988,13 +1045,34 @@
         }
         
         // ==================== 金额关键词管理函数 ====================
+        function getModeLabel(mode) {
+            if (mode === 'average') return '平均分配';
+            if (mode === 'per_number') return '每码全额';
+            return '自动';
+        }
+        function getModeClass(mode) {
+            if (mode === 'average') return 'mode-average';
+            if (mode === 'per_number') return 'mode-per_number';
+            return 'mode-auto';
+        }
+        
         function loadAmountKeywords() {
             const stored = localStorage.getItem('customAmountKeywords');
             if (stored) {
-                customAmountKeywords = JSON.parse(stored);
+                try {
+                    customAmountKeywords = normalizeAmountKeywords(JSON.parse(stored));
+                } catch (e) {
+                    customAmountKeywords = [{ text: '各', mode: 'auto' }, { text: '个', mode: 'auto' }];
+                }
             } else {
-                customAmountKeywords = ['各', '个'];
+                customAmountKeywords = [{ text: '各', mode: 'auto' }, { text: '个', mode: 'auto' }];
             }
+            // 保证内置关键词存在
+            ['各', '个'].forEach(t => {
+                if (!customAmountKeywords.find(k => k.text === t)) {
+                    customAmountKeywords.unshift({ text: t, mode: 'auto' });
+                }
+            });
             renderAmountKeywordList();
         }
         
@@ -1008,11 +1086,14 @@
             if (!container) return;
             let html = '';
             for (let kw of customAmountKeywords) {
-                let isBuiltin = (kw === '各' || kw === '个');
+                let isBuiltin = (kw.text === '各' || kw.text === '个');
                 html += `<div class="amount-keyword-item">
-                    <span class="amount-keyword-text">${kw}</span>
+                    <div>
+                        <span class="amount-keyword-text">${kw.text}</span>
+                        <span class="amount-keyword-mode ${getModeClass(kw.mode)}">${getModeLabel(kw.mode)}</span>
+                    </div>
                     <div class="amount-keyword-actions">
-                        ${!isBuiltin ? `<button class="del-amount-keyword" data-keyword="${kw}">🗑️</button>` : '<span style="color:#999; font-size:12px;">内置</span>'}
+                        ${!isBuiltin ? `<button class="del-amount-keyword" data-keyword="${kw.text}">🗑️</button>` : '<span style="color:#999; font-size:12px;">内置</span>'}
                     </div>
                 </div>`;
             }
@@ -1020,8 +1101,8 @@
             document.querySelectorAll('.del-amount-keyword').forEach(btn => {
                 btn.onclick = () => {
                     let kw = btn.dataset.keyword;
-                    if (kw && customAmountKeywords.includes(kw)) {
-                        customAmountKeywords = customAmountKeywords.filter(k => k !== kw);
+                    if (kw && customAmountKeywords.find(k => k.text === kw)) {
+                        customAmountKeywords = customAmountKeywords.filter(k => k.text !== kw);
                         saveAmountKeywords();
                         showNotification(`已删除金额关键词 "${kw}"`, 'info');
                     }
@@ -1031,18 +1112,20 @@
         
         function addAmountKeyword() {
             let input = $('newAmountKeyword');
+            let modeSelect = $('newAmountKeywordMode');
             let kw = input?.value.trim();
+            let mode = modeSelect?.value || 'auto';
             if (!kw) { alert('请输入金额关键词'); return; }
-            if (customAmountKeywords.includes(kw)) { alert('金额关键词已存在'); return; }
-            customAmountKeywords.push(kw);
+            if (customAmountKeywords.find(k => k.text === kw)) { alert('金额关键词已存在'); return; }
+            customAmountKeywords.push({ text: kw, mode: mode });
             saveAmountKeywords();
             input.value = '';
-            showNotification(`已添加金额关键词 "${kw}"`, 'success');
+            showNotification(`已添加金额关键词 "${kw}"（${getModeLabel(mode)}）`, 'success');
         }
         
         function restoreDefaultAmountKeywords() {
             if (confirm('恢复默认金额关键词将覆盖当前配置，确定吗？')) {
-                customAmountKeywords = ['各', '个'];
+                customAmountKeywords = [{ text: '各', mode: 'auto' }, { text: '个', mode: 'auto' }];
                 saveAmountKeywords();
                 showNotification('已恢复默认金额关键词', 'success');
             }
@@ -1584,12 +1667,12 @@
         // ==================== 云端同步 ====================
         function getCurrentConfig() {
             return {
-                version: '2.4',
+                version: '2.5',
                 exportTime: getCurrentDateTime(),
                 separatorsRaw: $('customSeparators')?.value || separatorsToDisplayString(customSeparators),
                 separators: customSeparators,
                 keywordGroups: customKeywordGroups,
-                amountKeywords: customAmountKeywords
+                amountKeywords: customAmountKeywords  // [改造] 现在是对象数组
             };
         }
         
@@ -1610,7 +1693,14 @@
                 renderKeywordList();
             }
             if (config.amountKeywords && Array.isArray(config.amountKeywords)) {
-                customAmountKeywords = config.amountKeywords;
+                // [改造] 兼容旧格式（字符串数组）
+                customAmountKeywords = normalizeAmountKeywords(config.amountKeywords);
+                // 保证内置关键词存在
+                ['各', '个'].forEach(t => {
+                    if (!customAmountKeywords.find(k => k.text === t)) {
+                        customAmountKeywords.unshift({ text: t, mode: 'auto' });
+                    }
+                });
                 saveAmountKeywords();
             }
             showNotification('配置已应用', 'success');
@@ -1654,7 +1744,7 @@
             if (confirm('确定要重置所有本地配置吗？')) {
                 initDefaultKeywordGroups();
                 customSeparators = ['-', '，', ',', '、', '.', ';', ' ', '/'];
-                customAmountKeywords = ['各', '个'];
+                customAmountKeywords = [{ text: '各', mode: 'auto' }, { text: '个', mode: 'auto' }];
                 if($('customSeparators')) $('customSeparators').value = separatorsToDisplayString(customSeparators);
                 if($('currentSeparatorsDisplay')) $('currentSeparatorsDisplay').innerText = customSeparators.join(' ');
                 localStorage.setItem('customSeparatorsRaw', separatorsToDisplayString(customSeparators));
@@ -1866,7 +1956,10 @@
         window.login = login;
         
         document.addEventListener('keypress', function(e) { if (e.key === 'Enter') { if($('loginOverlay') && $('loginOverlay').style.display !== 'none') login(); } });
-        document.addEventListener('DOMContentLoaded', function() { if($('loginOverlay')) $('loginOverlay').style.display = 'flex'; if($('mainLayout')) $('mainLayout').style.display = 'none'; });
+        document.addEventListener('DOMContentLoaded', function() { 
+            if($('loginOverlay')) $('loginOverlay').style.display = 'flex';   // ✅ 显示登录
+            if($('mainLayout')) $('mainLayout').style.display = 'none';        // ✅ 隐藏主界面
+        });
     </script>
 </body>
 </html>
